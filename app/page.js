@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 // Компонент карточки ключевых моментов, адаптированный под смену тем
 function KeyTakeaway({ title, children, emoji, isDarkMode }) {
@@ -30,6 +30,292 @@ function KeyTakeaway({ title, children, emoji, isDarkMode }) {
   )
 }
 
+// Обновленный компонент подсказок по наведению (замените старый GlossaryTerm)
+function GlossaryTerm({ term, isDarkMode }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const glossary = {
+    жестянка:
+      'Звуковая панель в самом низу передней стены корта высотой 43 см. Попадание мяча в нее или ее верхний металлический бортик считается аутом.',
+    жестянки:
+      'Звуковая панель в самом низу передней стены корта высотой 43 см. Попадание мяча в нее или ее верхний металлический бортик считается аутом.',
+    лет: 'Решение судьи переиграть розыгрыш без присуждения очков. Назначается при случайных или непредотвратимых помехах.',
+    лета: 'Решение судьи переиграть розыгрыш без присуждения очков. Назначается при случайных или непредотвратимых помехах.',
+    Лет: 'Решение судьи переиграть розыгрыш без присуждения очков. Назначается при случайных или непредотвратимых помехах.',
+    строук:
+      'Присуждение очка игроку из-за того, что соперник создал грубую или опасную помеху (например, заблокировал замах или прямую траекторию удара в стену).',
+    Строук:
+      'Присуждение очка игроку из-за того, что соперник создал грубую или опасную помеху (например, заблокировал замах или прямую траекторию удара в стену).',
+    заступ:
+      'Нарушение правил подачи, когда нога подающего полностью наступает на линию квадрата подачи в момент удара по мячу.',
+    аут: 'Зона выше верхней красной линии на стенах корта или касание этой линии. Попадание мяча туда означает немедленный проигранный мяч.',
+    аута: 'Зона выше верхней красной линии на стенах корта или касание этой линии. Попадание мяча туда означает немедленный проигранный мяч.',
+    ауты: 'Зона выше верхней красной линии на стенах корта или касание этой линии. Попадание мяча туда означает немедленный проигранный мяч.',
+    'переход подачи':
+      'Ситуация, когда принимающий игрок выигрывает розыгрыш очка и забирает себе право подавать в следующем розыгрыше.',
+  }
+
+  const definition =
+    glossary[term.toLowerCase()] || 'Определение термина не найдено в словаре.'
+
+  return (
+    <span
+      className='relative inline-block'
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
+      <span
+        className={`border-b border-dashed border-amber-500/70 font-semibold cursor-help transition-colors duration-150 mx-1 ${
+          isDarkMode
+            ? 'text-amber-400 hover:text-amber-300'
+            : 'text-amber-700 hover:text-amber-600'
+        }`}
+      >
+        {term}
+      </span>
+
+      {isOpen && (
+        <span
+          className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 rounded-xl border text-xs leading-relaxed font-normal shadow-xl z-50 block pointer-events-none transition-all duration-200 ${
+            isDarkMode
+              ? 'bg-neutral-900 border-neutral-800 text-slate-300'
+              : 'bg-white border-slate-200 text-slate-700'
+          }`}
+        >
+          {/* Маленькая стрелочка внизу подсказки */}
+          <span
+            className={`absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent ${
+              isDarkMode ? 'border-t-neutral-900' : 'border-t-white'
+            }`}
+          />
+          {definition}
+        </span>
+      )}
+    </span>
+  )
+}
+
+// Компонент интерактивной викторины (добавьте под GlossaryTerm)
+function Quiz({ isDarkMode, onPerfectScore, isQuizPassed }) {
+  const questions = [
+    {
+      q: 'Какова общая продолжительность разминки на корте перед началом матча?',
+      options: [
+        '10 минут (по 5 минут на каждую сторону)',
+        '5 минут (по 2.5 минуты на каждую сторону)',
+        '3 минуты (игроки разминаются вместе без смены сторон)',
+      ],
+      correct: 1,
+      hint: 'Согласно правилу 4.1, разминка длится ровно 5 минут и делится строго поровну — по 2.5 минуты на каждую половину корта.',
+    },
+    {
+      q: 'Что произойдет, если подающий во время удара заступил ногой за линию квадрата подачи (Foot Fault)?',
+      options: [
+        'Судья даст переподать (вторая попытка подачи)',
+        'Розыгрыш будет остановлен и переигран сначала (Let)',
+        'Право подачи и очко немедленно перейдут сопернику',
+      ],
+      correct: 2,
+      hint: 'В сквоше нет второй попытки подачи (кроме правила Софы 2.7!). Любой заступ за линию квадрата — это мгновенный переход подачи сопернику (правило 5.3).',
+    },
+    {
+      q: 'Игрок остановил замах, так как соперник стоял слишком близко и мог получить ракеткой по лицу. Что решит судья?',
+      options: [
+        'Stroke (Строук) — присудит очко игроку, который остановил замах',
+        'Let (Лет) — розыгрыш будет переигран',
+        'No Let (Нет лета) — очко отдадут сопернику',
+      ],
+      correct: 0,
+      hint: 'Если замах заблокирован соперником, это грубое нарушение безопасности. Судья обязан присудить очко пострадавшему игроку (правило 8.3 — Stroke).',
+    },
+    {
+      q: 'Игрок нанес удар, мяч летел по диагонали (через боковую стену), но попал в стоявшего на корте соперника. Решение судьи:',
+      options: [
+        'Stroke (Строук) — очко присуждается ударившему игроку',
+        'Let (Лет) — розыгрыш переигрывается',
+        'No Let (Нет лета) — очко отдается стоявшему сопернику',
+      ],
+      correct: 1,
+      hint: 'По правилу 9.1, если мяч летел по диагонали (не напрямую в переднюю стену) и задел соперника, назначается переигрывание розыгрыша (Let).',
+    },
+    {
+      q: 'Что произойдет, если посреди розыгрыша у игрока самостоятельно спадет бандана или выпадут защитные очки?',
+      options: [
+        'Судья остановит розыгрыш и назначит Let (переигровку)',
+        'Игра продолжится, останавливаться запрещено',
+        'Розыгрыш остановится, а виновный игрок немедленно проиграет очко',
+      ],
+      correct: 2,
+      hint: 'По правилу 12.2, если личный предмет игрока падает на пол самостоятельно во время розыгрыша, игра останавливается, а игрок проигрывает очко.',
+    },
+  ]
+
+  const [currentQ, setCurrentQ] = useState(0)
+  const [selectedOpt, setSelectedOpt] = useState(null)
+  const [isAnswered, setIsAnswered] = useState(false)
+  const [score, setScore] = useState(0)
+  const [showResults, setShowResults] = useState(false)
+
+  const handleOptionClick = (index) => {
+    if (isAnswered) return
+    setSelectedOpt(index)
+    setIsAnswered(true)
+    if (index === questions[currentQ].correct) {
+      setScore(score + 1)
+    }
+  }
+
+  const handleNext = () => {
+    setSelectedOpt(null)
+    setIsAnswered(false)
+    if (currentQ < questions.length - 1) {
+      setCurrentQ(currentQ + 1)
+    } else {
+      setShowResults(true)
+      if (score === questions.length) {
+        onPerfectScore()
+      }
+    }
+  }
+
+  const handleRestart = () => {
+    setCurrentQ(0)
+    setSelectedOpt(null)
+    setIsAnswered(false)
+    setScore(0)
+    setShowResults(false)
+  }
+
+  return (
+    <section
+      id='sec-quiz'
+      className={`p-8 rounded-2xl border transition-all duration-300 mt-20 ${
+        isDarkMode
+          ? 'border-neutral-800 bg-neutral-900/20'
+          : 'border-slate-200 bg-white shadow-sm'
+      }`}
+    >
+      <div className='flex items-center gap-3 mb-6'>
+        <span className='text-lg'>🧠</span>
+        <h2
+          className={`text-xl font-bold ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
+        >
+          Мини-квиз по правилам сквоша
+        </h2>
+      </div>
+
+      {!showResults ? (
+        <div>
+          {/* Прогресс-бар */}
+          <div className='w-full bg-neutral-800 h-1.5 rounded-full mb-6 overflow-hidden'>
+            <div
+              className='bg-amber-500 h-1.5 transition-all duration-300'
+              style={{ width: `${((currentQ + 1) / questions.length) * 100}%` }}
+            />
+          </div>
+
+          <div className='mb-6'>
+            <span className='text-xs font-bold text-amber-500 uppercase tracking-wider'>
+              Вопрос {currentQ + 1} из {questions.length}
+            </span>
+            <p
+              className={`text-base font-bold mt-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}
+            >
+              {questions[currentQ].q}
+            </p>
+          </div>
+
+          <div className='flex flex-col gap-3 mb-6'>
+            {questions[currentQ].options.map((option, idx) => {
+              let btnClass = isDarkMode
+                ? 'border-neutral-800 bg-neutral-900/40 text-slate-350 hover:border-amber-500/30'
+                : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-amber-500/50'
+
+              if (isAnswered) {
+                if (idx === questions[currentQ].correct) {
+                  btnClass =
+                    'border-emerald-500 bg-emerald-500/10 text-emerald-400'
+                } else if (idx === selectedOpt) {
+                  btnClass = 'border-red-500 bg-red-500/10 text-red-400'
+                } else {
+                  btnClass = 'opacity-50 border-transparent'
+                }
+              }
+
+              return (
+                <button
+                  key={idx}
+                  onClick={() => handleOptionClick(idx)}
+                  disabled={isAnswered}
+                  className={`w-full p-4 rounded-xl border text-left text-sm font-semibold transition-all duration-150 cursor-pointer ${btnClass}`}
+                >
+                  {option}
+                </button>
+              )
+            })}
+          </div>
+
+          {isAnswered && (
+            <div
+              className={`p-4 rounded-xl mb-6 text-xs leading-relaxed animate-fade-in ${
+                isDarkMode
+                  ? 'bg-neutral-900/60 text-slate-400'
+                  : 'bg-slate-100 text-slate-600'
+              }`}
+            >
+              <strong>Объяснение:</strong> {questions[currentQ].hint}
+            </div>
+          )}
+
+          {isAnswered && (
+            <button
+              onClick={handleNext}
+              className='w-full md:w-auto px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer float-right'
+            >
+              {currentQ < questions.length - 1
+                ? 'Следующий вопрос ➡️'
+                : 'Завершить тест 🏁'}
+            </button>
+          )}
+          <div className='clear-both' />
+        </div>
+      ) : (
+        <div className='text-center py-6'>
+          <div className='text-4xl mb-4'>
+            {score === questions.length ? '🏆👑🎖️' : '👍⚽🥎'}
+          </div>
+          <h3
+            className={`text-lg font-bold ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
+          >
+            Вы ответили правильно на {score} из {questions.length} вопросов!
+          </h3>
+
+          {score === questions.length ? (
+            <div className='mt-4 p-4 rounded-xl border border-amber-500/20 bg-amber-500/5 max-w-md mx-auto text-sm text-amber-500 leading-relaxed font-semibold'>
+              Идеальный результат! Секретное звание{' '}
+              <span className='underline'>Профессор Сквоша 🎓»</span> успешно
+              разблокировано для Софы и добавлено в её коллекцию наград!
+            </div>
+          ) : (
+            <p className='text-sm text-slate-400 mt-2 max-w-md mx-auto'>
+              Хорошая попытка! Чтобы разблокировать секретную награду Профессор
+              Сквоша», вам нужно ответить правильно на все 5 вопросов.
+              Попробуйте еще раз!
+            </p>
+          )}
+
+          <button
+            onClick={handleRestart}
+            className='mt-6 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer'
+          >
+            Пройти тест заново 🔄
+          </button>
+        </div>
+      )}
+    </section>
+  )
+}
+
 export default function RulesPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('sec-1')
@@ -39,6 +325,8 @@ export default function RulesPage() {
   const [sofaCount, setSofaCount] = useState(0)
   const [easterEggText, setEasterEggText] = useState('')
   const [isBouncing, setIsBouncing] = useState(false)
+
+  const [isQuizPassed, setIsQuizPassed] = useState(false)
 
   // Список достижений Софы (добавьте в начало компонента RulesPage)
   const achievements = [
@@ -54,15 +342,23 @@ export default function RulesPage() {
   ]
 
   // Вычисляем текущее звание и список открытых ачивок на лету
+
   const currentAchievement = [...achievements]
     .reverse()
     .find((ach) => sofaCount >= ach.threshold)
   const currentTitle = currentAchievement
     ? currentAchievement.title
     : 'Начало пути 🎾'
+
   const unlockedBadges = achievements.filter(
     (ach) => sofaCount >= ach.threshold,
   )
+  if (isQuizPassed) {
+    unlockedBadges.push({
+      title: 'Профессор Сквоша 🎓',
+      emoji: '🎓',
+    })
+  }
 
   // Инициализация сохраненных данных при первом запуске
   useEffect(() => {
@@ -82,6 +378,11 @@ export default function RulesPage() {
     if (savedCount) {
       setSofaCount(parseInt(savedCount, 10))
     }
+
+    const savedQuiz = localStorage.getItem('isQuizPassed')
+    if (savedQuiz === 'true') {
+      setIsQuizPassed(true)
+    }
   }, [])
 
   // Переключение темы оформления
@@ -89,6 +390,12 @@ export default function RulesPage() {
     const nextTheme = !isDarkMode
     setIsDarkMode(nextTheme)
     localStorage.setItem('theme', nextTheme ? 'dark' : 'light')
+  }
+
+  // Обработчик 5/5 правильных ответов в квизе
+  const handlePerfectQuizScore = () => {
+    setIsQuizPassed(true)
+    localStorage.setItem('isQuizPassed', 'true')
   }
 
   // Логика клика по переподаче Софы
@@ -555,9 +862,10 @@ export default function RulesPage() {
 
           <p className='text-xs text-amber-500/80 leading-relaxed'>
             * Примечание: Любые попытки соперника объявить переход подачи,
-            ошибку линии (foot fault) или забрать очко во время выполнения
-            подачи Софой признаются недействительными. Софа забирает мяч и
-            совершает новую попытку без штрафных санкций.
+            ошибку линии (<GlossaryTerm term='заступ' isDarkMode={isDarkMode} />
+            ) или забрать очко во время выполнения подачи Софой признаются
+            недействительными. Софа забирает мяч и совершает новую попытку без
+            штрафных санкций.
           </p>
         </section>
 
@@ -708,9 +1016,10 @@ export default function RulesPage() {
             <p>
               <strong>5.4.</strong> Подача признается правильной, если мяч
               подброшен с руки и направлен ударом ракетки напрямую в переднюю
-              стену выше линии подачи (Service Line) и ниже линии аута (Out
-              Line), а после отскока приземлился в противоположной задней
-              четверти корта (за исключением случаев приема соперником с лёта).
+              стену выше линии подачи (Service Line) и ниже линии
+              <GlossaryTerm term='аута' isDarkMode={isDarkMode} /> (Out Line), а
+              после отскока приземлился в противоположной задней четверти корта
+              (за исключением случаев приема соперником с лёта).
             </p>
           </div>
           <KeyTakeaway
@@ -753,16 +1062,19 @@ export default function RulesPage() {
             <p>
               <strong>6.2.</strong> Удар признается правильным, если мяч
               встречен ракеткой до его второго касания пола корта, направлен в
-              переднюю стену выше звуковой панели (жестянки / tin) и ниже линии
-              аута, при этом полет мяча не сопровождается касанием пола или стен
-              до удара о переднюю стену (касание боковых стен допускается после
-              удара по пути к передней стене).
+              переднюю стену выше звуковой панели (
+              <GlossaryTerm term='жестянки' isDarkMode={isDarkMode} /> / tin) и
+              ниже линии аута, при этом полет мяча не сопровождается касанием
+              пола или стен до удара о переднюю стену (касание боковых стен
+              допускается после удара по пути к передней стене).
             </p>
             <p>
               <strong>6.3.</strong> Мяч считается вышедшим из игры в случаях:
-              касания любой линии аута на стенах корта, касания потолка, касания
-              звуковой панели (tin) или падения на пол до касания передней
-              стены.
+              касания любой линии{' '}
+              <GlossaryTerm term='аута' isDarkMode={isDarkMode} /> на стенах
+              корта, касания потолка, касания звуковой панели (
+              <GlossaryTerm term='жестянки' isDarkMode={isDarkMode} />) или
+              падения на пол до касания передней стены.
             </p>
           </div>
           <KeyTakeaway
@@ -1208,6 +1520,12 @@ export default function RulesPage() {
             предварительного предупреждения. Держите эмоции при себе.
           </KeyTakeaway>
         </section>
+
+        <Quiz
+          isDarkMode={isDarkMode}
+          onPerfectScore={handlePerfectQuizScore}
+          isQuizPassed={isQuizPassed}
+        />
       </main>
     </div>
   )
