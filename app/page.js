@@ -676,7 +676,7 @@ export default function RulesPage() {
             </h2>
           </div>
           <div
-            className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+            className={`space-y-4 text-m leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
           >
             <p>
               <strong>1.1.</strong> Одиночный сквош играется на закрытом корте
