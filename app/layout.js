@@ -3,6 +3,7 @@ import './globals.css'
 export const metadata = {
   title: 'Правила сквоша — Редакция 2026',
   description: 'Интерактивный свод официальных правил сквоша с поправками',
+  manifest: '/manifest.json',
 }
 
 export default function RootLayout({ children }) {

@@ -171,6 +171,19 @@ export default function RulesPage() {
       setActiveSection(isAtBottom ? closestSection : currentSection)
     }
 
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((reg) =>
+            console.log('PWA Service Worker зарегистрирован!', reg.scope),
+          )
+          .catch((err) =>
+            console.warn('Ошибка регистрации Service Worker:', err),
+          )
+      })
+    }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
 
