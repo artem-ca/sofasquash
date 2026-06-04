@@ -555,6 +555,8 @@ export default function RulesPage() {
       {/* Боковая панель навигации (Sidebar) */}
       <aside
         className={`fixed top-0 bottom-0 left-0 z-40 w-80 p-6 flex flex-col overflow-y-auto border-r transition-all duration-300 lg:translate-x-0 ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } ${
           isDarkMode
             ? 'bg-neutral-900/90 border-neutral-800/80'
             : 'bg-white/95 border-slate-200/80'
