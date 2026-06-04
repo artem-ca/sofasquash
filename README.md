@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎾 SQUASH RULES — Интерактивный кодекс правил сквоша 2026
 
-## Getting Started
+Добро пожаловать в репозиторий интерактивного и исчерпывающего кодекса правил сквоша. Этот одностраничный сайт создан для того, чтобы превратить сложный официальный регламент Всемирной федерации сквоша (WSF) в понятный, красивый и удобный цифровой справочник.
 
-First, run the development server:
+Сайт оформлен в премиальной палитре **Obsidian Black & Luxury Gold** и оптимизирован под любые устройства — от больших мониторов до экранов смартфонов (чтобы правила можно было быстро проверить прямо на корте).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Ключевые особенности проекта
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- 📜 **100% официальный регламент:** Все 14 глав оригинальных правил WSF (редакция сентября 2025 года, актуальная на 2026 год) переведены на русский язык и изложены без сокращений.
+- 💡 **Удобочитаемость (Key Takeaways):** Сухие юридические формулировки дополнены красивыми карточками с ключевыми выжимками, практическими советами и эмодзи.
+- 🌓 **Умный переключатель тем:** Полноценная поддержка тёмной (угольно-черной с золотом) и светлой (минималистичной спортивной) тем с автоопределением системных настроек и сохранением выбора в `localStorage`.
+- 👑 **Эксклюзивный секретный регламент (Правило 2.7):** Уникальная поправка — бесконечное право на переподачу для Софы. Блок оснащен интерактивным счетчиком кликов, локальным сохранением прогресса и системой шуточных ачивок («Подающая надежды» 🌱 → «Гроза соперников» ⚡ → «Властелин Переподач» 👑 → «Абсолютное доминирование» 💅).
+- 🧭 **Гибридный Scrollspy:** Боковое меню плавно отслеживает прокрутку страницы и подсвечивает активный раздел, корректно работая даже при достижении самого низа экрана.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠️ Технологический стек
 
-To learn more about Next.js, take a look at the following resources:
+Проект собран на базе современных инструментов веб-разработки:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Next.js** (App Router) — высокопроизводительный фреймворк на базе React.
+- **React** — компонентная архитектура и управление состоянием (счетчики, меню, темы).
+- **React Compiler** — автоматическая оптимизация и мемоизация компонентов на этапе сборки для идеальной плавности интерфейса.
+- **Tailwind CSS v4** — утилитарный CSS-фреймворк для быстрой стилизации, обеспечивающий мгновенный отклик адаптивной верстки.
+- **LocalStorage API** — сохранение пользовательских настроек (тема оформления и счетчик Софы) прямо в браузере.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Создано специально для любителей сквоша и лично для Софы. Пусть ваши подачи всегда будут эйсами! 🎾
