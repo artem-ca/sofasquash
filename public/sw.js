@@ -28,11 +28,16 @@ self.addEventListener('activate', (event) => {
 })
 
 // Обработка запросов: отдаем кэш, но параллельно обновляем его из сети (Stale-While-Revalidate)
+// Безопасный перехват запросов (пропускает расширения браузера)
 self.addEventListener('fetch', (event) => {
+  // Игнорируем любые запросы, кроме стандартных http и https (решает баг с расширениями)
+  if (!event.request.url.startsWith('http')) {
+    return
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        // Запрос в сеть в фоновом режиме для обновления кэша
         fetch(event.request)
           .then((networkResponse) => {
             if (networkResponse.status === 200) {
@@ -41,9 +46,7 @@ self.addEventListener('fetch', (event) => {
                 .then((cache) => cache.put(event.request, networkResponse))
             }
           })
-          .catch(() => {
-            /* Игнорируем сетевые ошибки в офлайне */
-          })
+          .catch(() => {})
 
         return cachedResponse
       }
