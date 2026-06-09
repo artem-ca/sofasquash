@@ -2,15 +2,18 @@
 
 import { useState } from 'react'
 import { useTheme } from './ThemeContext'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
   const { isDarkMode, toggleTheme } = useTheme()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const pathname = usePathname()
 
   const navLinks = [
     { href: '/', label: 'Главная' },
-    { href: '/rules', label: 'Правила' },
     { href: '/racquets', label: 'Энциклопедия' },
+    { href: '/rules', label: 'Правила' },
   ]
 
   return (
@@ -23,32 +26,40 @@ export default function Navbar() {
     >
       <div className='max-w-5xl mx-auto px-6 h-16 flex items-center justify-between'>
         {/* Логотип */}
-        <a href='/' className='flex flex-col leading-none select-none'>
+        <Link href='/' className='flex flex-col leading-none select-none'>
           <span className='font-extrabold text-base tracking-wider'>
             SOFA RULES
           </span>
           <span className='text-[9px] text-amber-500 font-bold uppercase tracking-widest mt-0.5'>
             Squash Portal 2026
           </span>
-        </a>
+        </Link>
 
         {/* Десктопное меню */}
         <nav className='hidden md:flex items-center gap-6'>
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className={`text-xs font-bold uppercase tracking-wider transition-colors duration-150 ${
-                isDarkMode
-                  ? 'text-slate-400 hover:text-amber-400'
-                  : 'text-slate-600 hover:text-amber-600'
-              }`}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href
 
-          {/* Кнопка смены темы (Десктоп) */}
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-xs font-bold uppercase tracking-wider transition-colors duration-150 ${
+                  isActive
+                    ? isDarkMode
+                      ? 'text-amber-400'
+                      : 'text-amber-600' // Светится золотом, если активна
+                    : isDarkMode
+                      ? 'text-slate-400 hover:text-amber-400'
+                      : 'text-slate-600 hover:text-amber-600'
+                }`}
+              >
+                {link.label}
+              </Link>
+            )
+          })}
+
+          {/* Кнопка темы */}
           <button
             onClick={toggleTheme}
             className={`w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer transition-colors ${
@@ -61,9 +72,8 @@ export default function Navbar() {
           </button>
         </nav>
 
-        {/* Мобильная зона управления */}
+        {/* Мобильная зона */}
         <div className='flex items-center gap-2 md:hidden'>
-          {/* Кнопка смены темы (Мобилка) */}
           <button
             onClick={toggleTheme}
             className={`w-10 h-10 rounded-xl border flex items-center justify-center cursor-pointer ${
@@ -75,7 +85,6 @@ export default function Navbar() {
             {isDarkMode ? '☀️' : '🌙'}
           </button>
 
-          {/* Кнопка бургер-меню */}
           <button
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             className={`w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer transition-colors ${
@@ -99,20 +108,28 @@ export default function Navbar() {
           }`}
         >
           <nav className='flex flex-col p-4 gap-2'>
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsMobileOpen(false)}
-                className={`px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                  isDarkMode
-                    ? 'text-slate-300 hover:bg-neutral-900 hover:text-amber-400'
-                    : 'text-slate-700 hover:bg-slate-50 hover:text-amber-600'
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileOpen(false)}
+                  className={`px-4 py-3 rounded-xl text-sm font-bold transition-all ${
+                    isActive
+                      ? isDarkMode
+                        ? 'text-amber-400 bg-neutral-900/50'
+                        : 'text-amber-600 bg-slate-100' // Светится золотом и выделяет фон
+                      : isDarkMode
+                        ? 'text-slate-300 hover:bg-neutral-900 hover:text-amber-400'
+                        : 'text-slate-700 hover:bg-slate-50 hover:text-amber-600'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
           </nav>
         </div>
       )}

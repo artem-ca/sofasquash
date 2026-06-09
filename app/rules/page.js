@@ -5,6 +5,7 @@ import { useTheme } from '@/components/ThemeContext'
 import GlossaryTerm from '@/components/GlossaryTerm'
 import KeyTakeaway from '@/components/KeyTakeaway'
 import Quiz from '@/components/Quiz'
+import Link from 'next/link'
 
 export default function RulesPage() {
   const { isDarkMode } = useTheme()
@@ -121,7 +122,7 @@ export default function RulesPage() {
         </div>
         <nav className='flex flex-col gap-1 pr-1'>
           {menuItems.map((item) => (
-            <a
+            <Link
               key={item.id}
               href={`#${item.id}`}
               onClick={() => setIsSidebarOpen(false)}
@@ -134,7 +135,7 @@ export default function RulesPage() {
               }`}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
       </aside>

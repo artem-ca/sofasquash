@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang='ru'>
+    <html lang='ru' suppressHydrationWarning>
       <body>
         <ThemeProvider>
           <Navbar />
