@@ -309,7 +309,7 @@ export default function CourtVisualizer({ isDarkMode }) {
           {activeInfo.dims}
         </div>
         <p
-          className={`text-xs mt-2 leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
+          className={`min-h-10 text-xs mt-2 leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
         >
           {activeInfo.desc}
         </p>
