@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useTheme } from '@/components/ThemeContext'
 
 const achievements = [
+  // { threshold: 0, title: 'Начинающий подающий 🐣', emoji: '🐣' },
   { threshold: 5, title: 'Подающая надежды 🌱', emoji: '🌱' },
   { threshold: 15, title: 'Гроза сквоша ⚡', emoji: '⚡' },
   { threshold: 30, title: 'Непревзойдённая', emoji: '⛰️' },
