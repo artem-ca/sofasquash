@@ -4,16 +4,40 @@ import { useState, useEffect } from 'react'
 import { useTheme } from '@/components/ThemeContext'
 
 const achievements = [
-  // { threshold: 0, title: 'Начинающий подающий 🐣', emoji: '🐣' },
+  { threshold: 0, title: 'Начинающий подающий 🐣', emoji: '🐣' },
   { threshold: 5, title: 'Подающая надежды 🌱', emoji: '🌱' },
   { threshold: 15, title: 'Гроза сквоша ⚡', emoji: '⚡' },
-  { threshold: 30, title: 'Непревзойдённая', emoji: '⛰️' },
-  { threshold: 50, title: 'Королева Переподач 👑', emoji: '👑' },
+  { threshold: 30, title: 'Мастер драйва 🎯', emoji: '🎯' },
+  { threshold: 45, title: 'Непревзойдённая ⛰️', emoji: '⛰️' },
+  { threshold: 60, title: 'Королева Переподач 👑', emoji: '👑' },
+  { threshold: 75, title: 'Тактический гений 🧠', emoji: '🧠' },
+  { threshold: 90, title: 'Легенда корта 🏆', emoji: '🏆' },
   {
-    threshold: 100,
+    threshold: 120,
     title: 'Абсолютное доминирование (Уровень: Бог) 💅',
     emoji: '💅',
   },
+]
+
+const phrases = [
+  'Софа, подача — просто пушка! 💥',
+  'Соперник плачет в углу... 😭',
+  'Правило 2.7 в действии! 🎯',
+  'Энергия Софочки зашкаливает! ⚡',
+  'Подача принята... ой, нет, переподаем! 😂',
+  'Ещё одна безупречная попытка от Королевы корта! 👑',
+  'Софа диктует свои правила! 💅',
+  'Судья безмолвно кивает... 🤐',
+  'Софа делает эйс при любой погоде! 🌪️',
+  'Ты же моя умничка ❤️',
+  'Давай ещё раз, кошка 🐈‍⬛',
+  'Такую подачу не принял бы сам Диего Элиас! 👽',
+  'Абсолютная грация и доминирование на Т-зоне! 💃',
+  'Мяч улетел по идеальной траектории! 📈',
+  'Соперник до сих пор ищет мяч глазами... 👀',
+  'Твои подачи заставляют жестяночку звенеть! 🔔',
+  'Этот удар достоин мирового рейтинга! 🏆',
+  'Каждый твой взамах — произведение искусства! ✨',
 ]
 
 export default function ReServe() {
@@ -72,25 +96,15 @@ export default function ReServe() {
     setSofaCount(nextCount)
     localStorage.setItem('sofaCount', nextCount.toString())
 
-    const phrases = [
-      'Софа, идеальная подача! 🎉',
-      'Соперник плачет в углу... 😭',
-      'Правило 2.7 в действии! 🎯',
-      'Энергия Софочки зашкаливает! ⚡',
-      'Подача принята... ой, нет, переподаем! 😂',
-      'Ещё одна безупречная попытка! 👑',
-      'Софа диктует свои правила! 💅',
-      'Судья безмолвно кивает... 🤐',
-      'Софа делает эйс при любой погоде! 🌪️',
-      'Ты же моя умничка ❤️',
-      'Давай ещё раз, кошка 🐈‍⬛',
-    ]
+    // Просто берем случайную фразу из внешнего статического массива
     const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)]
     setEasterEggText(randomPhrase || 'Ты же моя умничка ❤️')
 
+    // Временная активация эффекта прыжка для счетчика
     setIsBouncing(true)
     setTimeout(() => setIsBouncing(false), 300)
   }
+
   return (
     <div className='max-w-4xl w-full'>
       {/* Правило 2.7 (Софа) */}
@@ -131,16 +145,18 @@ export default function ReServe() {
               >
                 Всего переподач совершено:
               </div>
+
               <div
                 className={`text-3xl font-extrabold text-amber-500 mt-1 transition-transform duration-300 ${isBouncing ? 'scale-130 rotate-3' : 'scale-100'}`}
               >
                 {sofaCount}
               </div>
-              {easterEggText && (
-                <div className='text-xs italic text-amber-600 mt-1 font-semibold animate-fade-in'>
-                  {easterEggText}
-                </div>
-              )}
+              <div className='text-xs italic text-amber-600 mt-1 font-semibold animate-fade-in'>
+                {easterEggText ||
+                  (sofaCount === 0
+                    ? 'Пора это исправлять.'
+                    : 'Ждём новую подачу от Софочки... 🎾')}
+              </div>
             </div>
             <button
               onClick={handleSofaServe}
@@ -173,7 +189,7 @@ export default function ReServe() {
                 <div className='flex gap-1.5 mt-3 sm:justify-end'>
                   {unlockedBadges.map((badge, index) => (
                     <span
-                      key={badge.threshold || 'quiz'}
+                      key={badge.threshold ?? 'quiz'}
                       className='w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-sm animate-bounce'
                       title={badge.title}
                       style={{

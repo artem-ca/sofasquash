@@ -36,55 +36,46 @@ export default function RulesPage() {
     localStorage.setItem('isQuizPassed', 'true')
   }
 
-  // Улучшенный локальный Scrollspy по разделам правил
+  // Ультра-производительный Scrollspy на базе IntersectionObserver
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = [
-        'sec-1',
-        'sec-2',
-        'sec-3',
-        'sec-4',
-        'sec-5',
-        'sec-6',
-        'sec-7',
-        'sec-8',
-        'sec-9',
-        'sec-10',
-        'sec-11',
-        'sec-12',
-        'sec-13',
-        'sec-14',
-      ]
-
-      let currentSection = 'sec-1'
-      let closestSection = 'sec-1'
-      let minDistance = Infinity
-      const triggerPoint = window.innerHeight * 0.3
-
-      for (const sectionId of sections) {
-        const element = document.getElementById(sectionId)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          if (rect.top <= triggerPoint) {
-            currentSection = sectionId
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id)
           }
-          const distanceToFocus = Math.abs(rect.top - triggerPoint)
-          if (distanceToFocus < minDistance) {
-            minDistance = distanceToFocus
-            closestSection = sectionId
-          }
-        }
-      }
+        })
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px -75% 0px', // Срабатывает, когда секция пересекает верхнюю треть экрана
+        threshold: 0,
+      },
+    )
 
-      const isAtBottom =
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 80
-      setActiveSection(isAtBottom ? closestSection : currentSection)
-    }
+    const sections = [
+      'sec-1',
+      'sec-2',
+      'sec-3',
+      'sec-4',
+      'sec-5',
+      'sec-6',
+      'sec-7',
+      'sec-8',
+      'sec-9',
+      'sec-10',
+      'sec-11',
+      'sec-12',
+      'sec-13',
+      'sec-14',
+    ]
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+    sections.forEach((id) => {
+      const element = document.getElementById(id)
+      if (element) observer.observe(element)
+    })
+
+    return () => observer.disconnect()
   }, [])
 
   const menuItems = [
@@ -171,7 +162,7 @@ export default function RulesPage() {
           <h1
             className={`text-4xl font-extrabold tracking-tight mb-4 ${
               isDarkMode
-                ? 'bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent'
+                ? 'bg-linear-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent'
                 : 'text-slate-900'
             }`}
           >
