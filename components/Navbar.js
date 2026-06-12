@@ -12,7 +12,8 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'Главная' },
-    { href: '/racquets', label: 'Энциклопедия' },
+    { href: '/racquets', label: 'Ракетки' },
+    { href: '/glossary', label: 'Глоссарий' },
     { href: '/rules', label: 'Правила' },
   ]
 
@@ -28,10 +29,12 @@ export default function Navbar() {
         {/* Логотип */}
         <Link href='/' className='flex flex-col leading-none select-none'>
           <span className='font-extrabold text-base tracking-wider'>
-            SOFA RULES
+            {/* SOFA RULES */}
+            SQUASH
           </span>
           <span className='text-[9px] text-amber-500 font-bold uppercase tracking-widest mt-0.5'>
-            Squash Portal 2026
+            {/* Squash Portal 2026 */}
+            portal
           </span>
         </Link>
 

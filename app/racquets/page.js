@@ -84,13 +84,13 @@ export default function RacquetsPage() {
                 : 'bg-gradient-to-r from-slate-900 via-slate-800 to-amber-800 bg-clip-text text-transparent'
             }`}
           >
-            Энциклопедия ракеток
+            Ракетки
           </h1>
           <p
             className={`text-base leading-relaxed max-w-3xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}
           >
-            Технический разбор, параметры веса, геометрия и сравнение
-            профессиональных сквош-ракеток (WSF).
+            Ракетки для сквоша и все, что с ними связано. Технический разбор,
+            параметры веса, баланс и сравнение профессиональных сквош-ракеток.
           </p>
         </header>
         {/* Панель фильтров и поиска */}
