@@ -4,6 +4,11 @@ import { useState } from 'react'
 import { useTheme } from '@/components/ThemeContext'
 import { glossaryTerms } from '../../data/glossary'
 
+export const metadata = {
+  title: 'Словарь сквош-сленга и терминов — Squash Wiki',
+  description:
+    'Полная энциклопедия сквош-терминов, сленга и названий ударов в сквоше с алфавитным указателем и тактическими советами тренера.',
+}
 export default function GlossaryPage() {
   const { isDarkMode } = useTheme()
 

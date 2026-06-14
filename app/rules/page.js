@@ -8,6 +8,12 @@ import Quiz from '@/components/Quiz'
 import DecisionHelper from '@/components/DecisionHelper'
 import Link from 'next/link'
 
+export const metadata = {
+  title: 'Правила сквоша — Интерактивный кодекс WSF',
+  description:
+    'Все 14 официальных глав правил сквоша на русском языке с интерактивным глоссарием, квизом и судейским Let/Stroke калькулятором.',
+}
+
 export default function RulesPage() {
   const { isDarkMode } = useTheme()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)

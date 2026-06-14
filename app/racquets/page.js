@@ -6,6 +6,11 @@ import RacquetCard from '@/components/RacquetCard'
 import RacquetDetailModal from '@/components/RacquetDetailModal'
 import { useTheme } from '@/components/ThemeContext'
 
+export const metadata = {
+  title: 'Энциклопедия сквош-ракеток — Сравнение и подбор ракеток',
+  description:
+    'Детальный технический разбор профессиональных ракеток для сквоша от Tecnifibre, Dunlop, Harrow, Head. Интерактивная таблица сравнения.',
+}
 export default function RacquetsPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
