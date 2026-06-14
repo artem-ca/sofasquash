@@ -93,8 +93,12 @@ export default function ReServe() {
   const handleSofaServe = () => {
     const nextCount = sofaCount + 1
     setSofaCount(nextCount)
-    localStorage.setItem('sofaCount', nextCount.toString())
 
+    try {
+      localStorage.setItem('sofaCount', nextCount.toString())
+    } catch (e) {
+      console.warn('Не удалось сохранить счетчик переподач')
+    }
     // Просто берем случайную фразу из внешнего статического массива
     const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)]
     setEasterEggText(randomPhrase || 'Ты просто молодец! ❤️')

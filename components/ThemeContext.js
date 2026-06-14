@@ -7,22 +7,43 @@ const ThemeContext = createContext()
 export function ThemeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(true)
 
+  // Безопасная инициализация темы в ThemeContext.js
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme')
-    if (savedTheme) {
-      setIsDarkMode(savedTheme === 'dark')
+    let dark = true
+    try {
+      const savedTheme = localStorage.getItem('theme')
+      if (savedTheme) {
+        dark = savedTheme === 'dark'
+      } else {
+        dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      }
+    } catch (e) {
+      console.warn('Доступ к localStorage заблокирован браузером')
+    }
+
+    setIsDarkMode(dark)
+    if (dark) {
+      document.documentElement.classList.add('dark')
     } else {
-      const prefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)',
-      ).matches
-      setIsDarkMode(prefersDark)
+      document.documentElement.classList.remove('dark')
     }
   }, [])
 
   const toggleTheme = () => {
     const nextTheme = !isDarkMode
     setIsDarkMode(nextTheme)
-    localStorage.setItem('theme', nextTheme ? 'dark' : 'light')
+
+    try {
+      localStorage.setItem('theme', nextTheme ? 'dark' : 'light')
+    } catch (e) {
+      console.warn('Не удалось сохранить тему в localStorage')
+    }
+
+    if (nextTheme) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
   }
 
   return (
