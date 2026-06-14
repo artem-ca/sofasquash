@@ -6,6 +6,8 @@ import GlossaryTerm from '@/components/GlossaryTerm'
 import KeyTakeaway from '@/components/KeyTakeaway'
 import Quiz from '@/components/Quiz'
 import DecisionHelper from '@/components/DecisionHelper'
+import ReServe from '@/components/ReServe'
+
 import Link from 'next/link'
 
 export default function RulesPage() {
@@ -289,6 +291,10 @@ export default function RulesPage() {
                 очко и право подачи.
               </KeyTakeaway>
             </section>
+
+            <div className='mb-20'>
+              <ReServe />
+            </div>
 
             {/* Раздел 3. Официальные лица */}
             <section id='sec-3' className='scroll-mt-24 mb-16'>

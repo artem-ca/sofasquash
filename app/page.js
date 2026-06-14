@@ -3,7 +3,7 @@
 import { useTheme } from '@/components/ThemeContext'
 import Link from 'next/link'
 import CourtVisualizer from '@/components/CourtVisualizer'
-import ReServe from '@/components/ReServe'
+import TacticsBoard from '@/components/TacticsBoard' // <-- Импортируем тактический планшет
 
 export default function HomePage() {
   const { isDarkMode } = useTheme()
@@ -42,12 +42,12 @@ export default function HomePage() {
         {/* 3D-Корт */}
         <CourtVisualizer isDarkMode={isDarkMode} />
 
-        {/* Наш новый выделенный компонент Софы */}
+        {/* Интерактивный тактический планшет (размещен под кортом на главной) */}
         <div className='mt-12'>
-          <ReServe />
+          <TacticsBoard isDarkMode={isDarkMode} />
         </div>
 
-        {/* Кнопка перехода к правилам через бесшовный Link */}
+        {/* Кнопка перехода к правилам */}
         <div className='mt-16 text-center'>
           <Link
             href='/rules'

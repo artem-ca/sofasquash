@@ -13,6 +13,7 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: 'Главная' },
     { href: '/racquets', label: 'Ракетки' },
+    { href: '/tactics', label: 'Тактика' },
     { href: '/glossary', label: 'Глоссарий' },
     { href: '/rules', label: 'Правила' },
   ]

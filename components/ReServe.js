@@ -5,39 +5,39 @@ import { useTheme } from '@/components/ThemeContext'
 
 const achievements = [
   { threshold: 0, title: 'Начинающий подающий 🐣', emoji: '🐣' },
-  { threshold: 5, title: 'Подающий надежды 🌱', emoji: '🌱' },
+  { threshold: 5, title: 'Подающая надежды 🌱', emoji: '🌱' },
   { threshold: 15, title: 'Гроза сквоша ⚡', emoji: '⚡' },
   { threshold: 30, title: 'Мастер драйва 🎯', emoji: '🎯' },
-  { threshold: 45, title: 'Непревзойденный ⛰️', emoji: '⛰️' },
-  { threshold: 60, title: 'Король Переподач 👑', emoji: '👑' },
+  { threshold: 45, title: 'Непревзойдённая ⛰️', emoji: '⛰️' },
+  { threshold: 60, title: 'Королева Переподач 👑', emoji: '👑' },
   { threshold: 75, title: 'Тактический гений 🧠', emoji: '🧠' },
   { threshold: 90, title: 'Легенда корта 🏆', emoji: '🏆' },
   {
     threshold: 120,
-    title: 'Абсолютное доминирование (Уровень: Бог) 🔥',
-    emoji: '🔥',
+    title: 'Абсолютное доминирование (Уровень: Бог) 💅',
+    emoji: '💅',
   },
 ]
 
 const phrases = [
-  'Подача — просто пушка! 💥',
+  'Софа, подача — просто пушка! 💥',
   'Соперник плачет в углу... 😭',
   'Правило 2.7 в действии! 🎯',
-  'Энергия зашкаливает! ⚡',
+  'Энергия Софочки зашкаливает! ⚡',
   'Подача принята... ой, нет, переподаем! 😂',
-  'Ещё одна безупречная попытка от Короля корта! 👑',
-  'Вы диктуете свои правила! 🔥',
+  'Ещё одна безупречная попытка от Королевы корта! 👑',
+  'Софа диктует свои правила! 💅',
   'Судья безмолвно кивает... 🤐',
-  'Эйс при любой погоде! 🌪️',
-  'Ты просто молодец! ❤️',
-  'Давай ещё раз, тигр 🐯',
+  'Софа делает эйс при любой погоде! 🌪️',
+  'Ты же моя умничка ❤️',
+  'Давай ещё раз, кошка 🐈‍⬛',
   'Такую подачу не принял бы сам Диего Элиас! 👽',
-  'Абсолютный контроль и доминирование на Т-зоне! ⚡',
+  'Абсолютная грация и доминирование на Т-зоне! 💃',
   'Мяч улетел по идеальной траектории! 📈',
   'Соперник до сих пор ищет мяч глазами... 👀',
   'Твои подачи заставляют жестяночку звенеть! 🔔',
   'Этот удар достоин мирового рейтинга! 🏆',
-  'Каждый твой замах — произведение искусства! ✨',
+  'Каждый твой взамах — произведение искусства! ✨',
 ]
 
 export default function ReServe() {
@@ -60,9 +60,10 @@ export default function ReServe() {
       ? unlockedBadges[unlockedBadges.length - 1].title
       : 'Начало пути 🎾'
 
-  // Загрузка локальных данных при монтировании
+  // Загрузка локальных данных Софы при монтировании
+  // Инициализация сохраненных данных при первом запуске
   useEffect(() => {
-    // Загрузка счетчика переподач с защитой от NaN
+    // Загрузка счетчика переподач Софы с защитой от NaN
     const savedCount = localStorage.getItem('sofaCount')
     if (savedCount) {
       const parsedCount = parseInt(savedCount, 10)
@@ -82,8 +83,8 @@ export default function ReServe() {
         navigator.serviceWorker
           .register('/sw.js')
           .then((reg) => console.log('PWA Service Worker зарегистрирован!'))
-          .catch((err) =>
-            console.error('Ошибка регистрации Service Worker:', err),
+          .catch(
+            (err) => console.error('Ошибка регистрации Service Worker:', err), // Добавлен вывод ошибки
           )
       })
     }
@@ -93,15 +94,11 @@ export default function ReServe() {
   const handleSofaServe = () => {
     const nextCount = sofaCount + 1
     setSofaCount(nextCount)
+    localStorage.setItem('sofaCount', nextCount.toString())
 
-    try {
-      localStorage.setItem('sofaCount', nextCount.toString())
-    } catch (e) {
-      console.warn('Не удалось сохранить счетчик переподач')
-    }
     // Просто берем случайную фразу из внешнего статического массива
     const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)]
-    setEasterEggText(randomPhrase || 'Ты просто молодец! ❤️')
+    setEasterEggText(randomPhrase || 'Ты же моя умничка ❤️')
 
     // Временная активация эффекта прыжка для счетчика
     setIsBouncing(true)
@@ -110,12 +107,12 @@ export default function ReServe() {
 
   return (
     <div className='max-w-4xl w-full'>
-      {/* Специальное правило 2.7 */}
+      {/* Правило 2.7 (Софа) */}
       <section className='mt-12'>
         <div className='p-8 rounded-2xl border-2 border-amber-500 bg-amber-500/5 shadow-lg shadow-amber-500/5 relative overflow-hidden transition-all'>
           <div className='absolute top-0 right-0 w-32 h-32' />
           <div className='inline-block bg-amber-500/10 text-amber-500 border border-amber-500/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-4'>
-            👑 Специальное правило переподачи
+            👑 Эксклюзивное правило Софы
           </div>
           <div className='flex items-center gap-4 mb-4'>
             <span className='text-base font-bold bg-amber-500/10 text-amber-500 w-10 h-10 flex items-center justify-center rounded-lg'>
@@ -128,12 +125,12 @@ export default function ReServe() {
               isDarkMode ? 'text-slate-200' : 'text-slate-800'
             }`}
           >
-            «Подающий имеет право переподавать мяч сколько угодно раз, пока
+            «Софочка имеет право переподавать мяч сколько угодно раз, пока
             подача не получится, независимо от того, почему подача не
             получилась. Будь то аут, ошибка подачи, невозможность ответить на
             приём этой самой подачи соперником или еще что-нибудь, во всех
-            случаях подающий может делать переподачу до тех пор, пока в
-            розыгрыше не будет 2 и более ударов».
+            случаях Софа может делать переподачу до тех пор, пока в розыгрыше не
+            будет 2 и более ударов».
           </div>
 
           {/* Зона интерактивной пасхалки */}
@@ -158,12 +155,12 @@ export default function ReServe() {
                 {easterEggText ||
                   (sofaCount === 0
                     ? 'Пора это исправлять.'
-                    : 'Ждём новую подачу... 🎾')}
+                    : 'Ждём новую подачу от Софочки... 🎾')}
               </div>
             </div>
             <button
               onClick={handleSofaServe}
-              aria-label='Совершить переподачу'
+              aria-label='Совершить переподачу Софы'
               className='w-full md:w-auto px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2'
             >
               Переподать! 🎯
@@ -176,7 +173,7 @@ export default function ReServe() {
               <span
                 className={`text-[10px] font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}
               >
-                Текущий титул:
+                Текущий титул Софы:
               </span>
               <div className='text-sm font-extrabold text-amber-500 mt-1'>
                 {currentTitle}
