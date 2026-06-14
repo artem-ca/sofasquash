@@ -1,6 +1,7 @@
 'use client'
 
-import RacquetVectorIcon from './RacquetVectorIcon'
+import { useTheme } from '@/components/ThemeContext'
+import RacquetVectorIcon from '@/components/RacquetVectorIcon'
 
 export default function RacquetCard({
   racquet,
@@ -13,43 +14,56 @@ export default function RacquetCard({
   return (
     <div
       onClick={onClick}
-      className={`p-6 rounded-2xl border transition-all cursor-pointer relative group flex flex-col items-center text-center ${
+      className={`p-4 rounded-3xl transition-all duration-300 flex flex-col items-center justify-between text-center cursor-pointer group relative ${
         isDarkMode
-          ? 'border-neutral-800 bg-neutral-900/20 hover:border-amber-500/30 shadow-md hover:shadow-amber-500/5'
-          : 'border-slate-200 bg-white hover:border-amber-500/40 shadow-xs hover:shadow-md'
+          ? 'bg-neutral-950/20 border border-transparent hover:border-neutral-900'
+          : 'bg-white border border-transparent hover:border-slate-100'
       }`}
     >
-      {/* Плашка "Выбрано к сравнению", если ракетка уже добавлена */}
+      {/* Изящный и очень тонкий индикатор сравнения в углу */}
       {isCompared && (
         <span
-          className='absolute top-3 right-3 text-xs bg-amber-500/10 text-amber-500 border border-amber-500/25 px-2 py-0.5 rounded-md font-bold'
-          title='Ракетка добавлена к сравнению'
+          className='absolute top-3 right-3 text-[10px] bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded-md font-bold select-none z-10'
+          title='Добавлено к сравнению'
         >
-          ⚖️ Выбрана
+          ⚖️ Сравнение
         </span>
       )}
 
-      {/* Зона изображения */}
-      <div className='w-full h-36 max-h-40 flex items-center justify-center overflow-hidden rounded-xl bg-slate-950/5 mt-2'>
+      {/* Зона изображения — свободное парение картинки без серого бокса */}
+      <div className='w-full h-64 max-h-72 flex items-center justify-center bg-transparent mt-2 transition-transform duration-300 group-hover:scale-103'>
         {hasImages ? (
           <img
             src={racquet.images[0]}
             alt={`${racquet.brand} ${racquet.model}`}
-            className='object-contain h-full w-auto max-h-36 select-none group-hover:scale-105 transition-transform duration-300'
+            className='object-contain h-full w-auto select-none'
           />
         ) : (
           <RacquetVectorIcon isDarkMode={isDarkMode} />
         )}
       </div>
 
-      <div className='text-[10px] font-bold text-amber-500 uppercase tracking-widest mt-6 mb-1'>
-        {racquet.brand}
+      {/* Информационный блок в премиальном стиле скриншота */}
+      <div className='mt-4 flex flex-col items-center'>
+        <h3 className='font-normal text-sm sm:text-base tracking-wide leading-snug line-clamp-2 max-w-[220px] transition-colors duration-200'>
+          <span className='text-amber-500 font-semibold mr-1.5'>
+            {racquet.brand}
+          </span>
+          <span
+            className={
+              isDarkMode
+                ? 'text-slate-200 group-hover:text-amber-400'
+                : 'text-slate-800 group-hover:text-amber-600'
+            }
+          >
+            {racquet.model}
+          </span>
+        </h3>
+        {/* Строка параметров на месте цены в скриншоте */}
+        <span className='text-xs font-normal tracking-wider mt-1.5 text-slate-500 dark:text-slate-500'>
+          {racquet.weight} г • {racquet.balanceText}
+        </span>
       </div>
-      <h3
-        className={`text-sm font-extrabold line-clamp-2 ${isDarkMode ? 'text-slate-200 group-hover:text-amber-400' : 'text-slate-800 group-hover:text-amber-600'} transition-colors`}
-      >
-        {racquet.model}
-      </h3>
     </div>
   )
 }

@@ -75,118 +75,128 @@ export default function RacquetsPage() {
   return (
     <div className='flex min-h-[calc(100vh-4rem)] font-sans antialiased selection:bg-amber-500/30'>
       {/* Основная текстовая область документа */}
-      <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 max-w-4xl mx-auto w-full'>
-        <header className='mb-16'>
-          <h1
-            className={`text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 ${
+      {/* 
+        1. Мы убрали max-w-4xl и mx-auto у тега <main>, сделав его полноширинным.
+        Теперь контент может занимать всю ширину экрана.
+      */}
+      <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 w-full'>
+        {/* 2. Оборачиваем шапку и фильтры в центрированный контейнер max-w-4xl */}
+        <div className='max-w-4xl mx-auto w-full mb-12'>
+          <header className='mb-12'>
+            <h1
+              className={`text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 ${
+                isDarkMode
+                  ? 'bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent'
+                  : 'bg-gradient-to-r from-slate-900 via-slate-800 to-amber-800 bg-clip-text text-transparent'
+              }`}
+            >
+              Энциклопедия ракеток
+            </h1>
+            <p
+              className={`text-base leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}
+            >
+              Технический разбор, параметры веса, геометрия и сравнение
+              профессиональных сквош-ракеток (WSF).
+            </p>
+          </header>
+
+          {/* Панель фильтров и поиска */}
+          <section
+            className={`p-6 rounded-2xl border transition-all ${
               isDarkMode
-                ? 'bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent'
-                : 'bg-gradient-to-r from-slate-900 via-slate-800 to-amber-800 bg-clip-text text-transparent'
+                ? 'border-neutral-800 bg-neutral-900/20'
+                : 'border-slate-200 bg-white shadow-xs'
             }`}
           >
-            Ракетки
-          </h1>
-          <p
-            className={`text-base leading-relaxed max-w-3xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}
-          >
-            Ракетки для сквоша и все, что с ними связано. Технический разбор,
-            параметры веса, баланс и сравнение профессиональных сквош-ракеток.
-          </p>
-        </header>
-        {/* Панель фильтров и поиска */}
-        <section
-          className={`p-6 rounded-2xl border mb-10 transition-all ${
-            isDarkMode
-              ? 'border-neutral-800 bg-neutral-900/20'
-              : 'border-slate-200 bg-white shadow-xs'
-          }`}
-        >
-          {/* Поиск */}
-          <div className='mb-4'>
-            <input
-              type='text'
-              placeholder='Поиск по бренду или модели (например, Dunlop, Harrow)...'
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 transition-all ${
-                isDarkMode
-                  ? 'bg-neutral-950 border-neutral-800 text-slate-100'
-                  : 'bg-slate-50 border-slate-200 text-slate-900'
-              }`}
-            />
-          </div>
+            {/* Поиск */}
+            <div className='mb-4'>
+              <input
+                type='text'
+                placeholder='Поиск по бренду или модели (например, Dunlop, Harrow)...'
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 transition-all ${
+                  isDarkMode
+                    ? 'bg-neutral-950 border-neutral-800 text-slate-100'
+                    : 'bg-slate-50 border-slate-200 text-slate-900'
+                }`}
+              />
+            </div>
 
-          {/* Селекты фильтрации */}
-          <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
-            <select
-              value={selectedBrand}
-              onChange={(e) => setSelectedBrand(e.target.value)}
-              className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
-                isDarkMode
-                  ? 'bg-neutral-950 border-neutral-800'
-                  : 'bg-slate-50 border-slate-200'
-              }`}
-            >
-              <option value='all'>Все бренды</option>
-              <option value='Tecnifibre'>Tecnifibre</option>
-              <option value='Dunlop'>Dunlop</option>
-              <option value='Head'>Head</option>
-              <option value='Harrow'>Harrow</option>
-              <option value='Karakal'>Karakal</option>
-            </select>
+            {/* Селекты фильтрации */}
+            <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
+              <select
+                value={selectedBrand}
+                onChange={(e) => setSelectedBrand(e.target.value)}
+                className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
+                  isDarkMode
+                    ? 'bg-neutral-950 border-neutral-800'
+                    : 'bg-slate-50 border-slate-200'
+                }`}
+              >
+                <option value='all'>Все бренды</option>
+                <option value='Tecnifibre'>Tecnifibre</option>
+                <option value='Dunlop'>Dunlop</option>
+                <option value='Head'>Head</option>
+                <option value='Harrow'>Harrow</option>
+                <option value='Karakal'>Karakal</option>
+              </select>
 
-            <select
-              value={selectedWeight}
-              onChange={(e) => setSelectedWeight(e.target.value)}
-              className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
-                isDarkMode
-                  ? 'bg-neutral-950 border-neutral-800'
-                  : 'bg-slate-50 border-slate-200'
-              }`}
-            >
-              <option value='all'>Любой вес</option>
-              <option value='light'>Легкие (&lt;120г)</option>
-              <option value='medium'>Средние (120-130г)</option>
-              <option value='heavy'>Тяжелые (&gt;130г)</option>
-            </select>
+              <select
+                value={selectedWeight}
+                onChange={(e) => setSelectedWeight(e.target.value)}
+                className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
+                  isDarkMode
+                    ? 'bg-neutral-950 border-neutral-800'
+                    : 'bg-slate-50 border-slate-200'
+                }`}
+              >
+                <option value='all'>Любой вес</option>
+                <option value='light'>Легкие (&lt;120г)</option>
+                <option value='medium'>Средние (120-130г)</option>
+                <option value='heavy'>Тяжелые (&gt;130г)</option>
+              </select>
 
-            <select
-              value={selectedShape}
-              onChange={(e) => setSelectedShape(e.target.value)}
-              className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
-                isDarkMode
-                  ? 'bg-neutral-950 border-neutral-800'
-                  : 'bg-slate-50 border-slate-200'
-              }`}
-            >
-              <option value='all'>Любая форма</option>
-              <option value='Каплевидная'>Каплевидная</option>
-              <option value='Классическая'>Классическая</option>
-            </select>
+              <select
+                value={selectedShape}
+                onChange={(e) => setSelectedShape(e.target.value)}
+                className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
+                  isDarkMode
+                    ? 'bg-neutral-950 border-neutral-800'
+                    : 'bg-slate-50 border-slate-200'
+                }`}
+              >
+                <option value='all'>Любая форма</option>
+                <option value='Каплевидная'>Каплевидная</option>
+                <option value='Классическая'>Классическая</option>
+              </select>
 
-            <select
-              value={selectedBalance}
-              onChange={(e) => setSelectedBalance(e.target.value)}
-              className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
-                isDarkMode
-                  ? 'bg-neutral-950 border-neutral-800'
-                  : 'bg-slate-50 border-slate-200'
-              }`}
-            >
-              <option value='all'>Любой баланс</option>
-              <option value='В голову'>В голову</option>
-              <option value='Нейтральный'>Нейтральный</option>
-              <option value='В ручку'>В ручку</option>
-            </select>
-          </div>
-        </section>
+              <select
+                value={selectedBalance}
+                onChange={(e) => setSelectedBalance(e.target.value)}
+                className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
+                  isDarkMode
+                    ? 'bg-neutral-950 border-neutral-800'
+                    : 'bg-slate-50 border-slate-200'
+                }`}
+              >
+                <option value='all'>Любой баланс</option>
+                <option value='В голову'>В голову</option>
+                <option value='Нейтральный'>Нейтральный</option>
+                <option value='В ручку'>В ручку</option>
+              </select>
+            </div>
+          </section>
+        </div>
         {warningMessage && (
           <div className='p-4 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 text-xs font-bold mb-6 text-center animate-bounce'>
             {warningMessage}
           </div>
         )}
         {/* Минималистичная сетка ракеток формата фото-название */}
-        <div className='grid grid-cols-2 sm:grid-cols-3 gap-6 mb-16'>
+        {/* Минималистичная сетка ракеток формата фото-название (растянута на всю ширину) */}
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 w-full'>
+          {' '}
           {filteredRacquets.map((racquet) => (
             <RacquetCard
               key={racquet.id}
