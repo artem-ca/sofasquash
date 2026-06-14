@@ -1,29 +1,52 @@
 'use client'
 
-import { useState } from 'react'
+import { useReducer } from 'react'
+
+// 1. Описываем начальное состояние автомата
+const initialState = {
+  step: 0,
+  history: [],
+}
+
+// 2. Чистая функция-редьюсер: управляет переходами между шагами
+function decisionReducer(state, action) {
+  switch (action.type) {
+    case 'ANSWER':
+      return {
+        step: action.payload,
+        history: [...state.history, state.step], // Безопасно сохраняем историю без мутаций
+      }
+    case 'BACK':
+      if (state.history.length === 0) return state
+      const prevStep = state.history[state.history.length - 1]
+      return {
+        step: prevStep,
+        history: state.history.slice(0, -1), // Удаляем последний шаг из истории
+      }
+    case 'RESTART':
+      return initialState
+    default:
+      return state
+  }
+}
 
 export default function DecisionHelper({ isDarkMode }) {
-  const [step, setStep] = useState(0)
-  const [history, setHistory] = useState([]) // История шагов для кнопки "Назад"
+  // 3. Подключаем редьюсер вместо нескольких useState
+  const [state, dispatch] = useReducer(decisionReducer, initialState)
+  const { step, history } = state
 
   const handleAnswer = (nextStep) => {
-    setHistory([...history, step])
-    setStep(nextStep)
+    dispatch({ type: 'ANSWER', payload: nextStep })
   }
 
   const handleBack = () => {
-    if (history.length === 0) return
-    const prevStep = history[history.length - 1]
-    setHistory(history.slice(0, -1))
-    setStep(prevStep)
+    dispatch({ type: 'BACK' })
   }
 
   const handleRestart = () => {
-    setStep(0)
-    setHistory([])
+    dispatch({ type: 'RESTART' })
   }
 
-  // Стили карточек результатов
   const resultCardClass = `p-6 rounded-2xl border text-center transition-all ${
     isDarkMode
       ? 'bg-neutral-950/40 border-neutral-800'
@@ -32,7 +55,7 @@ export default function DecisionHelper({ isDarkMode }) {
 
   return (
     <div
-      className={`flex flex-col justify-between min-h-78 p-6 rounded-2xl border transition-all duration-300 ${
+      className={`p-6 rounded-2xl border transition-all duration-300 min-h-[320px] flex flex-col justify-between ${
         isDarkMode
           ? 'border-neutral-800 bg-neutral-900/20'
           : 'border-slate-200 bg-white shadow-xs'
@@ -66,18 +89,20 @@ export default function DecisionHelper({ isDarkMode }) {
       {/* Шаг 1: Шанс сыграть мяч */}
       {step === 1 && (
         <div className='flex flex-col justify-between flex-1'>
-          <span className='text-xs font-bold text-amber-500 uppercase tracking-wider block mb-2'>
-            Шаг 1 из 3
-          </span>
-          <h3
-            className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
-          >
-            Был ли у пострадавшего игрока реальный физический шанс добежать и
-            сделать правильный удар по мячу?
-          </h3>
+          <div>
+            <span className='text-xs font-bold text-amber-500 uppercase tracking-wider block mb-2'>
+              Шаг 1 из 3
+            </span>
+            <h3
+              className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
+            >
+              Был ли у пострадавшего игрока реальный физический шанс добежать и
+              сделать правильный удар по мячу?
+            </h3>
+          </div>
           <div className='grid grid-cols-2 gap-4 mb-6'>
             <button
-              onClick={() => handleAnswer(2)} // Переход к шагу 2
+              onClick={() => handleAnswer(2)}
               className={`p-4 rounded-xl border font-bold text-sm text-center cursor-pointer transition-all ${
                 isDarkMode
                   ? 'border-neutral-800 hover:border-amber-500/30'
@@ -87,7 +112,7 @@ export default function DecisionHelper({ isDarkMode }) {
               Да 👍
             </button>
             <button
-              onClick={() => handleAnswer('no-let')} // Мгновенный результат: No Let
+              onClick={() => handleAnswer('no-let')}
               className={`p-4 rounded-xl border font-bold text-sm text-center cursor-pointer transition-all ${
                 isDarkMode
                   ? 'border-neutral-800 hover:border-amber-500/30'
@@ -103,18 +128,20 @@ export default function DecisionHelper({ isDarkMode }) {
       {/* Шаг 2: Усилия соперника */}
       {step === 2 && (
         <div className='flex flex-col justify-between flex-1'>
-          <span className='text-xs font-bold text-amber-500 uppercase tracking-wider block mb-2'>
-            Шаг 2 из 3
-          </span>
-          <h3
-            className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
-          >
-            Сделал ли соперник максимум усилий, чтобы уйти с пути и предоставить
-            свободу замаха и видимости?
-          </h3>
+          <div>
+            <span className='text-xs font-bold text-amber-500 uppercase tracking-wider block mb-2'>
+              Шаг 2 из 3
+            </span>
+            <h3
+              className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
+            >
+              Сделал ли соперник максимум усилий, чтобы уйти с пути и
+              предоставить свободу замаха и видимости?
+            </h3>
+          </div>
           <div className='grid grid-cols-2 gap-4 mb-6'>
             <button
-              onClick={() => handleAnswer(4)} // Да -> переход к шагу 4
+              onClick={() => handleAnswer(4)}
               className={`p-4 rounded-xl border font-bold text-sm text-center cursor-pointer transition-all ${
                 isDarkMode
                   ? 'border-neutral-800 hover:border-amber-500/30'
@@ -124,7 +151,7 @@ export default function DecisionHelper({ isDarkMode }) {
               Да, он старался уйти 🏃‍♂️
             </button>
             <button
-              onClick={() => handleAnswer(3)} // Нет -> переход к шагу 3
+              onClick={() => handleAnswer(3)}
               className={`p-4 rounded-xl border font-bold text-sm text-center cursor-pointer transition-all ${
                 isDarkMode
                   ? 'border-neutral-800 hover:border-amber-500/30'
@@ -140,18 +167,20 @@ export default function DecisionHelper({ isDarkMode }) {
       {/* Шаг 3: Серьезность блокировки при отсутствии усилий */}
       {step === 3 && (
         <div className='flex flex-col justify-between flex-1'>
-          <span className='text-xs font-bold text-amber-500 uppercase tracking-wider block mb-2'>
-            Шаг 3 из 3
-          </span>
-          <h3
-            className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
-          >
-            Помешал ли соперник выполнить замах ракетки или перекрыл ли он
-            траекторию удара прямо в переднюю стену?
-          </h3>
+          <div>
+            <span className='text-xs font-bold text-amber-500 uppercase tracking-wider block mb-2'>
+              Шаг 3 из 3
+            </span>
+            <h3
+              className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
+            >
+              Помешал ли соперник выполнить замах ракетки или перекрыл ли он
+              траекторию удара прямо в переднюю стену?
+            </h3>
+          </div>
           <div className='grid grid-cols-2 gap-4 mb-6'>
             <button
-              onClick={() => handleAnswer('stroke')} // Да -> Строук
+              onClick={() => handleAnswer('stroke')}
               className={`p-4 rounded-xl border font-bold text-sm text-center cursor-pointer transition-all ${
                 isDarkMode
                   ? 'border-neutral-800 hover:border-amber-500/30'
@@ -161,7 +190,7 @@ export default function DecisionHelper({ isDarkMode }) {
               Да, закрыл замах/стену
             </button>
             <button
-              onClick={() => handleAnswer('let')} // Нет -> Лет
+              onClick={() => handleAnswer('let')}
               className={`p-4 rounded-xl border font-bold text-sm text-center cursor-pointer transition-all ${
                 isDarkMode
                   ? 'border-neutral-800 hover:border-amber-500/30'
@@ -177,18 +206,20 @@ export default function DecisionHelper({ isDarkMode }) {
       {/* Шаг 4: Существенность помехи при максимальных усилиях */}
       {step === 4 && (
         <div className='flex flex-col justify-between flex-1'>
-          <span className='text-xs font-bold text-amber-500 uppercase tracking-wider block mb-2'>
-            Шаг 3 из 3
-          </span>
-          <h3
-            className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
-          >
-            Была ли помеха минимальной (незначительный контакт) или она
-            действительно помешала завершить замах?
-          </h3>
+          <div>
+            <span className='text-xs font-bold text-amber-500 uppercase tracking-wider block mb-2'>
+              Шаг 3 из 3
+            </span>
+            <h3
+              className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
+            >
+              Была ли помеха минимальной (незначительный контакт) или она
+              действительно помешала завершить замах?
+            </h3>
+          </div>
           <div className='grid grid-cols-2 gap-4 mb-6'>
             <button
-              onClick={() => handleAnswer('let')} // Существенная -> Лет
+              onClick={() => handleAnswer('let')}
               className={`p-4 rounded-xl border font-bold text-sm text-center cursor-pointer transition-all ${
                 isDarkMode
                   ? 'border-neutral-800 hover:border-amber-500/30'
@@ -198,7 +229,7 @@ export default function DecisionHelper({ isDarkMode }) {
               Существенная помеха
             </button>
             <button
-              onClick={() => handleAnswer('no-let')} // Минимальная -> No Let
+              onClick={() => handleAnswer('no-let')}
               className={`p-4 rounded-xl border font-bold text-sm text-center cursor-pointer transition-all ${
                 isDarkMode
                   ? 'border-neutral-800 hover:border-amber-500/30'
@@ -274,7 +305,7 @@ export default function DecisionHelper({ isDarkMode }) {
         </div>
       )}
 
-      {/* Нижняя панель навигации по шагам */}
+      {/* Нижня панель навигации */}
       {step !== 0 && typeof step === 'number' && (
         <div className='flex justify-between border-t border-neutral-800/10 pt-4 mt-2'>
           <button
