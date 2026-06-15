@@ -10,55 +10,70 @@ export default function TacticsBoard({ isDarkMode }) {
 
   const shotsData = {
     drive: {
-      title: 'Драйв (Drive / Rail)',
-      path: 'M 100,380 L 100,30 L 60,430',
-      desc: 'Основной удар сквоша. Мяч летит строго параллельно боковой стене в самый конец корта.',
-      when: 'Используется в 70% розыгрышей для удержания соперника сзади и контроля Т-зоны.',
+      title: 'Драйв (Drive)', // Драйв
+      paths: [
+        'M 100,380 L 80,33 L 50,430', // Слева
+        'M 300,380 L 320,33 L 350,430', // Справа
+      ],
+      desc: 'Наиболее частый и основной удар в сквоше. Мяч летит ~параллельно боковой стене в заднюю часть корта.',
+      when: 'Используется в 70% розыгрышей для уведения соперника назад и контроля Т-зоны.',
       mistake:
-        'Удар летит слишком близко к центру корта (легкий перехват соперником воллеем) или бьется о боковую стену по пути вперед.',
-      tooltip: 'Драйв слева параллельно стене', // <-- Наш текст для хинта
+        'Удар летит слишком близко к центру корта (легкий перехват соперником воллеем) или бьется о боковую стену по пути.',
+      tooltips: ['Драйв слева', 'Драйв справа'],
     },
     boast: {
       title: 'Боуст (Boast)',
-      path: 'M 310,380 L 360,240 L 180,30 L 60,110',
-      desc: 'Обманный удар через стену. Мяч бьется в боковую стену, затем летит в переднюю и отскакивает в противоположный передний угол.',
+      paths: [
+        'M 310,380 L 356,280 L 180,34 L 80,100', // Боуст справа
+      ],
+      desc: 'Обманный/Защитный удар через боковую или заднюю стену. Мяч бьется в боковую стену, затем летит в переднюю и отскакивает в противоположный передний угол.',
       when: 'Чтобы резко заставить соперника бежать вперед, когда он застрял глубоко сзади на Т-зоне.',
       mistake:
-        'Слишком сильный или высокий удар. Мяч высоко отскочит в центр корта, подставив вас под атаку соперника.',
-      tooltip: 'Двухстенный боуст справа',
+        'Слишком сильный или высокий удар. Мяч отскочит глубоко в центр корта, подставив вас под атаку соперника.',
+      tooltips: ['Двухстенный боуст справа'],
     },
     crosscourt: {
       title: 'Кросс (Crosscourt)',
-      path: 'M 90,380 L 250,30 L 340,410',
-      desc: 'Диагональный удар через весь корт. Мяч летит из одного бокового угла в противоположный задний угол.',
-      when: 'Для смены направления атаки и перевода мяча на более слабую сторону соперника.',
+      paths: [
+        'M 80,420 L 250,35 L 340,420', // Кросс из левого заднего угла за квадрат в правый задний
+      ],
+      desc: 'Диагональный удар через корт. Удар переводит игру с одной стороны на другую.',
+      when: 'Для смены направления атаки и перевода мяча на более выгодную для Вас сторону.',
       mistake:
         'Удар летит слишком близко к центру Т-зоны. Соперник легко перехватит этот кросс с лёта (воллеем).',
-      tooltip: 'Диагональный кросс слева направо',
+      tooltips: ['Диагональный кросс из левого заднего угла'],
     },
     lob: {
       title: 'Лоб (Lob / Свеча)',
-      path: 'M 310,100 L 120,30 Q 250,180 180,300 Q 80,410 50,430',
+      paths: [
+        'M 280,100 L 220,35 Q 40,260 50,430', // Кросс-лоб (Удар правее центра 220,30 и вершина у левой стены 40,260)
+        'M 300,100 L 310,34 Q 360,260 350,430', // Лоб-драйв (Удар по правой линии 310,30 и вершина у правой стены 360,260)
+      ],
       desc: 'Защитный навесной удар с высокой траекторией полета мяча под самый потолок корта.',
       when: 'Когда вы зажаты в переднем углу и вам нужно выиграть время, чтобы вернуться в Т-зону.',
       mistake:
         'Слишком низкий навес. Мяч не перелетит соперника, и он расстреляет вас мощным ударом с лёта.',
-      tooltip: 'Высокий защитный лоб справа налево',
+      tooltips: [
+        'Лоб-кросс справа в задний левый угол',
+        'Лоб-драйв справа вдоль правой стены в задний правый угол',
+      ],
     },
     drop: {
       title: 'Дроп (Drop / Укороченный)',
-      path: 'M 280,220 L 310,30 L 320,60 L 325,90',
+      paths: [
+        'M 120,220 L 90,32 L 80,60 L 75,90', // Слева
+        'M 280,220 L 310,32 L 320,60 L 325,90', // Справа
+      ],
       desc: 'Филигранный атакующий удар. Мяч мягко направляется в самый низ передней стены прямо над тином.',
-      when: 'Когда вы находитесь впереди соперника (на Т-зоне или ближе к передней стене) и хотите завершить розыгрыш.',
+      when: 'Когда вы находитесь впереди соперника (на Т-зоне или ближе к передней стене) и хотите вывеси соперника вперед, либо завершить розыгрыш.',
       mistake:
-        'Попытка укоротить из глубокой задней части корта. Мяч будет лететь долго, и соперник легко его догонит.',
-      tooltip: 'Мягкий укороченный дроп справа',
+        'Слишком высокий или быстрый удар, который дает сопернику больше времени и места',
+      tooltips: ['Укороченный дроп слева', 'Укороченный дроп справа'],
     },
   }
 
   const activeInfo = shotsData[activeShot]
 
-  // Обработчики слежения за курсором
   const handleMouseMove = (e) => {
     setTooltip((prev) => ({
       ...prev,
@@ -67,11 +82,11 @@ export default function TacticsBoard({ isDarkMode }) {
     }))
   }
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (text) => {
     setTooltip((prev) => ({
       ...prev,
       show: true,
-      text: activeInfo.tooltip,
+      text: text,
     }))
   }
 
@@ -90,7 +105,7 @@ export default function TacticsBoard({ isDarkMode }) {
           : 'border-slate-200 bg-white shadow-xs'
       }`}
     >
-      {/* 🔮 ПЛАВАЮЩИЙ ХИНТ У КУРСОРA */}
+      {/* ПЛАВАЮЩИЙ ХИНТ У КУРСОРA */}
       {tooltip.show && (
         <div
           className='fixed pointer-events-none z-50 px-3 py-2 rounded-xl text-[10px] font-bold shadow-xl border backdrop-blur-md transition-all duration-75'
@@ -189,50 +204,54 @@ export default function TacticsBoard({ isDarkMode }) {
               Задняя стена (Стекло)
             </text>
 
-            <circle cx='200' cy='290' r='5' fill='#f59e0b' />
+            {/* РЕНДЕРИНГ СИММЕТРИЧНЫХ ТРАЕКТОРИЙ И ХИТБОКСОВ */}
+            {activeInfo.paths.map((path, idx) => (
+              <g key={idx}>
+                {/* Тонкая визуальная линия траектории */}
+                <path
+                  d={path}
+                  fill='none'
+                  stroke='#f59e0b'
+                  strokeWidth='3'
+                  strokeDasharray='6,6'
+                  className='transition-all duration-300'
+                />
 
-            {/* ТРАЕКТОРИЯ ПОЛЕТА МЯЧА (считывает события наведения для хинта) */}
-            {/* ТРАЕКТОРИЯ ПОЛЕТА МЯЧА (Визуальная тонкая линия) */}
-            <path
-              id='ball-trajectory'
-              d={activeInfo.path}
-              fill='none'
-              stroke='#f59e0b'
-              strokeWidth='3'
-              strokeDasharray='6,6'
-              className='transition-all duration-300'
-            />
+                {/* Широкий прозрачный хитбокс для легкого наведения (16px) */}
+                <path
+                  d={path}
+                  fill='none'
+                  stroke='transparent'
+                  strokeWidth='16'
+                  className='cursor-help'
+                  onMouseMove={handleMouseMove}
+                  onMouseEnter={() =>
+                    handleMouseEnter(activeInfo.tooltips[idx])
+                  }
+                  onMouseLeave={handleMouseLeave}
+                />
 
-            {/* Скрытый широкий хитбокс для легкого наведения (ширина 16px) */}
-            <path
-              d={activeInfo.path}
-              fill='none'
-              stroke='transparent'
-              strokeWidth='16'
-              className='cursor-help'
-              onMouseMove={handleMouseMove}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            />
-
-            {/* Сквош-желток (тоже считывает наведение для хинта) */}
-            <circle
-              r='7'
-              fill='#fbbf24'
-              stroke='#000000'
-              strokeWidth='1.5'
-              className='cursor-help'
-              onMouseMove={handleMouseMove}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <animateMotion
-                dur='2.2s'
-                repeatCount='indefinite'
-                path={activeInfo.path}
-                key={activeShot}
-              />
-            </circle>
+                {/* Анимированная группа: Двухточечный черный мяч (Double Yellow Dot) */}
+                <g className='cursor-help'>
+                  <animateMotion
+                    dur='2.2s'
+                    repeatCount='indefinite'
+                    path={path}
+                    key={`${activeShot}-${idx}`}
+                  />
+                  {/* Черная матовая резина мяча */}
+                  <circle
+                    r='7.5'
+                    fill='#1c1917'
+                    stroke={isDarkMode ? '#3f3f46' : '#94a3b8'}
+                    strokeWidth='0.8'
+                  />
+                  {/* Две маленькие желтые точки */}
+                  <circle cx='-2' cy='-1.5' r='1.2' fill='#fbbf24' />
+                  <circle cx='2.5' cy='1.5' r='1.2' fill='#fbbf24' />
+                </g>
+              </g>
+            ))}
           </svg>
         </div>
 
@@ -250,7 +269,7 @@ export default function TacticsBoard({ isDarkMode }) {
                   key={shotKey}
                   onClick={() => {
                     setActiveShot(shotKey)
-                    setTooltip((prev) => ({ ...prev, show: false })) // Сброс хинта при смене вкладки
+                    setTooltip((prev) => ({ ...prev, show: false })) // Сброс хинта
                   }}
                   className={`px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                     activeShot === shotKey
