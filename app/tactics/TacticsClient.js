@@ -23,7 +23,7 @@ export default function TacticsClient() {
                 : 'bg-amber-50 text-amber-700 border-amber-200'
             }`}
           >
-            Физика и тактика сквоша 🧠
+            Физика и тактика сквоша
           </div>
           <h1
             className={`text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 ${

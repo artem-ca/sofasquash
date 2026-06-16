@@ -87,6 +87,16 @@ export default function CourtVisualizer({ isDarkMode }) {
       {/* Векторный 3D-корт в перспективе */}
       <div className='max-w-xl mx-auto mb-6'>
         <svg viewBox='0 0 600 400' className='w-full h-auto select-none'>
+          <defs>
+            <clipPath id='court-clip'>
+              <rect x='21' y='20' width='558' height='360' />
+            </clipPath>
+            {/* Маска для паркета пола (в 3D-перспективе) */}
+            <clipPath id='floor-clip'>
+              <polygon points='150,260 450,260 580,380 20,380' />
+            </clipPath>
+          </defs>
+
           {/* Фон корта (Задняя стена/Пустота вокруг) */}
           <rect x='0' y='0' width='600' height='400' fill='transparent' />
 
@@ -104,6 +114,7 @@ export default function CourtVisualizer({ isDarkMode }) {
             }
             stroke={isDarkMode ? '#222227' : '#e2e8f0'}
             strokeWidth='2'
+            strokeLinejoin='round'
             className='cursor-default transition-colors duration-200'
             onMouseEnter={() => setActiveId('leftWall')}
             onMouseLeave={() => setActiveId(null)}
@@ -121,6 +132,7 @@ export default function CourtVisualizer({ isDarkMode }) {
             }
             stroke={isDarkMode ? '#222227' : '#e2e8f0'}
             strokeWidth='2'
+            strokeLinejoin='round'
             className='cursor-default transition-colors duration-200'
             onMouseEnter={() => setActiveId('rightWall')}
             onMouseLeave={() => setActiveId(null)}
@@ -146,7 +158,7 @@ export default function CourtVisualizer({ isDarkMode }) {
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('frontWall')}
           />
-          {/* Деревянный пол корта */}
+          {/* Пол корта */}
           <polygon
             points='150,260 450,260 580,380 20,380'
             fill={
@@ -158,6 +170,7 @@ export default function CourtVisualizer({ isDarkMode }) {
             }
             stroke={isDarkMode ? '#222227' : '#e2e8f0'}
             strokeWidth='2'
+            strokeLinejoin='round'
             className='cursor-default transition-colors duration-200'
             onMouseEnter={() => setActiveId('floor')}
             onMouseLeave={() => setActiveId(null)}
@@ -176,54 +189,82 @@ export default function CourtVisualizer({ isDarkMode }) {
 
           {/* 2. КВАДРАТЫ ПОДАЧИ (Отрендерены ДО линий разметки, чтобы лежать под ними) */}
 
-          {/* Левый квадрат подачи (cursor-pointer) */}
+          {/* ЛЕВЫЙ КВАДРАТ ПОДАЧИ */}
+          {/* Зона заливки (продлена за стену и обрезана маской пола) */}
           <polygon
-            points='75,330 187,330 180,355 47,355'
+            points='60,330 187,330 180,355 30,355'
             fill={activeId === 'box' ? goldHighlightFill : 'transparent'}
-            stroke={activeId === 'box' ? '#f59e0b' : '#ef4444'}
-            strokeWidth='2'
+            clipPath='url(#floor-clip)' // Обрезаем по контуру пола
             className='cursor-pointer transition-all'
             onMouseEnter={() => setActiveId('box')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('box')}
           />
-          {/* Правый квадрат подачи (cursor-pointer) */}
-          <polygon
-            points='525,330 413,330 420,355 553,355'
-            fill={activeId === 'box' ? goldHighlightFill : 'transparent'}
+          {/* Контурные линии (3 стороны, продлены за стену и обрезаны маской пола) */}
+          <polyline
+            points='60,330 187,330 180,355 30,355'
+            fill='none'
             stroke={activeId === 'box' ? '#f59e0b' : '#ef4444'}
             strokeWidth='2'
+            strokeLinejoin='round'
+            strokeLinecap='round'
+            clipPath='url(#floor-clip)' // Обрезаем по контуру пола
+            className='pointer-events-none transition-all duration-200'
+          />
+
+          {/* ПРАВЫЙ КВАДРАТ ПОДАЧИ */}
+          {/* Зона заливки (продлена за стену и обрезана маской пола) */}
+          <polygon
+            points='540,330 413,330 420,355 570,355'
+            fill={activeId === 'box' ? goldHighlightFill : 'transparent'}
+            clipPath='url(#floor-clip)'
             className='cursor-pointer transition-all'
             onMouseEnter={() => setActiveId('box')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('box')}
+          />
+          {/* Контурные линии (3 стороны, продлены за стену и обрезаны маской пола) */}
+          <polyline
+            points='540,330 413,330 420,355 570,355'
+            fill='none'
+            stroke={activeId === 'box' ? '#f59e0b' : '#ef4444'}
+            strokeWidth='2'
+            strokeLinejoin='round'
+            strokeLinecap='round'
+            clipPath='url(#floor-clip)'
+            className='pointer-events-none transition-all duration-200'
           />
 
           {/* 3. РАЗМЕТКА ПОЛА (Отрендерена поверх пола и квадратов подачи) */}
-          {/* Short Line (Поперечная) */}
+          {/* Short Line (Поперечная, продлена за стены и обрезана маской пола) */}
           <line
-            x1='74'
+            x1='60'
             y1='330'
-            x2='525'
+            x2='540'
             y2='330'
             stroke={activeId === 'tZone' ? '#f59e0b' : '#ef4444'}
             strokeWidth={activeId === 'tZone' ? '4' : '2'}
+            clipPath='url(#floor-clip)'
+            className='transition-all duration-200'
           />
-          {/* Half-Court Line (Продольная) */}
+          {/* Half-Court Line (Продольная, обрезана маской пола) */}
           <line
             x1='300'
             y1='330'
             x2='300'
-            y2='380'
+            y2='379'
             stroke={activeId === 'tZone' ? '#f59e0b' : '#ef4444'}
             strokeWidth={activeId === 'tZone' ? '4' : '2'}
+            clipPath='url(#floor-clip)'
+            className='transition-all duration-200'
           />
 
-          {/* 4. ТОНКИЕ ЛИНИИ ПЕРЕДНЕЙ СТЕНЫ (Визуальные линии) */}
+          {/* 4. ЛИНИИ ПЕРЕДНЕЙ СТЕНЫ (Визуальные линии) */}
+          {/* Тин */}
           <rect
-            x='150'
+            x='151'
             y='243'
-            width='300'
+            width='298'
             height='17'
             fill={
               activeId === 'tin'
@@ -233,56 +274,46 @@ export default function CourtVisualizer({ isDarkMode }) {
                   : '#e2e8f0'
             }
           />
+          {/* Нижняя линия аута на фронтальной стене */}
           <line
-            x1='150'
+            x1='151'
             y1='243'
-            x2='450'
+            x2='449'
             y2='243'
             stroke={activeId === 'tin' ? '#f59e0b' : '#ef4444'}
-            strokeWidth='1.5'
+            strokeWidth='2'
           />
+          {/* Линия подачи */}
           <line
-            x1='150'
+            x1='151'
             y1='190'
-            x2='450'
+            x2='449'
             y2='190'
             stroke={activeId === 'service' ? '#f59e0b' : '#ef4444'}
             strokeWidth='2'
           />
-          <line
-            x1='150'
-            y1='80'
-            x2='450'
-            y2='80'
+          {/* Единая цельная линия аута со сглаженными стыками на углах и вертикальным срезом на краях */}
+          <polyline
+            points='20,220 150,80 450,80 580,220' // Удлинили линию за пределы корта
+            fill='none'
             stroke={activeId === 'out' ? '#f59e0b' : '#ef4444'}
-            strokeWidth='2'
-          />
-          <line
-            x1='150'
-            y1='80'
-            x2='21'
-            y2='210'
-            stroke={activeId === 'out' ? '#f59e0b' : '#ef4444'}
-            strokeWidth='2'
-          />
-          <line
-            x1='450'
-            y1='80'
-            x2='580'
-            y2='210'
-            stroke={activeId === 'out' ? '#f59e0b' : '#ef4444'}
-            strokeWidth='2'
+            strokeWidth={activeId === 'out' ? '4' : '2'}
+            strokeLinejoin='round'
+            strokeLinecap='round'
+            clipPath='url(#court-clip)' // Применяем маску обрезки
+            className='transition-all duration-200'
           />
 
           {/* 5. ВЕРХНИЙ СТЕК: Невидимые широкие хитбоксы для легкого наведения (cursor-pointer) */}
 
-          {/* Хитбокс Т-зоны (покрывает перекрестные линии на полу) */}
+          {/* Хитбокс Т-зоны (продлен за стены и обрезан маской пола) */}
           <path
-            d='M 74,330 L 525,330 M 300,330 L 300,380'
+            d='M 60,330 L 540,330 M 300,330 L 300,380'
             fill='none'
             stroke='transparent'
             strokeWidth='16'
             className='cursor-pointer'
+            clipPath='url(#floor-clip)'
             onMouseEnter={() => setActiveId('tZone')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('tZone')}
@@ -312,41 +343,16 @@ export default function CourtVisualizer({ isDarkMode }) {
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('service')}
           />
-          {/* Хитбокс передней линии аута */}
-          <line
-            x1='150'
-            y1='80'
-            x2='450'
-            y2='80'
+          {/* Единый широкий хитбокс линии аута (с вертикальным срезом на краях) */}
+          <polyline
+            points='10,220 150,80 450,80 590,220' // Удлинили линию за пределы корта
+            fill='none'
             stroke='transparent'
             strokeWidth='16'
             className='cursor-pointer'
-            onMouseEnter={() => setActiveId('out')}
-            onMouseLeave={() => setActiveId(null)}
-            onClick={() => setActiveId('out')}
-          />
-          {/* Хитбокс левой линии аута */}
-          <line
-            x1='150'
-            y1='80'
-            x2='21'
-            y2='210'
-            stroke='transparent'
-            strokeWidth='16'
-            className='cursor-pointer'
-            onMouseEnter={() => setActiveId('out')}
-            onMouseLeave={() => setActiveId(null)}
-            onClick={() => setActiveId('out')}
-          />
-          {/* Хитбокс правой линии аута */}
-          <line
-            x1='450'
-            y1='80'
-            x2='580'
-            y2='210'
-            stroke='transparent'
-            strokeWidth='16'
-            className='cursor-pointer'
+            strokeLinejoin='round'
+            strokeLinecap='round'
+            clipPath='url(#court-clip)' // Применяем маску обрезки
             onMouseEnter={() => setActiveId('out')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('out')}
