@@ -38,7 +38,24 @@ export default function RulesPage() {
     localStorage.setItem('isQuizPassed', 'true')
   }
 
-  // Ультра-производительный Scrollspy на базе IntersectionObserver
+  // Умный обработчик кликов по оглавлению правил
+  const handleMenuItemClick = (id) => {
+    setIsSidebarOpen(false) // Закрываем мобильную панель
+
+    if (activeTab !== 'rules') {
+      setActiveTab('rules') // Программно переключаем на текст правил
+
+      // Даем React 50мс смонтировать вкладку в DOM и плавно прокручиваем к главе
+      setTimeout(() => {
+        const element = document.getElementById(id)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 50)
+    }
+  }
+
+  // Улучшенный и полностью адаптивный Scrollspy (без риска схлопывания на малых экранах)
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -50,7 +67,7 @@ export default function RulesPage() {
       },
       {
         root: null,
-        rootMargin: '0px 0px -75% 0px', // Срабатывает, когда секция пересекает верхнюю треть экрана
+        rootMargin: '-15% 0px -75% 0px', // <-- Процентный адаптивный коридор в 10%
         threshold: 0,
       },
     )
@@ -133,7 +150,7 @@ export default function RulesPage() {
             <Link
               key={item.id}
               href={`#${item.id}`}
-              onClick={() => setIsSidebarOpen(false)}
+              onClick={() => handleMenuItemClick(item.id)} // <-- Подключили наш новый умный обработчик
               className={`flex items-center px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-150 ${
                 activeSection === item.id
                   ? 'bg-amber-500/10 text-amber-400 border-l-4 border-amber-500 pl-2'
