@@ -11,7 +11,7 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
-  const metricaId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || '0'
+  const metricaId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || '109839456'
 
   return (
     <html lang='ru' suppressHydrationWarning>

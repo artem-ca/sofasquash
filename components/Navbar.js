@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTheme } from './ThemeContext'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -9,6 +9,20 @@ export default function Navbar() {
   const { isDarkMode, toggleTheme } = useTheme()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const pathname = usePathname()
+
+  // Отслеживаем смену адреса в Next.js и вручную отправляем событие просмотра в Метрику
+  useEffect(() => {
+    // Вставьте ваш реальный ID счетчика вместо 98765432:
+    const metricaId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || '98765432'
+
+    if (
+      metricaId !== '0' &&
+      typeof window !== 'undefined' &&
+      typeof window.ym === 'function'
+    ) {
+      window.ym(parseInt(metricaId, 10), 'hit', pathname)
+    }
+  }, [pathname])
 
   const navLinks = [
     { href: '/', label: 'Главная' },

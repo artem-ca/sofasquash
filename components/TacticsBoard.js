@@ -88,10 +88,15 @@ export default function TacticsBoard({ isDarkMode }) {
   const activeInfo = shotsData[activeShot]
 
   const handleMouseMove = (e) => {
+    // Находим родительский контейнер нашего планшета
+    const container = e.currentTarget.closest('.tactics-wrapper')
+    if (!container) return
+    const rect = container.getBoundingClientRect()
+
     setTooltip((prev) => ({
       ...prev,
-      x: e.clientX,
-      y: e.clientY,
+      x: e.clientX - rect.left, // Вычисляем координату X относительно левой границы планшета
+      y: e.clientY - rect.top, // Вычисляем координату Y относительно верхней границы планшета
     }))
   }
 
@@ -112,16 +117,17 @@ export default function TacticsBoard({ isDarkMode }) {
 
   return (
     <div
-      className={`p-6 rounded-2xl border transition-all duration-300 relative ${
+      // 1. Добавили класс tactics-wrapper для расчетов координат
+      className={`p-6 rounded-2xl border transition-all duration-300 relative tactics-wrapper ${
         isDarkMode
           ? 'border-neutral-800 bg-neutral-900/20'
           : 'border-slate-200 bg-white shadow-xs'
       }`}
     >
-      {/* ПЛАВАЮЩИЙ ХИНТ У КУРСОРA */}
+      {/* ПЛАВАЮЩИЙ ХИНТ У КУРСОРA (теперь позиционируется абсолютно!) */}
       {tooltip.show && (
         <div
-          className='fixed pointer-events-none z-50 px-3 py-2 rounded-xl text-[10px] font-bold shadow-xl border backdrop-blur-md transition-all duration-75'
+          className='absolute pointer-events-none z-50 px-3 py-2 rounded-xl text-[10px] font-bold shadow-xl border backdrop-blur-md transition-all duration-75'
           style={{
             left: `${tooltip.x + 15}px`,
             top: `${tooltip.y + 15}px`,
@@ -150,8 +156,8 @@ export default function TacticsBoard({ isDarkMode }) {
               y='30'
               width='320'
               height='420'
-              fill={isDarkMode ? '#0f0f12' : '#f8fafc'}
-              stroke={isDarkMode ? '#26262c' : '#cbd5e1'}
+              fill={'#f8fafc'}
+              stroke={'#cbd5e1'}
               strokeWidth='3'
             />
 
@@ -251,8 +257,8 @@ export default function TacticsBoard({ isDarkMode }) {
                   {/* Черный или белый матовый мяч в зависимости от темы */}
                   <circle
                     r='7.5'
-                    fill={isDarkMode ? '#f8fafc' : '#1c1917'}
-                    stroke={isDarkMode ? '#3f3f46' : '#cbd5e1'}
+                    fill={'#1c1917'}
+                    stroke={'#cbd5e1'}
                     strokeWidth='0.8'
                   />
                   {/* Две маленькие желтые точки */}
