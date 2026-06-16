@@ -88,15 +88,39 @@ export default function TacticsBoard({ isDarkMode }) {
   const activeInfo = shotsData[activeShot]
 
   const handleMouseMove = (e) => {
-    // Находим родительский контейнер нашего планшета
     const container = e.currentTarget.closest('.tactics-wrapper')
     if (!container) return
     const rect = container.getBoundingClientRect()
 
+    // Получаем «сырые» координаты курсора/тапа относительно планшета
+    const clientX = e.clientX - rect.left
+    const clientY = e.clientY - rect.top
+
+    // Фиксируем максимальные размеры подсказки для безопасных расчетов
+    const tooltipWidth = 220
+    const tooltipHeight = 40
+
+    // Расчет по горизонтали (X)
+    let xPos = clientX + 15
+    // Если подсказка вылезает за правый край — разворачиваем её влево от курсора
+    if (clientX + 15 + tooltipWidth > rect.width) {
+      xPos = clientX - tooltipWidth - 15
+    }
+    // Защита: не даем уйти левее левой границы
+    xPos = Math.max(10, xPos)
+
+    // Расчет по вертикали (Y)
+    let yPos = clientY + 15
+    // Если подсказка вылезает за нижний край — разворачиваем её вверх от курсора
+    if (clientY + 15 + tooltipHeight > rect.height) {
+      yPos = clientY - tooltipHeight - 15
+    }
+    yPos = Math.max(10, yPos)
+
     setTooltip((prev) => ({
       ...prev,
-      x: e.clientX - rect.left, // Вычисляем координату X относительно левой границы планшета
-      y: e.clientY - rect.top, // Вычисляем координату Y относительно верхней границы планшета
+      x: xPos,
+      y: yPos,
     }))
   }
 
@@ -124,13 +148,13 @@ export default function TacticsBoard({ isDarkMode }) {
           : 'border-slate-200 bg-white shadow-xs'
       }`}
     >
-      {/* ПЛАВАЮЩИЙ ХИНТ У КУРСОРA (теперь позиционируется абсолютно!) */}
+      {/* ПЛАВАЮЩИЙ ХИНТ У КУРСОРA (с авторазворотом от краев экрана) */}
       {tooltip.show && (
         <div
-          className='absolute pointer-events-none z-50 px-3 py-2 rounded-xl text-[10px] font-bold shadow-xl border backdrop-blur-md transition-all duration-75'
+          className='absolute pointer-events-none z-50 px-3 py-2 rounded-xl text-[10px] font-bold shadow-xl border backdrop-blur-md transition-all duration-75 max-w-[220px] w-max'
           style={{
-            left: `${tooltip.x + 15}px`,
-            top: `${tooltip.y + 15}px`,
+            left: `${tooltip.x}px`, // Больше не пишем + 15, расчет идет прямо из функции!
+            top: `${tooltip.y}px`,
             backgroundColor: isDarkMode
               ? 'rgba(10, 10, 12, 0.95)'
               : 'rgba(255, 255, 255, 0.95)',
