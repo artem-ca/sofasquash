@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react' // <-- Подключили useRef
+import { useState, useRef, useEffect } from 'react'
 import { useTheme } from './ThemeContext'
-import Link from 'next/link'
+import { tacticsData } from '@/data/tactics' // <-- 1. Импортируем чистые данные
 
 export default function TacticsBoard() {
   const { isDarkMode } = useTheme()
@@ -11,82 +11,25 @@ export default function TacticsBoard() {
   // Состояние плавающего хинта у курсора
   const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, text: '' })
 
-  // Реф для мгновенного замера ширины отрендеренной подсказки
+  // Реф для отслеживания DOM-элемента подсказки
   const tooltipRef = useRef(null)
 
-  const shotsData = {
-    drive: {
-      title: 'Драйв (Drive)',
-      paths: ['M 100,380 L 80,33 L 50,430', 'M 300,380 L 320,33 L 350,430'],
-      dur: '2.0s',
-      desc: 'Наиболее популярный и основной удар в сквоше. Мяч летит почти параллельно боковой стене (мини-кросс от себя) в заднюю часть корта.',
-      when: 'Используется в большинстве розыгрышей для уведения соперника назад и контроля Т-зоны.',
-      mistake:
-        'Мяч вылетает слишком близко к центру корта (перехват соперником воллеем) или бьётся о боковую стену.',
-      tooltips: ['Драйв слева', 'Драйв справа'],
-    },
-    boast: {
-      title: 'Боуст (Boast)',
-      paths: ['M 310,380 L 356,280 L 180,34 L 80,100'],
-      dur: '2.2s',
-      desc: 'Обманный/Защитный удар через боковую или заднюю стену. Мяч бьется в боковую стену, затем летит в переднюю и отскакивает в противоположный передний угол.',
-      when: 'Чтобы резко заставить соперника бежать вперед, когда он застрял глубоко сзади на Т-зоне.',
-      mistake:
-        'Слишком сильный или высокий удар. Мяч отскочит глубоко в центр корта, подставив вас под атаку соперника.',
-      tooltips: ['Двухстенный боуст справа'],
-    },
-    crosscourt: {
-      title: 'Кросс (Crosscourt)',
-      paths: ['M 80,420 L 250,35 L 340,420'],
-      dur: '2.0s',
+  // Высокопроизводительный кэш для хранения размеров (избавляет от Layout Thrashing)
+  const dimensionsRef = useRef({ width: 120, height: 32 })
 
-      desc: 'Диагональный удар через корт "наискосок". Удар подразумевает перевод соперника с одной стороны на другую.',
-      when: 'Для смены направления атаки и перевода мяча на более выгодную для вас сторону в конкретной ситуации.',
-      mistake:
-        'Удар летит слишком близко к центру Т-зоны. Соперник легко перехватит этот кросс с лёта (воллеем).',
-      tooltips: ['Диагональный кросс из левого заднего угла'],
-    },
-    lob: {
-      title: 'Лоб (Lob / Свеча)',
-      paths: [
-        'M 280,100 L 220,35 Q 40,260 50,430',
-        'M 300,100 L 310,34 Q 360,260 350,430',
-      ],
-      dur: '3.2s',
-      desc: 'Защитный навесной удар "свечкой" с высокой траекторией полета мяча под самый потолок корта.',
-      when: 'Когда вас резко вывели в передний угол и вам нужно выиграть время, чтобы вернуться в Т-зону и стабилизироваться.',
-      mistake:
-        'Слишком низкий навес. Мяч не перелетит соперника, и он захлопнет мяч мощным ударом с лёта.',
-      tooltips: [
-        'Лоб-кросс справа в задний левый угол',
-        'Лоб-драйв справа вдоль правой стены в задний правый угол',
-      ],
-    },
-    drop: {
-      title: 'Дроп (Drop / Укороченный)',
-      paths: ['M 150,250 L 90,32 L 45,90', 'M 250,250 L 310,32 L 355,90'],
-      dur: '2.5s',
-      desc: 'Филигранный атакующий удар. Мяч мягко направляется в самый низ передней стены прямо над тином.',
-      when: 'Когда вы находитесь впереди соперника (на Т-зоне или ближе к передней стене) и хотите вывеси соперника вперед, либо завершить розыгрыш.',
-      mistake:
-        'Слишком высокий или быстрый удар, который дает сопернику больше времени и места',
-      tooltips: ['Укороченный дроп слева', 'Укороченный дроп справа'],
-    },
-    killshot: {
-      title: 'Киллшот (Killshot)',
-      paths: ['M 150,250 L 100,35 L 50,140', 'M 250,250 L 300,35 L 350,140'],
-      dur: '1s',
-      desc: 'Быстрый, резкий и низкий атакующий удар. Мяч летит во фронтальную стену предельно низко с большой скоростью.',
-      when: 'Используется для завершения розыгрыша, когда соперник находится глубоко сзади или смещен на противоположный край.',
-      mistake:
-        'Удар попадает слишком высоко (у соперника больше времени) или летит прямо в тин (даун).',
-      tooltips: ['Киллшот в ник слева', 'Киллшот в ник справа'],
-    },
-  }
+  const activeInfo = tacticsData[activeShot] // <-- 2. Считываем из импортированных данных
 
-  const activeInfo = shotsData[activeShot]
+  // Замеряем габариты подсказки ОДИН раз только при смене текста или её появлении
+  useEffect(() => {
+    if (tooltip.show && tooltipRef.current) {
+      dimensionsRef.current = {
+        width: tooltipRef.current.clientWidth,
+        height: tooltipRef.current.clientHeight,
+      }
+    }
+  }, [tooltip.text, tooltip.show])
 
-  // Умный расчет координат с учетом реального размера подсказки (useRef)
+  // Ультра-быстрый расчет координат без Forced Reflow
   const handleMouseMove = (e) => {
     const container = e.currentTarget.closest('.tactics-wrapper')
     if (!container) return
@@ -95,24 +38,18 @@ export default function TacticsBoard() {
     const clientX = e.clientX - rect.left
     const clientY = e.clientY - rect.top
 
-    // Измеряем реальные габариты отрендеренного текста на экране (fallback: 120x32)
-    const actualWidth = tooltipRef.current
-      ? tooltipRef.current.clientWidth
-      : 120
-    const actualHeight = tooltipRef.current
-      ? tooltipRef.current.clientHeight
-      : 32
+    const actualWidth = dimensionsRef.current.width
+    const actualHeight = dimensionsRef.current.height
 
-    // Расчет по горизонтали (X): флипаем влево, если уперлись в правый край корта
+    // Расчет по горизонтали (X)
     let xPos = clientX + 15
     if (clientX + 15 + actualWidth > rect.width) {
       xPos = clientX - actualWidth - 15
     }
     xPos = Math.max(10, xPos)
 
-    // Расчет по вертикали (Y): по умолчанию подсказка парит НАД пальцем/курсором
+    // Расчет по вертикали (Y)
     let yPos = clientY - actualHeight - 12
-    // Если сверху нет места (у самой передней стены), перекидываем подсказку под палец
     if (yPos < 10) {
       yPos = clientY + 15
     }
@@ -150,7 +87,7 @@ export default function TacticsBoard() {
       {/* ПЛАВАЮЩИЙ ХИНТ С АВТОЗАМЕРОМ ШИРИНЫ (Реф tooltipRef) */}
       {tooltip.show && (
         <div
-          ref={tooltipRef} // <-- Привязали реф
+          ref={tooltipRef}
           className='absolute pointer-events-none z-50 px-3 py-2 rounded-xl text-[10px] font-bold shadow-xl border backdrop-blur-md transition-all duration-75 max-w-[220px] w-max'
           style={{
             left: `${tooltip.x}px`,
@@ -180,9 +117,8 @@ export default function TacticsBoard() {
               y='30'
               width='320'
               height='420'
-              fill={isDarkMode ? '#0f0f12' : '#f8fafc'}
-              stroke={isDarkMode ? '#26262c' : '#cbd5e1'}
               strokeWidth='3'
+              className='fill-slate-50 stroke-slate-300 dark:fill-[#0f0f12] dark:stroke-[#26262c] transition-colors duration-300'
             />
 
             <line
@@ -229,7 +165,7 @@ export default function TacticsBoard() {
               x='200'
               y='20'
               textAnchor='middle'
-              className={`text-[10px] font-bold uppercase tracking-wider ${isDarkMode ? 'fill-slate-500' : 'fill-slate-400'}`}
+              className='text-[10px] font-bold uppercase tracking-wider fill-slate-400 dark:fill-slate-500 transition-colors duration-300' // <-- Исправлено на чистый CSS
             >
               Передняя стена
             </text>
@@ -238,7 +174,7 @@ export default function TacticsBoard() {
               x='200'
               y='472'
               textAnchor='middle'
-              className={`text-[10px] font-bold uppercase tracking-wider ${isDarkMode ? 'fill-slate-500' : 'fill-slate-400'}`}
+              className='text-[10px] font-bold uppercase tracking-wider fill-slate-400 dark:fill-slate-500 transition-colors duration-300' // <-- Исправлено на чистый CSS
             >
               Задняя стена (Стекло)
             </text>
@@ -256,12 +192,12 @@ export default function TacticsBoard() {
                   className='transition-all duration-300'
                 />
 
-                {/* Увеличили хитбокс до '28' для легкого тапа пальцем на iPhone 16 Pro Max! */}
+                {/* Увеличили хитбокс до '28' */}
                 <path
                   d={path}
                   fill='none'
                   stroke='transparent'
-                  strokeWidth='28' // <-- Увеличенный хитбокс
+                  strokeWidth='28'
                   className='cursor-help'
                   onMouseMove={handleMouseMove}
                   onMouseEnter={() =>
@@ -303,7 +239,7 @@ export default function TacticsBoard() {
 
             {/* Кнопки выбора удара */}
             <div className='flex flex-wrap gap-2 mb-6'>
-              {Object.keys(shotsData).map((shotKey) => (
+              {Object.keys(tacticsData).map((shotKey) => (
                 <button
                   key={shotKey}
                   onClick={() => {
