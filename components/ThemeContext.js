@@ -49,7 +49,7 @@ export function ThemeProvider({ children }) {
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
       <div
-        className={`min-h-screen transition-colors duration-300 ${
+        className={`min-h-screen transition-colors duration-300 overflow-x-hidden ${
           isDarkMode
             ? 'bg-neutral-950 text-slate-100'
             : 'bg-slate-50 text-slate-900'

@@ -1,56 +1,30 @@
 'use client'
 
 import { useState } from 'react'
+import { useTheme } from './ThemeContext'
+import { courtData } from '@/data/court'
 
-export default function CourtVisualizer({ isDarkMode }) {
+export default function CourtVisualizer() {
+  const { isDarkMode } = useTheme() // Глобальная тема сайта
+
+  // Локальная тема: null (авто), 'dark' (темная), 'light' (светлая)
+  const [themeOverride, setThemeOverride] = useState(null)
+
+  // Итоговая тема ТОЛЬКО для прорисовки самого корта
+  const isComponentDark =
+    themeOverride !== null ? themeOverride === 'dark' : isDarkMode
+
   const [activeId, setActiveId] = useState(null)
 
-  const courtData = {
-    out: {
-      title: 'Линия аута (Out Line)',
-      dims: 'Высота: передняя стена — 4.57 м, боковые скосы — до 2.13 м на задней стене',
-      desc: 'Верхняя сплошная линия на всех четырех стенах. Касание мячом этой линии или пространства выше нее считается аутом. Обратите внимание: боковые линии наклонные — они плавно опускаются к заднему стеклу.',
-    },
-    service: {
-      title: 'Линия подачи (Service Line)',
-      dims: 'Высота: 1.78 м',
-      desc: 'Средняя горизонтальная линия на передней стене. Она используется исключительно во время подачи. Подающий должен направить мяч так, чтобы тот ударился строго выше этой линии и ниже линии аута.',
-    },
-    tin: {
-      title: 'Звуковая панель (Тин / Tin)',
-      dims: 'Высота: 43 см (9.4% от высоты передней стены корта)',
-      desc: 'Нижняя металлическая панель передней стены («жестянка»). Попадание мяча в тин или его верхнюю рейку — это мгновенный аут. Панель издает громкий металлический звон при ударе.',
-    },
-    box: {
-      title: 'Зоны подачи (Service Boxes)',
-      dims: 'Размеры: 1.6 x 1.6 м (ровно 25% от ширины корта)',
-      desc: 'Специальные зоны на полу. Во время подачи подающий обязан держать хотя бы одну ногу полностью внутри выбранного квадрата, не наступая на его ограничительные линии.',
-    },
-    floor: {
-      title: 'Игровой паркет корта (The Floor)',
-      dims: 'Длина корта: 9.75 м, Ширина: 6.40 м',
-      desc: 'Деревянный пол корта. Мяч может коснуться пола только один раз перед вашим ударом. Если мяч бьется о пол дважды — розыгрыш проигран. Удар в пол напрямую (до касания передней стены) — также ошибка.',
-    },
-    leftWall: {
-      title: 'Левая боковая стена корта',
-      dims: 'Длина: 9.75 м, Высота: скос от 4.57 м до 2.13 м',
-      desc: 'Используется для рикошетов и обманных ударов (боустов). Мяч может коснуться левой стены любое количество раз как по пути к передней стене, так и после отскока от нее, если он не вышел в аут.',
-    },
-    rightWall: {
-      title: 'Правая боковая стена корта',
-      dims: 'Длина: 9.75 м, Высота: скос от 4.57 м до 2.13 м',
-      desc: 'Правая боковая панель игрового пространства. Служит для тактического зажатия соперника по правой стороне. Касание стены ниже линии аута полностью легитимно во время розыгрыша.',
-    },
-    frontWall: {
-      title: 'Передняя стена (Front Wall)',
-      dims: 'Ширина: 6.40 м, Высота: 4.57 м',
-      desc: 'Главная стена корта. Каждый ответный удар игрока обязан коснуться передней стены напрямую или через рикошеты боковых стен до соприкосновения с паркетом.',
-    },
-    tZone: {
-      title: 'Центральные линии разметки и Т-зона',
-      dims: 'Ширина разметки: 50 мм',
-      desc: 'Линии, формирующие Т-зону. Поперечная линия (Short Line) делит корт на переднюю и заднюю половины, продольная делит заднюю часть на левую и правую зоны приема, а точка пересечения является важнейшей тактической позицией на корте.',
-    },
+  // Функция циклического переключения темы корта: Авто -> Темная -> Светлая -> Авто
+  const cycleLocalTheme = () => {
+    if (themeOverride === null) {
+      setThemeOverride('dark')
+    } else if (themeOverride === 'dark') {
+      setThemeOverride('light')
+    } else {
+      setThemeOverride(null)
+    }
   }
 
   const activeInfo = activeId
@@ -66,12 +40,40 @@ export default function CourtVisualizer({ isDarkMode }) {
 
   return (
     <div
+      // Карточка всегда использует глобальную тему сайта isDarkMode
       className={`p-6 rounded-2xl border transition-all duration-300 my-8 ${
         isDarkMode
-          ? 'border-neutral-800 bg-neutral-900/20'
-          : 'border-slate-200 bg-white shadow-xs'
+          ? 'border-neutral-800 bg-neutral-900/20 text-slate-100'
+          : 'border-slate-200 bg-white text-slate-900'
       }`}
     >
+      {/* ПАНЕЛЬ ПЕРЕКЛЮЧЕНИЯ ЛОКАЛЬНОЙ ТЕМЫ 3D-КОРТА (Один компактный тумблер) */}
+      <div className='flex justify-end mb-4'>
+        <button
+          onClick={cycleLocalTheme}
+          className={`w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer transition-all ${
+            isDarkMode
+              ? 'bg-neutral-900 border-neutral-800 text-amber-400 hover:bg-neutral-850'
+              : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 shadow-xs'
+          }`}
+          title={
+            themeOverride === null
+              ? 'Режим корта: Авто (соответствует сайту)'
+              : themeOverride === 'dark'
+                ? 'Режим корта: Тёмный'
+                : 'Режим корта: Светлый'
+          }
+        >
+          <span className='text-sm select-none'>
+            {themeOverride === null
+              ? '🌓'
+              : themeOverride === 'dark'
+                ? '🌙'
+                : '☀️'}
+          </span>
+        </button>
+      </div>
+
       <div className='text-center mb-4'>
         <span className='text-xs font-bold text-amber-500 uppercase tracking-widest'>
           Масштабированная 3D-схема корта
@@ -97,10 +99,9 @@ export default function CourtVisualizer({ isDarkMode }) {
             </clipPath>
           </defs>
 
-          {/* Фон корта (Задняя стена/Пустота вокруг) */}
           <rect x='0' y='0' width='600' height='400' fill='transparent' />
 
-          {/* 1. БАЗОВЫЕ ПЛОСКОСТИ (cursor-default) */}
+          {/* 1. БАЗОВЫЕ ПЛОСКОСТИ (используют локальную тему isComponentDark) */}
 
           {/* Левая стена */}
           <polygon
@@ -108,11 +109,11 @@ export default function CourtVisualizer({ isDarkMode }) {
             fill={
               activeId === 'leftWall'
                 ? goldHighlightFill
-                : isDarkMode
+                : isComponentDark
                   ? '#111113'
                   : '#f8fafc'
             }
-            stroke={isDarkMode ? '#222227' : '#e2e8f0'}
+            stroke={isComponentDark ? '#222227' : '#e2e8f0'}
             strokeWidth='2'
             strokeLinejoin='round'
             className='cursor-default transition-colors duration-200'
@@ -126,11 +127,11 @@ export default function CourtVisualizer({ isDarkMode }) {
             fill={
               activeId === 'rightWall'
                 ? goldHighlightFill
-                : isDarkMode
+                : isComponentDark
                   ? '#111113'
                   : '#f8fafc'
             }
-            stroke={isDarkMode ? '#222227' : '#e2e8f0'}
+            stroke={isComponentDark ? '#222227' : '#e2e8f0'}
             strokeWidth='2'
             strokeLinejoin='round'
             className='cursor-default transition-colors duration-200'
@@ -147,11 +148,11 @@ export default function CourtVisualizer({ isDarkMode }) {
             fill={
               activeId === 'frontWall'
                 ? goldHighlightFill
-                : isDarkMode
+                : isComponentDark
                   ? '#16161a'
                   : '#f1f5f9'
             }
-            stroke={isDarkMode ? '#2d2d35' : '#cbd5e1'}
+            stroke={isComponentDark ? '#2d2d35' : '#cbd5e1'}
             strokeWidth='2'
             className='cursor-default transition-colors duration-200'
             onMouseEnter={() => setActiveId('frontWall')}
@@ -164,11 +165,11 @@ export default function CourtVisualizer({ isDarkMode }) {
             fill={
               activeId === 'floor'
                 ? goldHighlightFill
-                : isDarkMode
+                : isComponentDark
                   ? '#0a0a0c'
                   : '#f1f5f9'
             }
-            stroke={isDarkMode ? '#222227' : '#e2e8f0'}
+            stroke={isComponentDark ? '#222227' : '#e2e8f0'}
             strokeWidth='2'
             strokeLinejoin='round'
             className='cursor-default transition-colors duration-200'
@@ -177,7 +178,7 @@ export default function CourtVisualizer({ isDarkMode }) {
             onClick={() => setActiveId('floor')}
           />
 
-          {/* ИГРОВОЕ ПОЛЕ (Зона пола для наведения на пол) */}
+          {/* ИГРОВОЕ ПОЛЕ */}
           <polygon
             points='150,260 450,260 525,330 75,330'
             fill={activeId === 'floor' ? goldHighlightFill : 'transparent'}
@@ -187,20 +188,18 @@ export default function CourtVisualizer({ isDarkMode }) {
             onClick={() => setActiveId('floor')}
           />
 
-          {/* 2. КВАДРАТЫ ПОДАЧИ (Отрендерены ДО линий разметки, чтобы лежать под ними) */}
+          {/* 2. КВАДРАТЫ ПОДАЧИ */}
 
           {/* ЛЕВЫЙ КВАДРАТ ПОДАЧИ */}
-          {/* Зона заливки (продлена за стену и обрезана маской пола) */}
           <polygon
             points='60,330 187,330 180,355 30,355'
             fill={activeId === 'box' ? goldHighlightFill : 'transparent'}
-            clipPath='url(#floor-clip)' // Обрезаем по контуру пола
+            clipPath='url(#floor-clip)'
             className='cursor-pointer transition-all'
             onMouseEnter={() => setActiveId('box')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('box')}
           />
-          {/* Контурные линии (3 стороны, продлены за стену и обрезаны маской пола) */}
           <polyline
             points='60,330 187,330 180,355 30,355'
             fill='none'
@@ -208,12 +207,11 @@ export default function CourtVisualizer({ isDarkMode }) {
             strokeWidth='2'
             strokeLinejoin='round'
             strokeLinecap='round'
-            clipPath='url(#floor-clip)' // Обрезаем по контуру пола
+            clipPath='url(#floor-clip)'
             className='pointer-events-none transition-all duration-200'
           />
 
           {/* ПРАВЫЙ КВАДРАТ ПОДАЧИ */}
-          {/* Зона заливки (продлена за стену и обрезана маской пола) */}
           <polygon
             points='540,330 413,330 420,355 570,355'
             fill={activeId === 'box' ? goldHighlightFill : 'transparent'}
@@ -223,7 +221,6 @@ export default function CourtVisualizer({ isDarkMode }) {
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('box')}
           />
-          {/* Контурные линии (3 стороны, продлены за стену и обрезаны маской пола) */}
           <polyline
             points='540,330 413,330 420,355 570,355'
             fill='none'
@@ -235,8 +232,7 @@ export default function CourtVisualizer({ isDarkMode }) {
             className='pointer-events-none transition-all duration-200'
           />
 
-          {/* 3. РАЗМЕТКА ПОЛА (Отрендерена поверх пола и квадратов подачи) */}
-          {/* Short Line (Поперечная, продлена за стены и обрезана маской пола) */}
+          {/* 3. РАЗМЕТКА ПОЛА */}
           <line
             x1='60'
             y1='330'
@@ -247,7 +243,6 @@ export default function CourtVisualizer({ isDarkMode }) {
             clipPath='url(#floor-clip)'
             className='transition-all duration-200'
           />
-          {/* Half-Court Line (Продольная, обрезана маской пола) */}
           <line
             x1='300'
             y1='330'
@@ -259,8 +254,7 @@ export default function CourtVisualizer({ isDarkMode }) {
             className='transition-all duration-200'
           />
 
-          {/* 4. ЛИНИИ ПЕРЕДНЕЙ СТЕНЫ (Визуальные линии) */}
-          {/* Тин */}
+          {/* 4. ЛИНИИ ПЕРЕДНЕЙ СТЕНЫ */}
           <rect
             x='151'
             y='243'
@@ -269,12 +263,11 @@ export default function CourtVisualizer({ isDarkMode }) {
             fill={
               activeId === 'tin'
                 ? goldHighlightFill
-                : isDarkMode
+                : isComponentDark
                   ? '#25252b'
                   : '#e2e8f0'
             }
           />
-          {/* Нижняя линия аута на фронтальной стене */}
           <line
             x1='151'
             y1='243'
@@ -283,7 +276,6 @@ export default function CourtVisualizer({ isDarkMode }) {
             stroke={activeId === 'tin' ? '#f59e0b' : '#ef4444'}
             strokeWidth='2'
           />
-          {/* Линия подачи */}
           <line
             x1='151'
             y1='190'
@@ -292,21 +284,18 @@ export default function CourtVisualizer({ isDarkMode }) {
             stroke={activeId === 'service' ? '#f59e0b' : '#ef4444'}
             strokeWidth='2'
           />
-          {/* Единая цельная линия аута со сглаженными стыками на углах и вертикальным срезом на краях */}
           <polyline
-            points='20,220 150,80 450,80 580,220' // Удлинили линию за пределы корта
+            points='20,220 150,80 450,80 580,220'
             fill='none'
             stroke={activeId === 'out' ? '#f59e0b' : '#ef4444'}
             strokeWidth={activeId === 'out' ? '4' : '2'}
             strokeLinejoin='round'
             strokeLinecap='round'
-            clipPath='url(#court-clip)' // Применяем маску обрезки
+            clipPath='url(#court-clip)'
             className='transition-all duration-200'
           />
 
-          {/* 5. ВЕРХНИЙ СТЕК: Невидимые широкие хитбоксы для легкого наведения (cursor-pointer) */}
-
-          {/* Хитбокс Т-зоны (продлен за стены и обрезан маской пола) */}
+          {/* ХИТБОКСЫ */}
           <path
             d='M 60,330 L 540,330 M 300,330 L 300,380'
             fill='none'
@@ -318,7 +307,6 @@ export default function CourtVisualizer({ isDarkMode }) {
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('tZone')}
           />
-          {/* Хитбокс тина */}
           <rect
             x='150'
             y='243'
@@ -330,7 +318,6 @@ export default function CourtVisualizer({ isDarkMode }) {
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('tin')}
           />
-          {/* Хитбокс линии подачи */}
           <line
             x1='150'
             y1='190'
@@ -343,16 +330,15 @@ export default function CourtVisualizer({ isDarkMode }) {
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('service')}
           />
-          {/* Единый широкий хитбокс линии аута (с вертикальным срезом на краях) */}
           <polyline
-            points='10,220 150,80 450,80 590,220' // Удлинили линию за пределы корта
+            points='10,220 150,80 450,80 590,220'
             fill='none'
             stroke='transparent'
             strokeWidth='16'
             className='cursor-pointer'
             strokeLinejoin='round'
             strokeLinecap='round'
-            clipPath='url(#court-clip)' // Применяем маску обрезки
+            clipPath='url(#court-clip)'
             onMouseEnter={() => setActiveId('out')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('out')}
@@ -360,7 +346,7 @@ export default function CourtVisualizer({ isDarkMode }) {
         </svg>
       </div>
 
-      {/* Информационная карточка под схемой */}
+      {/* Информационная карточка (всегда сохраняет общую тему сайта isDarkMode) */}
       <div
         className={`p-4 rounded-xl border transition-all duration-300 ${
           isDarkMode

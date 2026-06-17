@@ -2,24 +2,25 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useTheme } from './ThemeContext'
-import { tacticsData } from '@/data/tactics' // <-- 1. Импортируем чистые данные
+import { tacticsData } from '@/data/tactics'
 
 export default function TacticsBoard() {
-  const { isDarkMode } = useTheme()
+  const { isDarkMode } = useTheme() // Глобальная тема сайта
+
+  // Локальное состояние темы: null (авто), 'dark' (темная), 'light' (светлая)
+  const [themeOverride, setThemeOverride] = useState(null)
+
+  // Итоговая тема ТОЛЬКО для прорисовки самого планшета
+  const isComponentDark =
+    themeOverride !== null ? themeOverride === 'dark' : isDarkMode
+
   const [activeShot, setActiveShot] = useState('drive')
-
-  // Состояние плавающего хинта у курсора
   const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, text: '' })
-
-  // Реф для отслеживания DOM-элемента подсказки
   const tooltipRef = useRef(null)
-
-  // Высокопроизводительный кэш для хранения размеров (избавляет от Layout Thrashing)
   const dimensionsRef = useRef({ width: 120, height: 32 })
 
-  const activeInfo = tacticsData[activeShot] // <-- 2. Считываем из импортированных данных
+  const activeInfo = tacticsData[activeShot]
 
-  // Замеряем габариты подсказки ОДИН раз только при смене текста или её появлении
   useEffect(() => {
     if (tooltip.show && tooltipRef.current) {
       dimensionsRef.current = {
@@ -29,7 +30,17 @@ export default function TacticsBoard() {
     }
   }, [tooltip.text, tooltip.show])
 
-  // Ультра-быстрый расчет координат без Forced Reflow
+  // Функция циклического переключения темы планшета
+  const cycleLocalTheme = () => {
+    if (themeOverride === null) {
+      setThemeOverride('dark')
+    } else if (themeOverride === 'dark') {
+      setThemeOverride('light')
+    } else {
+      setThemeOverride(null)
+    }
+  }
+
   const handleMouseMove = (e) => {
     const container = e.currentTarget.closest('.tactics-wrapper')
     if (!container) return
@@ -41,17 +52,19 @@ export default function TacticsBoard() {
     const actualWidth = dimensionsRef.current.width
     const actualHeight = dimensionsRef.current.height
 
-    // Расчет по горизонтали (X)
-    let xPos = clientX + 15
-    if (clientX + 15 + actualWidth > rect.width) {
-      xPos = clientX - actualWidth - 15
-    }
-    xPos = Math.max(10, xPos)
+    const GAP_X = 6
+    const GAP_Y = 8
+    const MIN_BORDER = 8
 
-    // Расчет по вертикали (Y)
-    let yPos = clientY - actualHeight - 12
-    if (yPos < 10) {
-      yPos = clientY + 15
+    let xPos = clientX + GAP_X
+    if (clientX + GAP_X + actualWidth > rect.width) {
+      xPos = clientX - actualWidth - GAP_X
+    }
+    xPos = Math.max(MIN_BORDER, xPos)
+
+    let yPos = clientY - actualHeight - GAP_Y
+    if (yPos < MIN_BORDER) {
+      yPos = clientY + GAP_Y
     }
 
     setTooltip((prev) => ({
@@ -78,13 +91,41 @@ export default function TacticsBoard() {
 
   return (
     <div
+      // Карточка всегда использует глобальную тему сайта isDarkMode
       className={`p-6 rounded-2xl border transition-all duration-300 relative tactics-wrapper ${
         isDarkMode
-          ? 'border-neutral-800 bg-neutral-900/20'
-          : 'border-slate-200 bg-white shadow-xs'
+          ? 'border-neutral-800 bg-neutral-900/20 text-slate-100'
+          : 'border-slate-200 bg-white text-slate-900'
       }`}
     >
-      {/* ПЛАВАЮЩИЙ ХИНТ С АВТОЗАМЕРОМ ШИРИНЫ (Реф tooltipRef) */}
+      {/* ПАНЕЛЬ ПЕРЕКЛЮЧЕНИЯ ЛОКАЛЬНОЙ ТЕМЫ ПЛАНШЕТА (Один компактный тумблер) */}
+      <div className='flex justify-end mb-4'>
+        <button
+          onClick={cycleLocalTheme}
+          className={`w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer transition-all ${
+            isDarkMode
+              ? 'bg-neutral-900 border-neutral-800 text-amber-400 hover:bg-neutral-850'
+              : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 shadow-xs'
+          }`}
+          title={
+            themeOverride === null
+              ? 'Режим планшета: Авто (соответствует сайту)'
+              : themeOverride === 'dark'
+                ? 'Режим планшета: Тёмный'
+                : 'Режим планшета: Светлый'
+          }
+        >
+          <span className='text-sm select-none'>
+            {themeOverride === null
+              ? '🌓'
+              : themeOverride === 'dark'
+                ? '🌙'
+                : '☀️'}
+          </span>
+        </button>
+      </div>
+
+      {/* ПЛАВАЮЩИЙ ХИНТ У КУРСОРA */}
       {tooltip.show && (
         <div
           ref={tooltipRef}
@@ -92,13 +133,13 @@ export default function TacticsBoard() {
           style={{
             left: `${tooltip.x}px`,
             top: `${tooltip.y}px`,
-            backgroundColor: isDarkMode
+            backgroundColor: isComponentDark
               ? 'rgba(10, 10, 12, 0.95)'
               : 'rgba(255, 255, 255, 0.95)',
-            borderColor: isDarkMode
+            borderColor: isComponentDark
               ? 'rgba(245, 158, 11, 0.3)'
               : 'rgba(217, 119, 6, 0.4)',
-            color: isDarkMode ? '#fbbf24' : '#d97706',
+            color: isComponentDark ? '#fbbf24' : '#d97706',
           }}
         >
           {tooltip.text}
@@ -118,7 +159,8 @@ export default function TacticsBoard() {
               width='320'
               height='420'
               strokeWidth='3'
-              className='fill-slate-50 stroke-slate-300 dark:fill-[#0f0f12] dark:stroke-[#26262c] transition-colors duration-300'
+              fill={isComponentDark ? '#0f0f12' : '#f8fafc'}
+              stroke={isComponentDark ? '#26262c' : '#cbd5e1'}
             />
 
             <line
@@ -165,7 +207,8 @@ export default function TacticsBoard() {
               x='200'
               y='20'
               textAnchor='middle'
-              className='text-[10px] font-bold uppercase tracking-wider fill-slate-400 dark:fill-slate-500 transition-colors duration-300' // <-- Исправлено на чистый CSS
+              className='text-[10px] font-bold uppercase tracking-wider transition-colors duration-300'
+              fill={isComponentDark ? '#64748b' : '#94a3b8'}
             >
               Передняя стена
             </text>
@@ -174,7 +217,8 @@ export default function TacticsBoard() {
               x='200'
               y='472'
               textAnchor='middle'
-              className='text-[10px] font-bold uppercase tracking-wider fill-slate-400 dark:fill-slate-500 transition-colors duration-300' // <-- Исправлено на чистый CSS
+              className='text-[10px] font-bold uppercase tracking-wider transition-colors duration-300'
+              fill={isComponentDark ? '#64748b' : '#94a3b8'}
             >
               Задняя стена (Стекло)
             </text>
@@ -217,8 +261,8 @@ export default function TacticsBoard() {
                   {/* Черный или белый матовый мяч в зависимости от темы */}
                   <circle
                     r='7.5'
-                    fill={isDarkMode ? '#f8fafc' : '#1c1917'}
-                    stroke={isDarkMode ? '#3f3f46' : '#94a3b8'}
+                    fill={isComponentDark ? '#f8fafc' : '#1c1917'}
+                    stroke={isComponentDark ? '#3f3f46' : '#94a3b8'}
                     strokeWidth='0.8'
                   />
                   {/* Две маленькие желтые точки */}
@@ -249,8 +293,8 @@ export default function TacticsBoard() {
                   className={`px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                     activeShot === shotKey
                       ? 'bg-amber-500 border-amber-500 text-slate-950 font-extrabold'
-                      : isDarkMode
-                        ? 'border-neutral-800 bg-neutral-900/20 text-slate-400 hover:border-neutral-700'
+                      : isDarkMode // ✅ ИСПРАВЛЕНО: Теперь кнопки строго привязаны к глобальной теме сайта
+                        ? 'border-neutral-800 bg-neutral-900/30 text-slate-400 hover:text-slate-200'
                         : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50 shadow-xs'
                   }`}
                 >
@@ -269,7 +313,7 @@ export default function TacticsBoard() {
               ))}
             </div>
 
-            {/* Карточка разбора */}
+            {/* Карточка разбора (всегда сохраняет общую тему сайта isDarkMode) */}
             <div
               className={`p-5 rounded-xl border transition-all duration-300 ${
                 isDarkMode
