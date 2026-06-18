@@ -1,32 +1,27 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTheme } from './ThemeContext'
-import { courtData } from '@/data/court'
+import { courtData } from '@/data/court' // Импортируем вашу базу данных из папки data
 
 export default function CourtVisualizer() {
   const { isDarkMode } = useTheme() // Глобальная тема сайта
 
-  // Локальная тема: null (авто), 'dark' (темная), 'light' (светлая)
-  const [themeOverride, setThemeOverride] = useState(null)
-
-  // Итоговая тема ТОЛЬКО для прорисовки самого корта
-  const isComponentDark =
-    themeOverride !== null ? themeOverride === 'dark' : isDarkMode
-
+  // Локальное бинарное состояние темы корта (по умолчанию синхронизировано с глобальной)
+  const [isComponentDark, setIsComponentDark] = useState(isDarkMode)
   const [activeId, setActiveId] = useState(null)
 
-  // Функция циклического переключения темы корта: Авто -> Темная -> Светлая -> Авто
-  const cycleLocalTheme = () => {
-    if (themeOverride === null) {
-      setThemeOverride('dark')
-    } else if (themeOverride === 'dark') {
-      setThemeOverride('light')
-    } else {
-      setThemeOverride(null)
-    }
+  // Синхронизируем локальную тему с глобальной, только если пользователь меняет тему сайта
+  useEffect(() => {
+    setIsComponentDark(isDarkMode)
+  }, [isDarkMode])
+
+  // Переключение локальной темы корта (Светлая / Темная)
+  const toggleLocalTheme = () => {
+    setIsComponentDark(!isComponentDark)
   }
 
+  // Определение активного описания с защитой от undefined
   const activeInfo = activeId
     ? courtData[activeId]
     : {
@@ -35,55 +30,55 @@ export default function CourtVisualizer() {
         desc: 'Наведите курсор мыши на любую линию или зону 3D-корта выше, чтобы изучить правила, размеры и особенности разметки корта.',
       }
 
-  // Единый цвет заливки активных элементов
-  const goldHighlightFill = 'rgba(245, 158, 11, 0.12)'
+  // Мягкое благородное золото для темного корта и оригинальное светлое золото для светлого корта
+  const goldHighlightFill = isComponentDark
+    ? '#352418'
+    : 'rgba(245, 158, 11, 0.12)'
 
   return (
     <div
-      // Карточка всегда использует глобальную тему сайта isDarkMode
+      // Карточка и бордеры всегда используют глобальную тему сайта isDarkMode
       className={`p-6 rounded-2xl border transition-all duration-300 my-8 ${
         isDarkMode
           ? 'border-neutral-800 bg-neutral-900/20 text-slate-100'
           : 'border-slate-200 bg-white text-slate-900'
       }`}
     >
-      {/* ПАНЕЛЬ ПЕРЕКЛЮЧЕНИЯ ЛОКАЛЬНОЙ ТЕМЫ 3D-КОРТА (Один компактный тумблер) */}
-      <div className='flex justify-end mb-4'>
+      {/* ШАПКА КОРТА (Заголовок по центру, кнопка темы — справа на одной линии) */}
+      <div className='flex justify-between items-start mb-4 w-full relative'>
+        {/* Невидимый распор-проставка слева для идеального центрирования заголовка */}
+        <div className='w-9 h-9 hidden sm:block' />
+
+        <div className='flex-1 text-center'>
+          <span className='text-xs font-bold text-amber-500 uppercase tracking-widest block'>
+            Масштабированная 3D-схема корта
+          </span>
+          <p
+            className={`text-xs mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
+          >
+            Наведите на линии или зоны 3D-корта для изучения правил и размеров
+            разметки
+          </p>
+        </div>
+
+        {/* Локальный бинарный переключатель темы корта (только Солнце / Луна) */}
         <button
-          onClick={cycleLocalTheme}
+          onClick={toggleLocalTheme}
           className={`w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer transition-all ${
             isDarkMode
               ? 'bg-neutral-900 border-neutral-800 text-amber-400 hover:bg-neutral-850'
               : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 shadow-xs'
           }`}
           title={
-            themeOverride === null
-              ? 'Режим корта: Авто (соответствует сайту)'
-              : themeOverride === 'dark'
-                ? 'Режим корта: Тёмный'
-                : 'Режим корта: Светлый'
+            isComponentDark
+              ? 'Переключить корт на светлую тему'
+              : 'Переключить корт на темную тему'
           }
         >
           <span className='text-sm select-none'>
-            {themeOverride === null
-              ? '🌓'
-              : themeOverride === 'dark'
-                ? '🌙'
-                : '☀️'}
+            {isComponentDark ? '☀️' : '🌙'}
           </span>
         </button>
-      </div>
-
-      <div className='text-center mb-4'>
-        <span className='text-xs font-bold text-amber-500 uppercase tracking-widest'>
-          Масштабированная 3D-схема корта
-        </span>
-        <p
-          className={`text-xs mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
-        >
-          Наведите на линии или зоны 3D-корта для изучения правил и размеров
-          разметки
-        </p>
       </div>
 
       {/* Векторный 3D-корт в перспективе */}
@@ -178,17 +173,17 @@ export default function CourtVisualizer() {
             onClick={() => setActiveId('floor')}
           />
 
-          {/* ИГРОВОЕ ПОЛЕ */}
+          {/* ИГРОВОЕ ПОЛЕ (Зона пола для наведения на пол — строго прозрачная) */}
           <polygon
             points='150,260 450,260 525,330 75,330'
-            fill={activeId === 'floor' ? goldHighlightFill : 'transparent'}
+            fill='transparent'
             className='cursor-pointer transition-colors duration-200'
             onMouseEnter={() => setActiveId('floor')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('floor')}
           />
 
-          {/* 2. КВАДРАТЫ ПОДАЧИ */}
+          {/* 2. КВАДРАТЫ ПОДАЧИ (Отрендерены ДО линий разметки, чтобы лежать под ними) */}
 
           {/* ЛЕВЫЙ КВАДРАТ ПОДАЧИ */}
           <polygon

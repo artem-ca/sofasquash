@@ -7,19 +7,21 @@ import { tacticsData } from '@/data/tactics'
 export default function TacticsBoard() {
   const { isDarkMode } = useTheme() // Глобальная тема сайта
 
-  // Локальное состояние темы: null (авто), 'dark' (темная), 'light' (светлая)
-  const [themeOverride, setThemeOverride] = useState(null)
-
-  // Итоговая тема ТОЛЬКО для прорисовки самого планшета
-  const isComponentDark =
-    themeOverride !== null ? themeOverride === 'dark' : isDarkMode
+  // Локальное бинарное состояние темы планшета (по умолчанию синхронизировано с глобальной)
+  const [isComponentDark, setIsComponentDark] = useState(isDarkMode)
 
   const [activeShot, setActiveShot] = useState('drive')
   const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, text: '' })
+
   const tooltipRef = useRef(null)
   const dimensionsRef = useRef({ width: 120, height: 32 })
 
   const activeInfo = tacticsData[activeShot]
+
+  // Синхронизируем локальную тему с глобальной при изменении темы сайта
+  useEffect(() => {
+    setIsComponentDark(isDarkMode)
+  }, [isDarkMode])
 
   useEffect(() => {
     if (tooltip.show && tooltipRef.current) {
@@ -30,15 +32,9 @@ export default function TacticsBoard() {
     }
   }, [tooltip.text, tooltip.show])
 
-  // Функция циклического переключения темы планшета
-  const cycleLocalTheme = () => {
-    if (themeOverride === null) {
-      setThemeOverride('dark')
-    } else if (themeOverride === 'dark') {
-      setThemeOverride('light')
-    } else {
-      setThemeOverride(null)
-    }
+  // Переключение локальной темы корта (Светлая / Темная)
+  const toggleLocalTheme = () => {
+    setIsComponentDark(!isComponentDark)
   }
 
   const handleMouseMove = (e) => {
@@ -91,40 +87,13 @@ export default function TacticsBoard() {
 
   return (
     <div
-      // Карточка всегда использует глобальную тему сайта isDarkMode
+      // Карточка и бордеры всегда используют глобальную тему сайта isDarkMode
       className={`p-6 rounded-2xl border transition-all duration-300 relative tactics-wrapper ${
         isDarkMode
           ? 'border-neutral-800 bg-neutral-900/20 text-slate-100'
           : 'border-slate-200 bg-white text-slate-900'
       }`}
     >
-      {/* ПАНЕЛЬ ПЕРЕКЛЮЧЕНИЯ ЛОКАЛЬНОЙ ТЕМЫ ПЛАНШЕТА (Один компактный тумблер) */}
-      <div className='flex justify-end mb-4'>
-        <button
-          onClick={cycleLocalTheme}
-          className={`w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer transition-all ${
-            isDarkMode
-              ? 'bg-neutral-900 border-neutral-800 text-amber-400 hover:bg-neutral-850'
-              : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 shadow-xs'
-          }`}
-          title={
-            themeOverride === null
-              ? 'Режим планшета: Авто (соответствует сайту)'
-              : themeOverride === 'dark'
-                ? 'Режим планшета: Тёмный'
-                : 'Режим планшета: Светлый'
-          }
-        >
-          <span className='text-sm select-none'>
-            {themeOverride === null
-              ? '🌓'
-              : themeOverride === 'dark'
-                ? '🌙'
-                : '☀️'}
-          </span>
-        </button>
-      </div>
-
       {/* ПЛАВАЮЩИЙ ХИНТ У КУРСОРA */}
       {tooltip.show && (
         <div
@@ -277,9 +246,31 @@ export default function TacticsBoard() {
         {/* Правая колонка: Выбор удара и разбор */}
         <div className='flex flex-col justify-between h-full'>
           <div>
-            <span className='text-xs font-bold text-amber-500 uppercase tracking-widest block mb-4'>
-              Выберите тип удара:
-            </span>
+            {/* ШАПКА РАЗДЕЛА УДАРОВ (Кнопка темы справа от надписи в одну линию на краю карточки) */}
+            <div className='flex justify-between items-center mb-4 w-full'>
+              <span className='text-xs font-bold text-amber-500 uppercase tracking-widest block'>
+                Выберите тип удара:
+              </span>
+
+              {/* Локальный бинарный переключатель темы планшета (Солнце / Луна) */}
+              <button
+                onClick={toggleLocalTheme}
+                className={`w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer transition-all ${
+                  isDarkMode
+                    ? 'bg-neutral-900 border-neutral-800 text-amber-400 hover:bg-neutral-850'
+                    : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 shadow-xs'
+                }`}
+                title={
+                  isComponentDark
+                    ? 'Переключить планшет на светлую тему'
+                    : 'Переключить планшет на темную тему'
+                }
+              >
+                <span className='text-sm select-none'>
+                  {isComponentDark ? '☀️' : '🌙'}
+                </span>
+              </button>
+            </div>
 
             {/* Кнопки выбора удара */}
             <div className='flex flex-wrap gap-2 mb-6'>
@@ -293,7 +284,7 @@ export default function TacticsBoard() {
                   className={`px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                     activeShot === shotKey
                       ? 'bg-amber-500 border-amber-500 text-slate-950 font-extrabold'
-                      : isDarkMode // ✅ ИСПРАВЛЕНО: Теперь кнопки строго привязаны к глобальной теме сайта
+                      : isDarkMode
                         ? 'border-neutral-800 bg-neutral-900/30 text-slate-400 hover:text-slate-200'
                         : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50 shadow-xs'
                   }`}
