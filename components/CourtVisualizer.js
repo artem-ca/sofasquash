@@ -1,84 +1,45 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTheme } from './ThemeContext'
-import { courtData } from '@/data/court' // Импортируем вашу базу данных из папки data
+import { courtData } from '@/data/court'
 
 export default function CourtVisualizer() {
   const { isDarkMode } = useTheme() // Глобальная тема сайта
-
-  // Локальное бинарное состояние темы корта (по умолчанию синхронизировано с глобальной)
-  const [isComponentDark, setIsComponentDark] = useState(isDarkMode)
   const [activeId, setActiveId] = useState(null)
 
-  // Синхронизируем локальную тему с глобальной, только если пользователь меняет тему сайта
-  useEffect(() => {
-    setIsComponentDark(isDarkMode)
-  }, [isDarkMode])
-
-  // Переключение локальной темы корта (Светлая / Темная)
-  const toggleLocalTheme = () => {
-    setIsComponentDark(!isComponentDark)
-  }
-
   // Определение активного описания с защитой от undefined
-  const activeInfo = activeId
-    ? courtData[activeId]
-    : {
-        title: 'Интерактивный 3D-корт',
-        dims: 'Справочник описаний и размеров',
-        desc: 'Наведите курсор мыши на любую линию или зону 3D-корта выше, чтобы изучить правила, размеры и особенности разметки корта.',
-      }
+  const activeInfo =
+    activeId && courtData[activeId]
+      ? courtData[activeId]
+      : {
+          title: 'Интерактивный 3D-корт',
+          dims: 'Справочник описаний и размеров',
+          desc: 'Наведите курсор мыши на любую линию или зону 3D-корта выше, чтобы изучить правила, размеры и особенности разметки корта.',
+        }
 
   // Мягкое благородное золото для темного корта и оригинальное светлое золото для светлого корта
-  const goldHighlightFill = isComponentDark
-    ? '#352418'
-    : 'rgba(245, 158, 11, 0.12)'
+  const goldHighlightFill = isDarkMode ? '#352418' : 'rgba(245, 158, 11, 0.12)'
 
   return (
     <div
-      // Карточка и бордеры всегда используют глобальную тему сайта isDarkMode
       className={`p-6 rounded-2xl border transition-all duration-300 my-8 ${
         isDarkMode
           ? 'border-neutral-800 bg-neutral-900/20 text-slate-100'
           : 'border-slate-200 bg-white text-slate-900'
       }`}
     >
-      {/* ШАПКА КОРТА (Заголовок по центру, кнопка темы — справа на одной линии) */}
-      <div className='flex justify-between items-start mb-4 w-full relative'>
-        {/* Невидимый распор-проставка слева для идеального центрирования заголовка */}
-        <div className='w-9 h-9 hidden sm:block' />
-
-        <div className='flex-1 text-center'>
-          <span className='text-xs font-bold text-amber-500 uppercase tracking-widest block'>
-            Масштабированная 3D-схема корта
-          </span>
-          <p
-            className={`text-xs mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
-          >
-            Наведите на линии или зоны 3D-корта для изучения правил и размеров
-            разметки
-          </p>
-        </div>
-
-        {/* Локальный бинарный переключатель темы корта (только Солнце / Луна) */}
-        <button
-          onClick={toggleLocalTheme}
-          className={`w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer transition-all ${
-            isDarkMode
-              ? 'bg-neutral-900 border-neutral-800 text-amber-400 hover:bg-neutral-850'
-              : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 shadow-xs'
-          }`}
-          title={
-            isComponentDark
-              ? 'Переключить корт на светлую тему'
-              : 'Переключить корт на темную тему'
-          }
+      {/* ШАПКА КОРТА (Центрированный аккуратный заголовок без локальной кнопки) */}
+      <div className='text-center mb-6 w-full'>
+        <span className='text-xs font-bold text-amber-500 uppercase tracking-widest block'>
+          Масштабированная 3D-схема корта
+        </span>
+        <p
+          className={`text-xs mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
         >
-          <span className='text-sm select-none'>
-            {isComponentDark ? '☀️' : '🌙'}
-          </span>
-        </button>
+          Наведите на линии или зоны 3D-корта для изучения правил и размеров
+          разметки
+        </p>
       </div>
 
       {/* Векторный 3D-корт в перспективе */}
@@ -96,7 +57,7 @@ export default function CourtVisualizer() {
 
           <rect x='0' y='0' width='600' height='400' fill='transparent' />
 
-          {/* 1. БАЗОВЫЕ ПЛОСКОСТИ (используют локальную тему isComponentDark) */}
+          {/* 1. БАЗОВЫЕ ПЛОСКОСТИ */}
 
           {/* Левая стена */}
           <polygon
@@ -104,11 +65,11 @@ export default function CourtVisualizer() {
             fill={
               activeId === 'leftWall'
                 ? goldHighlightFill
-                : isComponentDark
+                : isDarkMode
                   ? '#111113'
                   : '#f8fafc'
             }
-            stroke={isComponentDark ? '#222227' : '#e2e8f0'}
+            stroke={isDarkMode ? '#222227' : '#e2e8f0'}
             strokeWidth='2'
             strokeLinejoin='round'
             className='cursor-default transition-colors duration-200'
@@ -122,11 +83,11 @@ export default function CourtVisualizer() {
             fill={
               activeId === 'rightWall'
                 ? goldHighlightFill
-                : isComponentDark
+                : isDarkMode
                   ? '#111113'
                   : '#f8fafc'
             }
-            stroke={isComponentDark ? '#222227' : '#e2e8f0'}
+            stroke={isDarkMode ? '#222227' : '#e2e8f0'}
             strokeWidth='2'
             strokeLinejoin='round'
             className='cursor-default transition-colors duration-200'
@@ -143,11 +104,11 @@ export default function CourtVisualizer() {
             fill={
               activeId === 'frontWall'
                 ? goldHighlightFill
-                : isComponentDark
+                : isDarkMode
                   ? '#16161a'
                   : '#f1f5f9'
             }
-            stroke={isComponentDark ? '#2d2d35' : '#cbd5e1'}
+            stroke={isDarkMode ? '#2d2d35' : '#cbd5e1'}
             strokeWidth='2'
             className='cursor-default transition-colors duration-200'
             onMouseEnter={() => setActiveId('frontWall')}
@@ -160,11 +121,11 @@ export default function CourtVisualizer() {
             fill={
               activeId === 'floor'
                 ? goldHighlightFill
-                : isComponentDark
+                : isDarkMode
                   ? '#0a0a0c'
                   : '#f1f5f9'
             }
-            stroke={isComponentDark ? '#222227' : '#e2e8f0'}
+            stroke={isDarkMode ? '#222227' : '#e2e8f0'}
             strokeWidth='2'
             strokeLinejoin='round'
             className='cursor-default transition-colors duration-200'
@@ -183,7 +144,7 @@ export default function CourtVisualizer() {
             onClick={() => setActiveId('floor')}
           />
 
-          {/* 2. КВАДРАТЫ ПОДАЧИ (Отрендерены ДО линий разметки, чтобы лежать под ними) */}
+          {/* 2. КВАДРАТЫ ПОДАЧИ */}
 
           {/* ЛЕВЫЙ КВАДРАТ ПОДАЧИ */}
           <polygon
@@ -258,7 +219,7 @@ export default function CourtVisualizer() {
             fill={
               activeId === 'tin'
                 ? goldHighlightFill
-                : isComponentDark
+                : isDarkMode
                   ? '#25252b'
                   : '#e2e8f0'
             }
@@ -290,7 +251,7 @@ export default function CourtVisualizer() {
             className='transition-all duration-200'
           />
 
-          {/* ХИТБОКСЫ */}
+          {/* ХИТБОКСЫ ДЛЯ НАВЕДЕНИЯ */}
           <path
             d='M 60,330 L 540,330 M 300,330 L 300,380'
             fill='none'
@@ -341,7 +302,7 @@ export default function CourtVisualizer() {
         </svg>
       </div>
 
-      {/* Информационная карточка (всегда сохраняет общую тему сайта isDarkMode) */}
+      {/* Информационная карточка */}
       <div
         className={`p-4 rounded-xl border transition-all duration-300 ${
           isDarkMode

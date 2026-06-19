@@ -24,7 +24,7 @@ const phrases = [
   'Соперник плачет в углу... 😭',
   'Правило 2.7 в действии! 🎯',
   'Энергия Софочки зашкаливает! ⚡',
-  'Подача принята... ой, нет, переподаем! 😂',
+  'Подача принята... ой, нет, переподаём! 😂',
   'Ещё одна безупречная попытка от Королевы корта! 👑',
   'Софа диктует свои правила! 💅',
   'Судья безмолвно кивает... 🤐',
@@ -37,7 +37,7 @@ const phrases = [
   'Соперник до сих пор ищет мяч глазами... 👀',
   'Твои подачи заставляют жестяночку звенеть! 🔔',
   'Этот удар достоин мирового рейтинга! 🏆',
-  'Каждый твой взамах — произведение искусства! ✨',
+  'Каждый твой взмах — произведение искусства! ✨',
 ]
 
 export default function ReServe() {
@@ -54,37 +54,44 @@ export default function ReServe() {
     ...(isQuizPassed ? [{ title: 'Профессор Сквоша 🎓', emoji: '🎓' }] : []),
   ]
 
-  // Берем последний открытый бейдж в качестве текущего титула
   const currentTitle =
     unlockedBadges.length > 0
       ? unlockedBadges[unlockedBadges.length - 1].title
       : 'Начало пути 🎾'
 
-  // Загрузка локальных данных Софы при монтировании
-  // Инициализация сохраненных данных при первом запуске
+  // Безопасная загрузка локальных данных Софы при монтировании
   useEffect(() => {
-    // Загрузка счетчика переподач Софы с защитой от NaN
-    const savedCount = localStorage.getItem('sofaCount')
-    if (savedCount) {
-      const parsedCount = parseInt(savedCount, 10)
-      if (!isNaN(parsedCount)) {
-        setSofaCount(parsedCount)
+    try {
+      const savedCount = localStorage.getItem('sofaCount')
+      if (savedCount) {
+        const parsedCount = parseInt(savedCount, 10)
+        if (!isNaN(parsedCount)) {
+          setSofaCount(parsedCount)
+        }
       }
+    } catch (e) {
+      console.warn('Доступ к localStorage для sofaCount заблокирован браузером')
     }
 
-    const savedQuiz = localStorage.getItem('isQuizPassed')
-    if (savedQuiz === 'true') {
-      setIsQuizPassed(true)
+    try {
+      const savedQuiz = localStorage.getItem('isQuizPassed')
+      if (savedQuiz === 'true') {
+        setIsQuizPassed(true)
+      }
+    } catch (e) {
+      console.warn(
+        'Доступ к localStorage для isQuizPassed заблокирован браузером',
+      )
     }
 
-    // Регистрация Service Worker для PWA с обработкой ошибок
+    // Регистрация Service Worker для PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker
           .register('/sw.js')
           .then((reg) => console.log('PWA Service Worker зарегистрирован!'))
-          .catch(
-            (err) => console.error('Ошибка регистрации Service Worker:', err), // Добавлен вывод ошибки
+          .catch((err) =>
+            console.error('Ошибка регистрации Service Worker:', err),
           )
       })
     }
@@ -94,20 +101,22 @@ export default function ReServe() {
   const handleSofaServe = () => {
     const nextCount = sofaCount + 1
     setSofaCount(nextCount)
-    localStorage.setItem('sofaCount', nextCount.toString())
 
-    // Просто берем случайную фразу из внешнего статического массива
+    try {
+      localStorage.setItem('sofaCount', nextCount.toString())
+    } catch (e) {
+      console.warn('Не удалось записать sofaCount в localStorage')
+    }
+
     const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)]
     setEasterEggText(randomPhrase || 'Ты же моя умничка ❤️')
 
-    // Временная активация эффекта прыжка для счетчика
     setIsBouncing(true)
     setTimeout(() => setIsBouncing(false), 300)
   }
 
   return (
     <div className='max-w-4xl w-full'>
-      {/* Правило 2.7 (Софа) */}
       <section className='mt-12'>
         <div className='p-8 rounded-2xl border-2 border-amber-500 bg-amber-500/5 shadow-lg shadow-amber-500/5 relative overflow-hidden transition-all'>
           <div className='absolute top-0 right-0 w-32 h-32' />
@@ -179,26 +188,51 @@ export default function ReServe() {
                 {currentTitle}
               </div>
             </div>
+
             {unlockedBadges.length > 0 && (
-              <div className='pt-2'>
+              <div className='pt-2 sm:pt-0'>
                 <span
                   className={`text-[10px] font-bold uppercase tracking-wider block sm:text-right ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}
                 >
                   Разблокированные награды:
                 </span>
-                <div className='flex gap-1.5 mt-3 sm:justify-end'>
+                <div className='flex gap-1.5 mt-3 sm:justify-end flex-wrap'>
                   {unlockedBadges.map((badge, index) => (
-                    <span
+                    <div
                       key={badge.threshold ?? 'quiz'}
-                      className='w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-sm animate-bounce'
-                      title={badge.title}
-                      style={{
-                        animationDelay: `${index * 150}ms`,
-                        animationDuration: '1.2s',
-                      }}
+                      className='relative group flex justify-center'
                     >
-                      {badge.emoji}
-                    </span>
+                      {/* Кастомная всплывающая подсказка */}
+                      <div
+                        className={`absolute bottom-full mb-4 px-2.5 py-1.5 rounded-lg border text-[10px] font-bold shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 group-focus-within:translate-y-0 pointer-events-none z-30 w-max max-w-[160px] sm:max-w-[200px] text-center break-words leading-tight ${
+                          isDarkMode
+                            ? 'bg-neutral-950 border-neutral-800 text-amber-500'
+                            : 'bg-white border-slate-200 text-amber-600 shadow-md'
+                        }`}
+                      >
+                        {badge.title}
+                        {/* Маленькая стрелочка внизу подсказки */}
+                        <div
+                          className={`absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent ${
+                            isDarkMode
+                              ? 'border-t-neutral-950'
+                              : 'border-t-white'
+                          }`}
+                        />
+                      </div>
+
+                      {/* Иконка награды */}
+                      <span
+                        tabIndex={0}
+                        className='w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-sm animate-bounce cursor-help focus:outline-none'
+                        style={{
+                          animationDelay: `${index * 150}ms`,
+                          animationDuration: '1.2s',
+                        }}
+                      >
+                        {badge.emoji}
+                      </span>
+                    </div>
                   ))}
                 </div>
               </div>

@@ -7,9 +7,6 @@ import { tacticsData } from '@/data/tactics'
 export default function TacticsBoard() {
   const { isDarkMode } = useTheme() // Глобальная тема сайта
 
-  // Локальное бинарное состояние темы планшета (по умолчанию синхронизировано с глобальной)
-  const [isComponentDark, setIsComponentDark] = useState(isDarkMode)
-
   const [activeShot, setActiveShot] = useState('drive')
   const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, text: '' })
 
@@ -17,11 +14,6 @@ export default function TacticsBoard() {
   const dimensionsRef = useRef({ width: 120, height: 32 })
 
   const activeInfo = tacticsData[activeShot]
-
-  // Синхронизируем локальную тему с глобальной при изменении темы сайта
-  useEffect(() => {
-    setIsComponentDark(isDarkMode)
-  }, [isDarkMode])
 
   useEffect(() => {
     if (tooltip.show && tooltipRef.current) {
@@ -31,11 +23,6 @@ export default function TacticsBoard() {
       }
     }
   }, [tooltip.text, tooltip.show])
-
-  // Переключение локальной темы корта (Светлая / Темная)
-  const toggleLocalTheme = () => {
-    setIsComponentDark(!isComponentDark)
-  }
 
   const handleMouseMove = (e) => {
     const container = e.currentTarget.closest('.tactics-wrapper')
@@ -87,7 +74,6 @@ export default function TacticsBoard() {
 
   return (
     <div
-      // Карточка и бордеры всегда используют глобальную тему сайта isDarkMode
       className={`p-6 rounded-2xl border transition-all duration-300 relative tactics-wrapper ${
         isDarkMode
           ? 'border-neutral-800 bg-neutral-900/20 text-slate-100'
@@ -102,13 +88,13 @@ export default function TacticsBoard() {
           style={{
             left: `${tooltip.x}px`,
             top: `${tooltip.y}px`,
-            backgroundColor: isComponentDark
+            backgroundColor: isDarkMode
               ? 'rgba(10, 10, 12, 0.95)'
               : 'rgba(255, 255, 255, 0.95)',
-            borderColor: isComponentDark
+            borderColor: isDarkMode
               ? 'rgba(245, 158, 11, 0.3)'
               : 'rgba(217, 119, 6, 0.4)',
-            color: isComponentDark ? '#fbbf24' : '#d97706',
+            color: isDarkMode ? '#fbbf24' : '#d97706',
           }}
         >
           {tooltip.text}
@@ -128,8 +114,8 @@ export default function TacticsBoard() {
               width='320'
               height='420'
               strokeWidth='3'
-              fill={isComponentDark ? '#0f0f12' : '#f8fafc'}
-              stroke={isComponentDark ? '#26262c' : '#cbd5e1'}
+              fill={isDarkMode ? '#0f0f12' : '#f8fafc'}
+              stroke={isDarkMode ? '#26262c' : '#cbd5e1'}
             />
 
             <line
@@ -149,14 +135,14 @@ export default function TacticsBoard() {
               strokeWidth='2'
             />
 
-            {/* Левая зона подачи (3 стороны, без боковой стены) */}
+            {/* Левая зона подачи */}
             <path
               d='M 40,290 L 100,290 L 100,350 L 40,350'
               fill='transparent'
               stroke='#ef4444'
               strokeWidth='2'
             />
-            {/* Правая зона подачи (3 стороны, без боковой стены) */}
+            {/* Правая зона подачи */}
             <path
               d='M 360,290 L 300,290 L 300,350 L 360,350'
               fill='transparent'
@@ -177,7 +163,7 @@ export default function TacticsBoard() {
               y='20'
               textAnchor='middle'
               className='text-[10px] font-bold uppercase tracking-wider transition-colors duration-300'
-              fill={isComponentDark ? '#64748b' : '#94a3b8'}
+              fill={isDarkMode ? '#64748b' : '#94a3b8'}
             >
               Передняя стена
             </text>
@@ -187,7 +173,7 @@ export default function TacticsBoard() {
               y='472'
               textAnchor='middle'
               className='text-[10px] font-bold uppercase tracking-wider transition-colors duration-300'
-              fill={isComponentDark ? '#64748b' : '#94a3b8'}
+              fill={isDarkMode ? '#64748b' : '#94a3b8'}
             >
               Задняя стена (Стекло)
             </text>
@@ -205,7 +191,7 @@ export default function TacticsBoard() {
                   className='transition-all duration-300'
                 />
 
-                {/* Увеличили хитбокс до '28' */}
+                {/* Хитбокс */}
                 <path
                   d={path}
                   fill='none'
@@ -219,7 +205,7 @@ export default function TacticsBoard() {
                   onMouseLeave={handleMouseLeave}
                 />
 
-                {/* Анимированная группа: Двухточечный черный/белый мяч */}
+                {/* Анимированная группа: Двухточечный мяч */}
                 <g className='cursor-help'>
                   <animateMotion
                     dur={activeInfo.dur || '2.0s'}
@@ -230,8 +216,8 @@ export default function TacticsBoard() {
                   {/* Черный или белый матовый мяч в зависимости от темы */}
                   <circle
                     r='7.5'
-                    fill={isComponentDark ? '#f8fafc' : '#1c1917'}
-                    stroke={isComponentDark ? '#3f3f46' : '#94a3b8'}
+                    fill={isDarkMode ? '#f8fafc' : '#1c1917'}
+                    stroke={isDarkMode ? '#3f3f46' : '#94a3b8'}
                     strokeWidth='0.8'
                   />
                   {/* Две маленькие желтые точки */}
@@ -246,31 +232,10 @@ export default function TacticsBoard() {
         {/* Правая колонка: Выбор удара и разбор */}
         <div className='flex flex-col justify-between h-full'>
           <div>
-            {/* ШАПКА РАЗДЕЛА УДАРОВ (Кнопка темы справа от надписи в одну линию на краю карточки) */}
-            <div className='flex justify-between items-center mb-4 w-full'>
-              <span className='text-xs font-bold text-amber-500 uppercase tracking-widest block'>
-                Выберите тип удара:
-              </span>
-
-              {/* Локальный бинарный переключатель темы планшета (Солнце / Луна) */}
-              <button
-                onClick={toggleLocalTheme}
-                className={`w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer transition-all ${
-                  isDarkMode
-                    ? 'bg-neutral-900 border-neutral-800 text-amber-400 hover:bg-neutral-850'
-                    : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 shadow-xs'
-                }`}
-                title={
-                  isComponentDark
-                    ? 'Переключить планшет на светлую тему'
-                    : 'Переключить планшет на темную тему'
-                }
-              >
-                <span className='text-sm select-none'>
-                  {isComponentDark ? '☀️' : '🌙'}
-                </span>
-              </button>
-            </div>
+            {/* ШАПКА РАЗДЕЛА УДАРОВ */}
+            <span className='text-xs font-bold text-amber-500 uppercase tracking-widest block mb-4'>
+              Выберите тип удара:
+            </span>
 
             {/* Кнопки выбора удара */}
             <div className='flex flex-wrap gap-2 mb-6'>
@@ -304,7 +269,7 @@ export default function TacticsBoard() {
               ))}
             </div>
 
-            {/* Карточка разбора (всегда сохраняет общую тему сайта isDarkMode) */}
+            {/* Карточка разбора */}
             <div
               className={`p-5 rounded-xl border transition-all duration-300 ${
                 isDarkMode

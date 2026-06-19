@@ -2,12 +2,12 @@
 
 import { createContext, useContext, useState, useEffect } from 'react'
 
-const ThemeContext = createContext()
+const ThemeContext = createContext(null) // Добавлен дефолтный null для предотвращения ворнингов линтера
 
 export function ThemeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(true)
 
-  // Безопасная инициализация темы в ThemeContext.js
+  // Безопасная инициализация темы
   useEffect(() => {
     let dark = true
     try {
