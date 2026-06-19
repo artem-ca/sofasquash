@@ -7,10 +7,7 @@ import RacquetDetailModal from '@/components/RacquetDetailModal'
 import { useTheme } from '@/components/ThemeContext'
 
 export default function RacquetsPage() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-
-  // Берем и состояние, и функцию переключения из нашего глобального контекста ThemeContext!
-  const { isDarkMode, toggleTheme } = useTheme()
+  const { isDarkMode } = useTheme()
 
   // Состояния фильтрации и сравнения
   const [searchTerm, setSearchTerm] = useState('')
@@ -18,6 +15,7 @@ export default function RacquetsPage() {
   const [selectedWeight, setSelectedWeight] = useState('all')
   const [selectedShape, setSelectedShape] = useState('all')
   const [selectedBalance, setSelectedBalance] = useState('all')
+  const [selectedAgeGroup, setSelectedAgeGroup] = useState('all')
 
   const [comparisonList, setComparisonList] = useState([])
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false)
@@ -26,7 +24,13 @@ export default function RacquetsPage() {
   // Новое состояние для открытого модального окна конкретной ракетки
   const [selectedRacquet, setSelectedRacquet] = useState(null)
 
-  // Все локальные функции темы и useEffect удалены, так как ThemeProvider делает это за нас!
+  // Безопасный сброс предупреждений для предотвращения утечки памяти
+  useEffect(() => {
+    if (warningMessage) {
+      const timer = setTimeout(() => setWarningMessage(''), 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [warningMessage])
 
   // Логика добавления в сравнение
   const toggleComparison = (racquet) => {
@@ -36,8 +40,7 @@ export default function RacquetsPage() {
       setWarningMessage('')
     } else {
       if (comparisonList.length >= 5) {
-        setWarningMessage('Максимум 5 ракеток для сравнения! ⚠️')
-        setTimeout(() => setWarningMessage(''), 3000)
+        setWarningMessage('Максимум 5 ракеток для сравнения!')
         return
       }
       setComparisonList([...comparisonList, racquet])
@@ -56,6 +59,8 @@ export default function RacquetsPage() {
       selectedShape === 'all' || racquet.headShape === selectedShape
     const matchesBalance =
       selectedBalance === 'all' || racquet.balanceText === selectedBalance
+    const matchesAgeGroup =
+      selectedAgeGroup === 'all' || racquet.ageGroup === selectedAgeGroup
 
     let matchesWeight = true
     if (selectedWeight === 'light') matchesWeight = racquet.weight < 120
@@ -68,19 +73,14 @@ export default function RacquetsPage() {
       matchesBrand &&
       matchesShape &&
       matchesBalance &&
-      matchesWeight
+      matchesWeight &&
+      matchesAgeGroup
     )
   })
 
   return (
     <div className='flex min-h-[calc(100vh-4rem)] font-sans antialiased selection:bg-amber-500/30'>
-      {/* Основная текстовая область документа */}
-      {/* 
-        1. Мы убрали max-w-4xl и mx-auto у тега <main>, сделав его полноширинным.
-        Теперь контент может занимать всю ширину экрана.
-      */}
       <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 w-full'>
-        {/* 2. Оборачиваем шапку и фильтры в центрированный контейнер max-w-4xl */}
         <div className='max-w-4xl mx-auto w-full mb-12'>
           <header className='mb-12'>
             <h1
@@ -124,7 +124,7 @@ export default function RacquetsPage() {
             </div>
 
             {/* Селекты фильтрации */}
-            <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
+            <div className='grid grid-cols-2 md:grid-cols-5 gap-3'>
               <select
                 value={selectedBrand}
                 onChange={(e) => setSelectedBrand(e.target.value)}
@@ -135,11 +135,13 @@ export default function RacquetsPage() {
                 }`}
               >
                 <option value='all'>Все бренды</option>
+                <option value='Harrow'>Harrow</option>
+                <option value='Head'>Head</option>
                 <option value='Tecnifibre'>Tecnifibre</option>
                 <option value='Dunlop'>Dunlop</option>
-                <option value='Head'>Head</option>
-                <option value='Harrow'>Harrow</option>
+                <option value='Oliver'>Oliver</option>
                 <option value='Karakal'>Karakal</option>
+                <option value='Eye'>Eye</option>
               </select>
 
               <select
@@ -185,18 +187,32 @@ export default function RacquetsPage() {
                 <option value='Нейтральный'>Нейтральный</option>
                 <option value='В ручку'>В ручку</option>
               </select>
+
+              <select
+                value={selectedAgeGroup}
+                onChange={(e) => setSelectedAgeGroup(e.target.value)}
+                className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
+                  isDarkMode
+                    ? 'bg-neutral-950 border-neutral-800'
+                    : 'bg-slate-50 border-slate-200'
+                }`}
+              >
+                <option value='all'>Любой возраст</option>
+                <option value='Взрослая'>Взрослая</option>
+                <option value='Детская'>Детская</option>
+              </select>
             </div>
           </section>
         </div>
+
         {warningMessage && (
           <div className='p-4 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 text-xs font-bold mb-6 text-center animate-bounce'>
             {warningMessage}
           </div>
         )}
-        {/* Минималистичная сетка ракеток формата фото-название */}
-        {/* Минималистичная сетка ракеток формата фото-название (растянута на всю ширину) */}
+
+        {/* Сетка ракеток */}
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 w-full'>
-          {' '}
           {filteredRacquets.map((racquet) => (
             <RacquetCard
               key={racquet.id}
@@ -205,10 +221,11 @@ export default function RacquetsPage() {
               isCompared={
                 !!comparisonList.find((item) => item.id === racquet.id)
               }
-              onClick={() => setSelectedRacquet(racquet)} // Клик по карточке открывает модальное окно
+              onClick={() => setSelectedRacquet(racquet)}
             />
           ))}
         </div>
+
         {/* Плавающая панель сравнения внизу */}
         {comparisonList.length > 0 && (
           <div
@@ -230,10 +247,11 @@ export default function RacquetsPage() {
               onClick={() => setIsCompareModalOpen(true)}
               className='px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow-md cursor-pointer active:scale-95 transition-all'
             >
-              Сравнить 📊
+              Сравнить
             </button>
           </div>
         )}
+
         {/* Персональное модальное окно деталей ракетки */}
         {selectedRacquet && (
           <RacquetDetailModal
@@ -246,6 +264,7 @@ export default function RacquetsPage() {
             onClose={() => setSelectedRacquet(null)}
           />
         )}
+
         {/* Таблица сравнения ракеток бок о бок */}
         {isCompareModalOpen && (
           <div className='fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto'>
@@ -273,7 +292,7 @@ export default function RacquetsPage() {
                     <tr
                       className={
                         isDarkMode
-                          ? 'border-b border-neutral-850'
+                          ? 'border-b border-neutral-800'
                           : 'border-b border-slate-200'
                       }
                     >
@@ -305,7 +324,7 @@ export default function RacquetsPage() {
                     <tr
                       className={
                         isDarkMode
-                          ? 'border-b border-neutral-850/50'
+                          ? 'border-b border-neutral-800/50'
                           : 'border-b border-slate-200/50'
                       }
                     >
@@ -319,7 +338,7 @@ export default function RacquetsPage() {
                     <tr
                       className={
                         isDarkMode
-                          ? 'border-b border-neutral-850/50'
+                          ? 'border-b border-neutral-800/50'
                           : 'border-b border-slate-200/50'
                       }
                     >
@@ -333,7 +352,7 @@ export default function RacquetsPage() {
                     <tr
                       className={
                         isDarkMode
-                          ? 'border-b border-neutral-850/50'
+                          ? 'border-b border-neutral-800/50'
                           : 'border-b border-slate-200/50'
                       }
                     >
@@ -349,7 +368,7 @@ export default function RacquetsPage() {
                     <tr
                       className={
                         isDarkMode
-                          ? 'border-b border-neutral-850/50'
+                          ? 'border-b border-neutral-800/50'
                           : 'border-b border-slate-200/50'
                       }
                     >
@@ -365,7 +384,7 @@ export default function RacquetsPage() {
                     <tr
                       className={
                         isDarkMode
-                          ? 'border-b border-neutral-850/50'
+                          ? 'border-b border-neutral-800/50'
                           : 'border-b border-slate-200/50'
                       }
                     >
@@ -381,7 +400,7 @@ export default function RacquetsPage() {
                     <tr
                       className={
                         isDarkMode
-                          ? 'border-b border-neutral-850/50'
+                          ? 'border-b border-neutral-800/50'
                           : 'border-b border-slate-200/50'
                       }
                     >
@@ -395,7 +414,7 @@ export default function RacquetsPage() {
                     <tr
                       className={
                         isDarkMode
-                          ? 'border-b border-neutral-850/50'
+                          ? 'border-b border-neutral-800/50'
                           : 'border-b border-slate-200/50'
                       }
                     >
@@ -420,13 +439,13 @@ export default function RacquetsPage() {
                   onClick={() => setComparisonList([])}
                   className='px-5 py-2.5 rounded-xl border border-red-500/20 text-red-400 hover:bg-red-500/5 font-bold text-xs cursor-pointer transition-all'
                 >
-                  Очистить список 🔄
+                  Очистить список
                 </button>
                 <button
                   onClick={() => setIsCompareModalOpen(false)}
                   className='px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs cursor-pointer transition-all'
                 >
-                  Закрыть 🚪
+                  Закрыть
                 </button>
               </div>
             </div>

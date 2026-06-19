@@ -1655,10 +1655,10 @@ export const racquets = [
     ageGroup: 'Взрослая',
   },
 
-  // === EYE RACKETS (10 ракеток) ===
+  // === EYE (10 ракеток) ===
   {
     id: 'eye-rackets-v-lite-145-control-club-series',
-    brand: 'Eye Rackets',
+    brand: 'Eye',
     model: 'V-Lite 145 Control (Club Series)',
     year: 2025,
     weight: 145,
@@ -1678,7 +1678,7 @@ export const racquets = [
   },
   {
     id: 'eye-rackets-v-lite-110',
-    brand: 'Eye Rackets',
+    brand: 'Eye',
     model: 'V-Lite 110',
     year: 2025,
     weight: 110,
@@ -1696,7 +1696,7 @@ export const racquets = [
   },
   {
     id: 'eye-rackets-v-lite-120',
-    brand: 'Eye Rackets',
+    brand: 'Eye',
     model: 'V-Lite 120',
     year: 2025,
     weight: 120,
@@ -1714,7 +1714,7 @@ export const racquets = [
   },
   {
     id: 'eye-rackets-v-lite-125',
-    brand: 'Eye Rackets',
+    brand: 'Eye',
     model: 'V-Lite 125',
     year: 2025,
     weight: 125,
@@ -1732,7 +1732,7 @@ export const racquets = [
   },
   {
     id: 'eye-rackets-v-lite-130',
-    brand: 'Eye Rackets',
+    brand: 'Eye',
     model: 'V-Lite 130',
     year: 2025,
     weight: 130,
@@ -1750,7 +1750,7 @@ export const racquets = [
   },
   {
     id: 'eye-rackets-v-lite-135',
-    brand: 'Eye Rackets',
+    brand: 'Eye',
     model: 'V-Lite 135',
     year: 2025,
     weight: 135,
@@ -1768,7 +1768,7 @@ export const racquets = [
   },
   {
     id: 'eye-rackets-x-lite-115',
-    brand: 'Eye Rackets',
+    brand: 'Eye',
     model: 'X-Lite 115',
     year: 2025,
     weight: 115,
@@ -1786,7 +1786,7 @@ export const racquets = [
   },
   {
     id: 'eye-rackets-x-lite-125',
-    brand: 'Eye Rackets',
+    brand: 'Eye',
     model: 'X-Lite 125',
     year: 2025,
     weight: 125,
@@ -1804,7 +1804,7 @@ export const racquets = [
   },
   {
     id: 'eye-rackets-v-lite-115-paul-coll-signature',
-    brand: 'Eye Rackets',
+    brand: 'Eye',
     model: 'V-Lite 115 Paul Coll Signature',
     year: 2025,
     weight: 115,
@@ -1843,7 +1843,7 @@ export const racquets = [
   //   ageGroup: 'Взрослая',
   // },
 
-  // === OLIVER (22 ракеток) ===
+  // === OLIVER (22 ракетки) ===
   {
     id: 'oliver-apex-5-0-pro',
     brand: 'Oliver',
