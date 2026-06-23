@@ -12,8 +12,8 @@ export default function Navbar() {
 
   // Отслеживаем смену адреса в Next.js и вручную отправляем событие просмотра в Метрику
   useEffect(() => {
-    // Вставьте ваш реальный ID счетчика вместо 98765432:
-    const metricaId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || '98765432'
+    // Реальный ID счетчика Метрики (совпадает с layout.js)
+    const metricaId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || '109839456'
 
     if (
       metricaId !== '0' &&
@@ -82,7 +82,7 @@ export default function Navbar() {
             onClick={toggleTheme}
             className={`w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer transition-colors ${
               isDarkMode
-                ? 'bg-neutral-900 border-neutral-800 text-amber-400 hover:bg-neutral-850'
+                ? 'bg-neutral-900 border-neutral-800 text-amber-400 hover:bg-neutral-800'
                 : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
             }`}
           >

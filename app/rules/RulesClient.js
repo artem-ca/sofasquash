@@ -237,7 +237,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>1.1.</strong> Одиночный сквош играется на закрытом
@@ -281,7 +281,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>2.1.</strong> В сквоше используется система PAR
@@ -328,7 +328,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>3.1.</strong> В состав судейской коллегии входят
@@ -341,7 +341,7 @@ export default function RulesPage() {
                 </p>
                 <p>
                   <strong>3.3.</strong> Маркер ведет счет вслух и объявляет
-                  результаты ударов ("Out", "Down").
+                  результаты ударов (&quot;Out&quot;, &quot;Down&quot;).
                 </p>
                 <p>
                   <strong>3.4.</strong> Рефери принимает окончательные решения
@@ -375,7 +375,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>4.1.</strong> Непосредственно перед началом матча
@@ -417,7 +417,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>5.1.</strong> Право первой подачи определяется
@@ -467,7 +467,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>6.1.</strong> После подачи игроки совершают удары
@@ -516,7 +516,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>7.1.</strong> Время между окончанием пятиминутной
@@ -559,7 +559,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>8.1.</strong> Игрок, совершивший удар, обязан
@@ -570,7 +570,7 @@ export default function RulesPage() {
                 </p>
                 <p>
                   <strong>8.2.</strong> При возникновении помехи игрок должен
-                  остановиться и сказать "Let, please" (Лет).
+                  остановиться и сказать &quot;Let, please&quot; (Лет).
                 </p>
                 <p>
                   <strong>8.3.</strong> Судья выносит одно из трех решений:
@@ -624,7 +624,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>9.1.</strong> Если мяч после удара летит к передней
@@ -672,7 +672,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>10.1.</strong> Игрок имеет право остановить розыгрыш и
@@ -715,7 +715,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>11.1.</strong> Игровой мяч и ракетки должны строго
@@ -759,7 +759,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>12.1.</strong> Если корт становится небезопасным
@@ -808,7 +808,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>13.1. Кровотечение (Blood):</strong> При обнаружении
@@ -863,7 +863,7 @@ export default function RulesPage() {
                 </h2>
               </div>
               <div
-                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}
+                className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
               >
                 <p>
                   <strong>14.1.</strong> Игроки обязаны вести себя спортивно.

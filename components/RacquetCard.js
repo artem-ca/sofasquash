@@ -31,11 +31,14 @@ export default function RacquetCard({
       )}
 
       {/* Зона изображения — свободное парение картинки без серого бокса */}
-      <div className='w-full h-64 max-h-72 flex items-center justify-center bg-transparent mt-2 transition-transform duration-300 group-hover:scale-103'>
+      <div className='w-full h-64 max-h-72 flex items-center justify-center bg-transparent mt-2 transition-transform duration-300 group-hover:scale-105'>
         {hasImages ? (
           <img
             src={racquet.images[0]}
             alt={`${racquet.brand} ${racquet.model}`}
+            loading='lazy'
+            width={500}
+            height={500}
             className='object-contain h-full w-auto select-none'
           />
         ) : (

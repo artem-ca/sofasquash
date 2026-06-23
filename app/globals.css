@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* В Tailwind v4 вариант dark: по умолчанию завязан на prefers-color-scheme.
+   Перекрываем, чтобы он реагировал на класс .dark на <html>
+   (логика переключения темы живет в ThemeContext.js). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Плавная прокрутка страницы */
 html {
   scroll-behavior: smooth;

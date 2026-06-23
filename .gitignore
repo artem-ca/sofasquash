@@ -27,3 +27,10 @@ yarn-error.log*
 .pnpm-debug.log*
 
 download-oliver-all.js
+
+# Вспомогательные скрипты скрапинга/обработки изображений
+standardize-racquets.py
+
+# Исходные и промежуточные изображения ракеток (не для публикации)
+/raw_images/
+/processed_images/

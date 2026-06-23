@@ -49,6 +49,8 @@ export default function RacquetDetailModal({
                 <img
                   src={racquet.images[activeImageIdx]}
                   alt={`${racquet.brand} ${racquet.model}`}
+                  width={500}
+                  height={500}
                   className='object-contain h-full w-auto max-h-56 select-none'
                 />
                 {racquet.images.length > 1 && (
@@ -65,7 +67,7 @@ export default function RacquetDetailModal({
                     >
                       ▶
                     </button>
-                    <div className='absolute bottom-2 px-2 py-0.5 rounded-md bg-black/60 text-[10px] text-slate-350 font-bold'>
+                    <div className='absolute bottom-2 px-2 py-0.5 rounded-md bg-black/60 text-[10px] text-slate-300 font-bold'>
                       {activeImageIdx + 1} / {racquet.images.length}
                     </div>
                   </>
@@ -95,7 +97,7 @@ export default function RacquetDetailModal({
 
               {/* Таблица параметров */}
               <div
-                className={`border-t text-xs divide-y ${isDarkMode ? 'border-neutral-800 divide-neutral-850' : 'border-slate-100 divide-slate-100'}`}
+                className={`border-t text-xs divide-y ${isDarkMode ? 'border-neutral-800 divide-neutral-800' : 'border-slate-100 divide-slate-100'}`}
               >
                 <div className='py-2 flex justify-between'>
                   <span className='text-slate-500'>Вес рамы:</span>

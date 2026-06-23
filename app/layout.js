@@ -15,6 +15,23 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang='ru' suppressHydrationWarning>
+      <head>
+        {/* Применяем тему до первого рендера, чтобы исключить мелькание (FOUC).
+            Класс .dark здесь должен совпадать с логикой в ThemeContext.js. */}
+        <Script id='theme-init' strategy='beforeInteractive'>
+          {`
+            (function () {
+              try {
+                var saved = localStorage.getItem('theme');
+                var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (dark) document.documentElement.classList.add('dark');
+              } catch (e) {
+                document.documentElement.classList.add('dark');
+              }
+            })();
+          `}
+        </Script>
+      </head>
       <body>
         <Script id='yandex-metrica' strategy='afterInteractive'>
           {`

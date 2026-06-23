@@ -185,7 +185,7 @@ export default function GlossaryPage() {
                     <div
                       className={`px-5 pb-5 pt-1 border-t text-sm leading-relaxed animate-fade-in ${
                         isDarkMode
-                          ? 'border-neutral-800 text-slate-350'
+                          ? 'border-neutral-800 text-slate-300'
                           : 'border-slate-100 text-slate-600'
                       }`}
                     >

@@ -136,7 +136,7 @@ export default function Quiz({ isDarkMode, onPerfectScore, isQuizPassed }) {
           <div className='flex flex-col gap-3 mb-6'>
             {questions[currentQ].options.map((option, idx) => {
               let btnClass = isDarkMode
-                ? 'border-neutral-800 bg-neutral-900/40 text-slate-350 hover:border-amber-500/30'
+                ? 'border-neutral-800 bg-neutral-900/40 text-slate-300 hover:border-amber-500/30'
                 : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-amber-500/50'
 
               if (isAnswered) {
@@ -206,7 +206,7 @@ export default function Quiz({ isDarkMode, onPerfectScore, isQuizPassed }) {
             </div>
           ) : (
             <p className='text-sm text-slate-400 mt-2 max-w-md mx-auto'>
-              Хорошая попытка! Чтобы разблокировать секретную награду "Профессор
+              Хорошая попытка! Чтобы разблокировать секретную награду «Профессор
               Сквоша 🎓», вам нужно ответить правильно на все 5 вопросов.
               Попробуйте еще раз!
             </p>
