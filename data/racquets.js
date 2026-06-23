@@ -1574,7 +1574,7 @@ export const racquets = [
     material: 'Premium Graphite / Carbon',
     player: 'Amateur Choice',
     images: [
-      '/images/racquets/karakal/karakal-raw-pro-lite-2-1-squash-racket.jpg',
+      '/images/racquets/karakal/karakal-raw-pro-lite-2-1-squash-racket.webp',
     ],
     description:
       'Суперлегкая технологичная модель Karakal Raw Pro Lite. Позволяет совершать молниеносные кистевые удары и полностью контролировать темп розыгрыша.',
@@ -1593,7 +1593,7 @@ export const racquets = [
     headSize: 455,
     material: 'Fast Fibre Graphite',
     player: 'Junior Champions',
-    images: ['/images/racquets/karakal/karakal-s-100ff-2-1-squash-racket.jpg'],
+    images: ['/images/racquets/karakal/karakal-s-100ff-2-1-squash-racket.webp'],
     description:
       'Ультралегкая рама весом 100 г с утолщенным профилем. Прекрасный выбор для прогрессирующих юниоров и любителей.',
     ageGroup: 'Взрослая',
