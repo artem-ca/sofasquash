@@ -5,33 +5,28 @@ import { createContext, useContext, useState, useEffect } from 'react'
 const ThemeContext = createContext(null) // Добавлен дефолтный null для предотвращения ворнингов линтера
 
 export function ThemeProvider({ children }) {
-  // Инициализируем из класса, который выставил инлайн-скрипт в <head>.
-  // Так состояние React сразу совпадает с реальной темой — без мелькания (FOUC).
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof document === 'undefined') return true
-    return document.documentElement.classList.contains('dark')
-  })
+  const [isDarkMode, setIsDarkMode] = useState(true)
 
-  // Поддержка системного переключателя темы: если пользователь меняет ОС-тему,
-  // но ещё не выбирал вручную (нет записи в localStorage) — синхронизируемся.
+  // Безопасная инициализация темы
   useEffect(() => {
-    let savedTheme = null
+    let dark = true
     try {
-      savedTheme = localStorage.getItem('theme')
+      const savedTheme = localStorage.getItem('theme')
+      if (savedTheme) {
+        dark = savedTheme === 'dark'
+      } else {
+        dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      }
     } catch (e) {
-      // Доступ к localStorage заблокирован браузером — оставляем текущую тему
-      return
+      console.warn('Доступ к localStorage заблокирован браузером')
     }
-    if (savedTheme) return // тема уже зафиксирована выбором пользователя
 
-    const media = window.matchMedia('(prefers-color-scheme: dark)')
-    const handler = () => {
-      const dark = media.matches
-      setIsDarkMode(dark)
-      document.documentElement.classList.toggle('dark', dark)
+    setIsDarkMode(dark)
+    if (dark) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
     }
-    media.addEventListener('change', handler)
-    return () => media.removeEventListener('change', handler)
   }, [])
 
   const toggleTheme = () => {

@@ -15,17 +15,6 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang='ru' suppressHydrationWarning>
-      <head>
-        {/* Инлайн-скрипт применяет тему ДО первого пэйнта — исключает мелькание (FOUC).
-            Это обычный <script>, а не next/script: он не проходит через React-гидратацию,
-            поэтому не вызывает hydration mismatch и warning'ов про script tag.
-            Логика класса .dark должна совпадать с ThemeContext.js. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=localStorage.getItem('theme');var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark')}catch(e){document.documentElement.classList.add('dark')}})();`,
-          }}
-        />
-      </head>
       <body>
         <Script id='yandex-metrica' strategy='afterInteractive'>
           {`
