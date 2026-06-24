@@ -29,6 +29,7 @@ export default function Navbar() {
     { href: '/tactics', label: 'Тактика' },
     { href: '/glossary', label: 'Глоссарий' },
     { href: '/rules', label: 'Правила' },
+    { href: '/blog', label: 'Блог' }, // Добавлена вкладка Блога
   ]
 
   return (

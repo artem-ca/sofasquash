@@ -9,3 +9,62 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Стилизация отрендеренного контента статей блога */
+.markdown-content h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-slate-900);
+}
+
+:where(.dark) .markdown-content h2 {
+  color: var(--color-slate-100);
+  background: linear-gradient(
+    to right,
+    var(--color-amber-200),
+    var(--color-yellow-400),
+    var(--color-amber-500)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.markdown-content h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-amber-500);
+}
+
+.markdown-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.markdown-content li {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-content strong {
+  font-weight: 700;
+  color: var(--color-slate-900);
+}
+
+:where(.dark) .markdown-content strong {
+  color: var(--color-slate-100);
+}
+
+.markdown-content hr {
+  border: 0;
+  border-top: 1px solid var(--color-slate-200);
+  margin: 2.5rem 0;
+}
+
+:where(.dark) .markdown-content hr {
+  border-top: 1px solid var(--color-neutral-800);
+}
