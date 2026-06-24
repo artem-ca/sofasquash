@@ -14,7 +14,7 @@ export const racquets = [
     stringPattern: '14x18',
     headSize: 500,
     material: 'Graphite / Aramid',
-    player: 'Mostafa Asal',
+    player: 'Tecnifibre Team',
     images: [
       '/images/racquets/tecnifibre/tecnifibre-carboflex-120-x-top-v2.webp',
     ],
@@ -204,7 +204,7 @@ export const racquets = [
     stringPattern: '16x19',
     headSize: 500,
     material: 'Premium Carbon / Flex Touch',
-    player: 'Dunlop Pro Team',
+    player: 'Amina Orfi',
     images: ['/images/racquets/dunlop/dunlop-cx120.webp'],
     description:
       'Ультралегкая классическая ракетка весом 120 г. Позволяет делать молниеносные кистевые укороченные удары из любой точки корта.',
@@ -692,7 +692,7 @@ export const racquets = [
     stringPattern: '12x17',
     headSize: 500,
     material: 'Graphene Inside / Auxetic 2.0',
-    player: 'Head Team',
+    player: 'Hania El Hammamy',
     images: ['/images/racquets/head/head-speed-135-slimbody.webp'],
     description:
       'Тяжелая аэродинамичная рама для игроков среднего уровня. Обеспечивает стабильный, плотный замах и прощает технические ошибки.',
@@ -710,7 +710,7 @@ export const racquets = [
     stringPattern: '12x17',
     headSize: 500,
     material: 'Graphene Inside / Auxetic 2.0',
-    player: 'Head Team',
+    player: 'Hania El Hammamy',
     images: ['/images/racquets/head/head-speed-135.webp'],
     description:
       'Тяжелая аэродинамичная рама для игроков среднего уровня. Обеспечивает стабильный, плотный замах и прощает технические ошибки.',
@@ -804,7 +804,7 @@ export const racquets = [
     material: 'Premium Graphite / Carbon',
     player: 'Karim Abdel Gawad',
     images: [
-      '/images/racquets/harrow/harrow-karim-abdel-gawab-signature-vibe-115-1.webp',
+      '/images/racquets/harrow/harrow-karim-abdel-gawad-signature-vibe-115-1.webp',
     ],
     description:
       'Элитная спортивная рама Harrow Vibe 115 (Karim Abdel Gawad). Обладает непревзойденной жесткостью и традиционно тяжелым балансом в голову для мощного доминирования в Т-зоне.',
@@ -1856,7 +1856,7 @@ export const racquets = [
     stringPattern: '14x18',
     headSize: 500,
     material: 'Braided Eplon',
-    player: 'Amateur Choice',
+    player: 'Baptiste Masotti',
     images: ['/images/racquets/oliver/oliver-apex-5-0-pro-squashracket.webp'],
     description:
       'Премиальная ракетка Oliver Apex 5.0 Pro из высокомодульного карбона. Обеспечивает филигранный контроль направления полета мяча при любых углах атаки.',
