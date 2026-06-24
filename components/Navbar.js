@@ -12,7 +12,6 @@ export default function Navbar() {
 
   // Отслеживаем смену адреса в Next.js и вручную отправляем событие просмотра в Метрику
   useEffect(() => {
-    // Реальный ID счетчика Метрики (совпадает с layout.js)
     const metricaId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || '109839456'
 
     if (
@@ -33,22 +32,14 @@ export default function Navbar() {
   ]
 
   return (
-    <header
-      className={`sticky top-0 z-50 w-full border-b transition-all duration-300 backdrop-blur-md ${
-        isDarkMode
-          ? 'bg-neutral-950/80 border-neutral-900 text-slate-100'
-          : 'bg-white/80 border-slate-200 text-slate-900'
-      }`}
-    >
+    <header className='sticky top-0 z-50 w-full border-b transition-all duration-300 backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border-slate-200 dark:border-neutral-900 text-slate-900 dark:text-slate-100'>
       <div className='max-w-5xl mx-auto px-6 h-16 flex items-center justify-between'>
         {/* Логотип */}
         <Link href='/' className='flex flex-col leading-none select-none'>
           <span className='font-extrabold text-base tracking-wider'>
-            {/* SOFA RULES */}
             SQUASH
           </span>
           <span className='text-[9px] text-amber-500 font-bold uppercase tracking-widest mt-0.5'>
-            {/* Squash Portal 2026 */}
             portal
           </span>
         </Link>
@@ -64,12 +55,8 @@ export default function Navbar() {
                 href={link.href}
                 className={`text-xs font-bold uppercase tracking-wider transition-colors duration-150 ${
                   isActive
-                    ? isDarkMode
-                      ? 'text-amber-400'
-                      : 'text-amber-600' // Светится золотом, если активна
-                    : isDarkMode
-                      ? 'text-slate-400 hover:text-amber-400'
-                      : 'text-slate-600 hover:text-amber-600'
+                    ? 'text-amber-600 dark:text-amber-400'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400'
                 }`}
               >
                 {link.label}
@@ -77,30 +64,25 @@ export default function Navbar() {
             )
           })}
 
-          {/* Кнопка темы */}
+          {/* Десктопная кнопка темы (Мгновенное переключение иконки через CSS) */}
           <button
             onClick={toggleTheme}
-            className={`w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer transition-colors ${
-              isDarkMode
-                ? 'bg-neutral-900 border-neutral-800 text-amber-400 hover:bg-neutral-800'
-                : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-            }`}
+            className='w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer transition-colors bg-slate-50 dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-amber-400 hover:bg-slate-100 dark:hover:bg-neutral-800'
           >
-            {isDarkMode ? '☀️' : '🌙'}
+            <span className='block dark:hidden select-none text-sm'>🌙</span>
+            <span className='hidden dark:block select-none text-sm'>☀️</span>
           </button>
         </nav>
 
         {/* Мобильная зона */}
         <div className='flex items-center gap-2 md:hidden'>
+          {/* Мобильная кнопка темы (Мгновенное переключение иконки через CSS) */}
           <button
             onClick={toggleTheme}
-            className={`w-10 h-10 rounded-xl border flex items-center justify-center cursor-pointer ${
-              isDarkMode
-                ? 'bg-neutral-900 border-neutral-800 text-amber-400'
-                : 'bg-white border-slate-200 text-slate-700'
-            }`}
+            className='w-10 h-10 rounded-xl border flex items-center justify-center cursor-pointer bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-amber-400'
           >
-            {isDarkMode ? '☀️' : '🌙'}
+            <span className='block dark:hidden select-none text-sm'>🌙</span>
+            <span className='hidden dark:block select-none text-sm'>☀️</span>
           </button>
 
           <button
@@ -138,7 +120,7 @@ export default function Navbar() {
                     isActive
                       ? isDarkMode
                         ? 'text-amber-400 bg-neutral-900/50'
-                        : 'text-amber-600 bg-slate-100' // Светится золотом и выделяет фон
+                        : 'text-amber-600 bg-slate-100'
                       : isDarkMode
                         ? 'text-slate-300 hover:bg-neutral-900 hover:text-amber-400'
                         : 'text-slate-700 hover:bg-slate-50 hover:text-amber-600'

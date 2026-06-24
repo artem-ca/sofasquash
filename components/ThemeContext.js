@@ -2,12 +2,13 @@
 
 import { createContext, useContext, useState, useEffect } from 'react'
 
-const ThemeContext = createContext(null) // Добавлен дефолтный null для предотвращения ворнингов линтера
+const ThemeContext = createContext(null)
 
 export function ThemeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
 
-  // Безопасная инициализация темы
+  // Безопасная инициализация темы — синхронизируем React-состояние с уже установленным классом
   useEffect(() => {
     let dark = true
     try {
@@ -22,11 +23,7 @@ export function ThemeProvider({ children }) {
     }
 
     setIsDarkMode(dark)
-    if (dark) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+    setIsMounted(true) // Монтирование завершено — теперь переключения будут плавными
   }, [])
 
   const toggleTheme = () => {
@@ -49,11 +46,9 @@ export function ThemeProvider({ children }) {
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
       <div
-        className={`min-h-screen transition-colors duration-300 overflow-x-hidden ${
-          isDarkMode
-            ? 'bg-neutral-950 text-slate-100'
-            : 'bg-slate-50 text-slate-900'
-        }`}
+        className={`min-h-screen overflow-x-hidden ${
+          isMounted ? 'transition-colors duration-300' : ''
+        } bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100`}
       >
         {children}
       </div>

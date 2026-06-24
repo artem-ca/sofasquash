@@ -9,7 +9,6 @@ import { useTheme } from '@/components/ThemeContext'
 export default function RacquetsPage() {
   const { isDarkMode } = useTheme()
 
-  // Состояния фильтрации и сравнения
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('all')
   const [selectedWeight, setSelectedWeight] = useState('all')
@@ -20,11 +19,8 @@ export default function RacquetsPage() {
   const [comparisonList, setComparisonList] = useState([])
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false)
   const [warningMessage, setWarningMessage] = useState('')
-
-  // Новое состояние для открытого модального окна конкретной ракетки
   const [selectedRacquet, setSelectedRacquet] = useState(null)
 
-  // Безопасный сброс предупреждений для предотвращения утечки памяти
   useEffect(() => {
     if (warningMessage) {
       const timer = setTimeout(() => setWarningMessage(''), 3000)
@@ -32,7 +28,6 @@ export default function RacquetsPage() {
     }
   }, [warningMessage])
 
-  // Логика добавления в сравнение
   const toggleComparison = (racquet) => {
     const exists = comparisonList.find((item) => item.id === racquet.id)
     if (exists) {
@@ -47,7 +42,6 @@ export default function RacquetsPage() {
     }
   }
 
-  // Фильтрация данных
   const filteredRacquets = racquets.filter((racquet) => {
     const matchesSearch =
       racquet.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -83,124 +77,100 @@ export default function RacquetsPage() {
       <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 w-full'>
         <div className='max-w-4xl mx-auto w-full mb-12'>
           <header className='mb-12'>
-            <h1
-              className={`text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 ${
-                isDarkMode
-                  ? 'bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 bg-clip-text text-transparent'
-                  : 'bg-gradient-to-r from-slate-900 via-slate-800 to-amber-800 bg-clip-text text-transparent'
-              }`}
-            >
+            <h1 className='text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 dark:bg-gradient-to-r dark:from-amber-200 dark:via-yellow-400 dark:to-amber-500 dark:bg-clip-text dark:text-transparent'>
               Энциклопедия ракеток
             </h1>
-            <p
-              className={`text-base leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}
-            >
+            <p className='text-base leading-relaxed text-slate-600 dark:text-slate-400'>
               Технический разбор, параметры веса, геометрия и сравнение
               профессиональных сквош-ракеток (WSF).
             </p>
           </header>
 
-          {/* Панель фильтров и поиска */}
-          <section
-            className={`p-6 rounded-2xl border transition-all ${
-              isDarkMode
-                ? 'border-neutral-800 bg-neutral-900/20'
-                : 'border-slate-200 bg-white shadow-xs'
-            }`}
-          >
-            {/* Поиск */}
+          <section className='p-6 rounded-2xl border transition-all border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 shadow-xs'>
             <div className='mb-4'>
               <input
                 type='text'
                 placeholder='Поиск по бренду или модели (например, Dunlop, Harrow)...'
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 transition-all ${
-                  isDarkMode
-                    ? 'bg-neutral-950 border-neutral-800 text-slate-100'
-                    : 'bg-slate-50 border-slate-200 text-slate-900'
-                }`}
+                className='w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 transition-all bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'
               />
             </div>
 
-            {/* Селекты фильтрации */}
             <div className='grid grid-cols-2 md:grid-cols-5 gap-3'>
-              <select
-                value={selectedBrand}
-                onChange={(e) => setSelectedBrand(e.target.value)}
-                className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
-                  isDarkMode
-                    ? 'bg-neutral-950 border-neutral-800'
-                    : 'bg-slate-50 border-slate-200'
-                }`}
-              >
-                <option value='all'>Все бренды</option>
-                <option value='Harrow'>Harrow</option>
-                <option value='Head'>Head</option>
-                <option value='Tecnifibre'>Tecnifibre</option>
-                <option value='Dunlop'>Dunlop</option>
-                <option value='Oliver'>Oliver</option>
-                <option value='Karakal'>Karakal</option>
-                <option value='Eye'>Eye</option>
-              </select>
+              {['Brand', 'Weight', 'Shape', 'Balance', 'AgeGroup'].map(
+                (filterType) => {
+                  const stateMap = {
+                    Brand: {
+                      val: selectedBrand,
+                      set: setSelectedBrand,
+                      opt: [
+                        ['all', 'Все бренды'],
+                        ['Harrow', 'Harrow'],
+                        ['Head', 'Head'],
+                        ['Tecnifibre', 'Tecnifibre'],
+                        ['Dunlop', 'Dunlop'],
+                        ['Oliver', 'Oliver'],
+                        ['Karakal', 'Karakal'],
+                        ['Eye', 'Eye'],
+                      ],
+                    },
+                    Weight: {
+                      val: selectedWeight,
+                      set: setSelectedWeight,
+                      opt: [
+                        ['all', 'Любой вес'],
+                        ['light', 'Легкие (<120г)'],
+                        ['medium', 'Средние (120-130г)'],
+                        ['heavy', 'Тяжелые (>130г)'],
+                      ],
+                    },
+                    Shape: {
+                      val: selectedShape,
+                      set: setSelectedShape,
+                      opt: [
+                        ['all', 'Любая форма'],
+                        ['Каплевидная', 'Каплевидная'],
+                        ['Классическая', 'Классическая'],
+                      ],
+                    },
+                    Balance: {
+                      val: selectedBalance,
+                      set: setSelectedBalance,
+                      opt: [
+                        ['all', 'Любой баланс'],
+                        ['В голову', 'В голову'],
+                        ['Нейтральный', 'Нейтральный'],
+                        ['В ручку', 'В ручку'],
+                      ],
+                    },
+                    AgeGroup: {
+                      val: selectedAgeGroup,
+                      set: setSelectedAgeGroup,
+                      opt: [
+                        ['all', 'Любой возраст'],
+                        ['Взрослая', 'Взрослая'],
+                        ['Детская', 'Детская'],
+                      ],
+                    },
+                  }[filterType]
 
-              <select
-                value={selectedWeight}
-                onChange={(e) => setSelectedWeight(e.target.value)}
-                className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
-                  isDarkMode
-                    ? 'bg-neutral-950 border-neutral-800'
-                    : 'bg-slate-50 border-slate-200'
-                }`}
-              >
-                <option value='all'>Любой вес</option>
-                <option value='light'>Легкие (&lt;120г)</option>
-                <option value='medium'>Средние (120-130г)</option>
-                <option value='heavy'>Тяжелые (&gt;130г)</option>
-              </select>
-
-              <select
-                value={selectedShape}
-                onChange={(e) => setSelectedShape(e.target.value)}
-                className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
-                  isDarkMode
-                    ? 'bg-neutral-950 border-neutral-800'
-                    : 'bg-slate-50 border-slate-200'
-                }`}
-              >
-                <option value='all'>Любая форма</option>
-                <option value='Каплевидная'>Каплевидная</option>
-                <option value='Классическая'>Классическая</option>
-              </select>
-
-              <select
-                value={selectedBalance}
-                onChange={(e) => setSelectedBalance(e.target.value)}
-                className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
-                  isDarkMode
-                    ? 'bg-neutral-950 border-neutral-800'
-                    : 'bg-slate-50 border-slate-200'
-                }`}
-              >
-                <option value='all'>Любой баланс</option>
-                <option value='В голову'>В голову</option>
-                <option value='Нейтральный'>Нейтральный</option>
-                <option value='В ручку'>В ручку</option>
-              </select>
-
-              <select
-                value={selectedAgeGroup}
-                onChange={(e) => setSelectedAgeGroup(e.target.value)}
-                className={`px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer ${
-                  isDarkMode
-                    ? 'bg-neutral-950 border-neutral-800'
-                    : 'bg-slate-50 border-slate-200'
-                }`}
-              >
-                <option value='all'>Любой возраст</option>
-                <option value='Взрослая'>Взрослая</option>
-                <option value='Детская'>Детская</option>
-              </select>
+                  return (
+                    <select
+                      key={filterType}
+                      value={stateMap.val}
+                      onChange={(e) => stateMap.set(e.target.value)}
+                      className='px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'
+                    >
+                      {stateMap.opt.map(([v, label]) => (
+                        <option key={v} value={v}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
+                  )
+                },
+              )}
             </div>
           </section>
         </div>
@@ -211,7 +181,6 @@ export default function RacquetsPage() {
           </div>
         )}
 
-        {/* Сетка ракеток */}
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 w-full'>
           {filteredRacquets.map((racquet) => (
             <RacquetCard
@@ -226,15 +195,8 @@ export default function RacquetsPage() {
           ))}
         </div>
 
-        {/* Плавающая панель сравнения внизу */}
         {comparisonList.length > 0 && (
-          <div
-            className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-40 p-4 rounded-2xl border flex items-center justify-between gap-6 shadow-xl max-w-lg w-[90%] backdrop-blur-md animate-fade-in ${
-              isDarkMode
-                ? 'bg-neutral-900/90 border-neutral-800 text-slate-200'
-                : 'bg-white/95 border-slate-200 text-slate-800'
-            }`}
-          >
+          <div className='fixed bottom-6 left-1/2 -translate-x-1/2 z-40 p-4 rounded-2xl border flex items-center justify-between gap-6 shadow-xl max-w-lg w-[90%] backdrop-blur-md animate-fade-in bg-white/95 dark:bg-neutral-900/90 border-slate-200 dark:border-neutral-800 text-slate-800 dark:text-slate-200'>
             <div>
               <div className='text-xs font-bold uppercase tracking-wider text-amber-500'>
                 Сравнение ракеток
@@ -252,7 +214,6 @@ export default function RacquetsPage() {
           </div>
         )}
 
-        {/* Персональное модальное окно деталей ракетки */}
         {selectedRacquet && (
           <RacquetDetailModal
             racquet={selectedRacquet}
@@ -265,16 +226,9 @@ export default function RacquetsPage() {
           />
         )}
 
-        {/* Таблица сравнения ракеток бок о бок */}
         {isCompareModalOpen && (
           <div className='fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto'>
-            <div
-              className={`w-full max-w-4xl p-6 rounded-2xl border shadow-2xl relative ${
-                isDarkMode
-                  ? 'bg-neutral-900 border-neutral-800'
-                  : 'bg-white border-slate-200 text-slate-900'
-              }`}
-            >
+            <div className='w-full max-w-4xl p-6 rounded-2xl border shadow-2xl relative bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'>
               <button
                 onClick={() => setIsCompareModalOpen(false)}
                 className='absolute top-4 right-4 text-slate-400 hover:text-slate-200 font-bold cursor-pointer text-xl'
@@ -289,13 +243,7 @@ export default function RacquetsPage() {
               <div className='overflow-x-auto pb-4'>
                 <table className='w-full text-xs text-left border-collapse min-w-[600px]'>
                   <thead>
-                    <tr
-                      className={
-                        isDarkMode
-                          ? 'border-b border-neutral-800'
-                          : 'border-b border-slate-200'
-                      }
-                    >
+                    <tr className='border-b border-slate-200 dark:border-neutral-800'>
                       <th className='p-3 text-slate-500 font-bold uppercase tracking-wider w-[150px]'>
                         Параметр
                       </th>
@@ -305,131 +253,74 @@ export default function RacquetsPage() {
                           className='p-3 font-bold text-sm text-amber-500 w-[150px]'
                         >
                           {item.brand} <br />
-                          <span
-                            className={
-                              isDarkMode
-                                ? 'text-slate-100 font-medium text-xs'
-                                : 'text-slate-900 font-medium text-xs'
-                            }
-                          >
+                          <span className='text-slate-900 dark:text-slate-100 font-medium text-xs'>
                             {item.model}
                           </span>
                         </th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody
-                    className={isDarkMode ? 'text-slate-300' : 'text-slate-700'}
-                  >
-                    <tr
-                      className={
-                        isDarkMode
-                          ? 'border-b border-neutral-800/50'
-                          : 'border-b border-slate-200/50'
-                      }
-                    >
-                      <td className='p-3 font-bold text-slate-500'>Вес рамы</td>
-                      {comparisonList.map((item) => (
-                        <td key={item.id} className='p-3 font-semibold'>
-                          {item.weight} г
-                        </td>
-                      ))}
-                    </tr>
-                    <tr
-                      className={
-                        isDarkMode
-                          ? 'border-b border-neutral-800/50'
-                          : 'border-b border-slate-200/50'
-                      }
-                    >
-                      <td className='p-3 font-bold text-slate-500'>Баланс</td>
-                      {comparisonList.map((item) => (
-                        <td key={item.id} className='p-3 font-semibold'>
-                          {item.balanceText} ({item.balanceNum} мм)
-                        </td>
-                      ))}
-                    </tr>
-                    <tr
-                      className={
-                        isDarkMode
-                          ? 'border-b border-neutral-800/50'
-                          : 'border-b border-slate-200/50'
-                      }
-                    >
-                      <td className='p-3 font-bold text-slate-500'>
-                        Форма головы
-                      </td>
-                      {comparisonList.map((item) => (
-                        <td key={item.id} className='p-3 font-semibold'>
-                          {item.headShape}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr
-                      className={
-                        isDarkMode
-                          ? 'border-b border-neutral-800/50'
-                          : 'border-b border-slate-200/50'
-                      }
-                    >
-                      <td className='p-3 font-bold text-slate-500'>
-                        Струнная формула
-                      </td>
-                      {comparisonList.map((item) => (
-                        <td key={item.id} className='p-3 font-semibold'>
-                          {item.stringPattern}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr
-                      className={
-                        isDarkMode
-                          ? 'border-b border-neutral-800/50'
-                          : 'border-b border-slate-200/50'
-                      }
-                    >
-                      <td className='p-3 font-bold text-slate-500'>
-                        Площадь головы
-                      </td>
-                      {comparisonList.map((item) => (
-                        <td key={item.id} className='p-3 font-semibold'>
-                          {item.headSize} кв.см
-                        </td>
-                      ))}
-                    </tr>
-                    <tr
-                      className={
-                        isDarkMode
-                          ? 'border-b border-neutral-800/50'
-                          : 'border-b border-slate-200/50'
-                      }
-                    >
-                      <td className='p-3 font-bold text-slate-500'>Материал</td>
-                      {comparisonList.map((item) => (
-                        <td key={item.id} className='p-3 font-semibold'>
-                          {item.material}
-                        </td>
-                      ))}
-                    </tr>
-                    <tr
-                      className={
-                        isDarkMode
-                          ? 'border-b border-neutral-800/50'
-                          : 'border-b border-slate-200/50'
-                      }
-                    >
-                      <td className='p-3 font-bold text-slate-500'>
-                        Амбассадор
-                      </td>
-                      {comparisonList.map((item) => (
-                        <td
-                          key={item.id}
-                          className='p-3 font-semibold italic text-amber-500/80'
+                  <tbody className='text-slate-700 dark:text-slate-300'>
+                    {[
+                      'Weight',
+                      'Balance',
+                      'Shape',
+                      'String',
+                      'Size',
+                      'Material',
+                      'Player',
+                    ].map((param) => {
+                      const labelMap = {
+                        Weight: {
+                          title: 'Вес рамы',
+                          val: (item) => `${item.weight} г`,
+                        },
+                        Balance: {
+                          title: 'Баланс',
+                          val: (item) =>
+                            `${item.balanceText} (${item.balanceNum} мм)`,
+                        },
+                        Shape: {
+                          title: 'Форма головы',
+                          val: (item) => item.headShape,
+                        },
+                        String: {
+                          title: 'Струнная формула',
+                          val: (item) => item.stringPattern,
+                        },
+                        Size: {
+                          title: 'Площадь головы',
+                          val: (item) => `${item.headSize} кв.см`,
+                        },
+                        Material: {
+                          title: 'Материал',
+                          val: (item) => item.material,
+                        },
+                        Player: {
+                          title: 'Амбассадор',
+                          val: (item) => item.player,
+                        },
+                      }[param]
+
+                      return (
+                        <tr
+                          key={param}
+                          className='border-b border-slate-200/50 dark:border-neutral-800/50'
                         >
-                          {item.player}
-                        </td>
-                      ))}
-                    </tr>
+                          <td className='p-3 font-bold text-slate-500'>
+                            {labelMap.title}
+                          </td>
+                          {comparisonList.map((item) => (
+                            <td
+                              key={item.id}
+                              className={`p-3 font-semibold ${param === 'Player' ? 'italic text-amber-500' : ''}`}
+                            >
+                              {labelMap.val(item)}
+                            </td>
+                          ))}
+                        </tr>
+                      )
+                    })}
                   </tbody>
                 </table>
               </div>

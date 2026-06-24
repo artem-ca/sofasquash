@@ -7,13 +7,7 @@ export default function TacticsClient() {
   const { isDarkMode } = useTheme()
 
   return (
-    <div
-      className={`min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 transition-colors duration-300 ${
-        isDarkMode
-          ? 'bg-neutral-950 text-slate-100'
-          : 'bg-slate-50 text-slate-900'
-      }`}
-    >
+    <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 transition-colors duration-300 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
       <div className='max-w-4xl w-full'>
         <header className='mb-12 text-center'>
           <div

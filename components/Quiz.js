@@ -56,8 +56,6 @@ const questions = [
 ]
 
 export default function Quiz({ isDarkMode, onPerfectScore, isQuizPassed }) {
-  // Компонент интерактивной викторины
-
   const [currentQ, setCurrentQ] = useState(0)
   const [selectedOpt, setSelectedOpt] = useState(null)
   const [isAnswered, setIsAnswered] = useState(false)
@@ -97,24 +95,17 @@ export default function Quiz({ isDarkMode, onPerfectScore, isQuizPassed }) {
   return (
     <section
       id='sec-quiz'
-      className={`p-8 rounded-2xl border transition-all duration-300 mt-20 ${
-        isDarkMode
-          ? 'border-neutral-800 bg-neutral-900/20'
-          : 'border-slate-200 bg-white shadow-sm'
-      }`}
+      className='p-8 rounded-2xl border transition-all duration-300 mt-20 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 shadow-sm'
     >
       <div className='flex items-center gap-3 mb-6'>
         <span className='text-lg'>🧠</span>
-        <h2
-          className={`text-xl font-bold ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
-        >
+        <h2 className='text-xl font-bold text-slate-900 dark:text-slate-100'>
           Мини-квиз по правилам сквоша
         </h2>
       </div>
 
       {!showResults ? (
         <div>
-          {/* Прогресс-бар */}
           <div className='w-full bg-neutral-800 h-1.5 rounded-full mb-6 overflow-hidden'>
             <div
               className='bg-amber-500 h-1.5 transition-all duration-300'
@@ -126,18 +117,15 @@ export default function Quiz({ isDarkMode, onPerfectScore, isQuizPassed }) {
             <span className='text-xs font-bold text-amber-500 uppercase tracking-wider'>
               Вопрос {currentQ + 1} из {questions.length}
             </span>
-            <p
-              className={`text-base font-bold mt-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}
-            >
+            <p className='text-base font-bold mt-2 text-slate-800 dark:text-slate-200'>
               {questions[currentQ].q}
             </p>
           </div>
 
           <div className='flex flex-col gap-3 mb-6'>
             {questions[currentQ].options.map((option, idx) => {
-              let btnClass = isDarkMode
-                ? 'border-neutral-800 bg-neutral-900/40 text-slate-300 hover:border-amber-500/30'
-                : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-amber-500/50'
+              let btnClass =
+                'border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900/40 text-slate-700 dark:text-slate-300 hover:border-amber-500/50 dark:hover:border-amber-500/30'
 
               if (isAnswered) {
                 if (idx === questions[currentQ].correct) {
@@ -164,13 +152,7 @@ export default function Quiz({ isDarkMode, onPerfectScore, isQuizPassed }) {
           </div>
 
           {isAnswered && (
-            <div
-              className={`p-4 rounded-xl mb-6 text-xs leading-relaxed animate-fade-in ${
-                isDarkMode
-                  ? 'bg-neutral-900/60 text-slate-400'
-                  : 'bg-slate-100 text-slate-600'
-              }`}
-            >
+            <div className='p-4 rounded-xl mb-6 text-xs leading-relaxed animate-fade-in bg-slate-100 dark:bg-neutral-900/60 text-slate-600 dark:text-slate-400'>
               <strong>Объяснение:</strong> {questions[currentQ].hint}
             </div>
           )}
@@ -192,9 +174,7 @@ export default function Quiz({ isDarkMode, onPerfectScore, isQuizPassed }) {
           <div className='text-4xl mb-4'>
             {score === questions.length ? '🏆👑🎖️' : '👍⚽🥎'}
           </div>
-          <h3
-            className={`text-lg font-bold ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
-          >
+          <h3 className='text-lg font-bold text-slate-900 dark:text-slate-100'>
             Вы ответили правильно на {score} из {questions.length} вопросов!
           </h3>
 

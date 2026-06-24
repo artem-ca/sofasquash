@@ -3,7 +3,6 @@
 import { useState } from 'react'
 
 export default function GlossaryTerm({ term, isDarkMode }) {
-  // Компонент подсказок по наведению
   const [isOpen, setIsOpen] = useState(false)
 
   const glossary = {
@@ -36,30 +35,13 @@ export default function GlossaryTerm({ term, isDarkMode }) {
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <span
-        className={`border-b border-dashed border-amber-500/70 font-semibold cursor-help transition-colors duration-150 mx-1 ${
-          isDarkMode
-            ? 'text-amber-400 hover:text-amber-300'
-            : 'text-amber-700 hover:text-amber-600'
-        }`}
-      >
+      <span className='border-b border-dashed border-amber-500/70 font-semibold cursor-help transition-colors duration-150 mx-1 text-amber-700 dark:text-amber-400 hover:text-amber-600 dark:hover:text-amber-300'>
         {term}
       </span>
 
       {isOpen && (
-        <span
-          className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 rounded-xl border text-xs leading-relaxed font-normal shadow-xl z-50 block pointer-events-none transition-all duration-200 ${
-            isDarkMode
-              ? 'bg-neutral-900 border-neutral-800 text-slate-300'
-              : 'bg-white border-slate-200 text-slate-700'
-          }`}
-        >
-          {/* Маленькая стрелочка внизу подсказки */}
-          <span
-            className={`absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent ${
-              isDarkMode ? 'border-t-neutral-900' : 'border-t-white'
-            }`}
-          />
+        <span className='absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 rounded-xl border text-xs leading-relaxed font-normal shadow-xl z-50 block pointer-events-none transition-all duration-200 bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300'>
+          <span className='absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-white dark:border-t-neutral-900' />
           {definition}
         </span>
       )}

@@ -43,7 +43,6 @@ const phrases = [
 export default function ReServe() {
   const { isDarkMode } = useTheme()
 
-  // Состояния для логики правила 2.7
   const [sofaCount, setSofaCount] = useState(0)
   const [easterEggText, setEasterEggText] = useState('')
   const [isBouncing, setIsBouncing] = useState(false)
@@ -59,7 +58,6 @@ export default function ReServe() {
       ? unlockedBadges[unlockedBadges.length - 1].title
       : 'Начало пути 🎾'
 
-  // Безопасная загрузка локальных данных Софы при монтировании
   useEffect(() => {
     try {
       const savedCount = localStorage.getItem('sofaCount')
@@ -84,7 +82,6 @@ export default function ReServe() {
       )
     }
 
-    // Регистрация Service Worker для PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker
@@ -97,7 +94,6 @@ export default function ReServe() {
     }
   }, [])
 
-  // Клик по переподаче
   const handleSofaServe = () => {
     const nextCount = sofaCount + 1
     setSofaCount(nextCount)
@@ -129,11 +125,7 @@ export default function ReServe() {
             </span>
             <h2 className='text-2xl font-bold text-amber-500'>Переподача</h2>
           </div>
-          <div
-            className={`border-l-4 border-amber-500 pl-6 my-6 italic text-base leading-relaxed ${
-              isDarkMode ? 'text-slate-200' : 'text-slate-800'
-            }`}
-          >
+          <div className='border-l-4 border-amber-500 pl-6 my-6 italic text-base leading-relaxed text-slate-800 dark:text-slate-200'>
             «Софочка имеет право переподавать мяч сколько угодно раз, пока
             подача не получится, независимо от того, почему подача не
             получилась. Будь то аут, ошибка подачи, невозможность ответить на
@@ -142,16 +134,9 @@ export default function ReServe() {
             будет 2 и более ударов».
           </div>
 
-          {/* Зона интерактивной пасхалки */}
-          <div
-            className={`p-5 rounded-xl border border-amber-500/20 my-6 flex flex-col md:flex-row items-center justify-between gap-4 ${
-              isDarkMode ? 'bg-amber-500/5' : 'bg-amber-50/50'
-            }`}
-          >
+          <div className='p-5 rounded-xl border border-amber-500/20 my-6 flex flex-col md:flex-row items-center justify-between gap-4 bg-amber-50/50 dark:bg-amber-500/5'>
             <div>
-              <div
-                className={`text-xs font-bold uppercase tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
-              >
+              <div className='text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400'>
                 Всего переподач совершено:
               </div>
 
@@ -176,12 +161,9 @@ export default function ReServe() {
             </button>
           </div>
 
-          {/* Награды */}
           <div className='pt-2 border-t border-amber-500/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
             <div>
-              <span
-                className={`text-[10px] font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}
-              >
+              <span className='text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500'>
                 Текущий титул Софы:
               </span>
               <div className='text-sm font-extrabold text-amber-500 mt-1'>
@@ -191,9 +173,7 @@ export default function ReServe() {
 
             {unlockedBadges.length > 0 && (
               <div className='pt-2 sm:pt-0'>
-                <span
-                  className={`text-[10px] font-bold uppercase tracking-wider block sm:text-right ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}
-                >
+                <span className='text-[10px] font-bold uppercase tracking-wider block sm:text-right text-slate-400 dark:text-slate-500'>
                   Разблокированные награды:
                 </span>
                 <div className='flex gap-1.5 mt-3 sm:justify-end flex-wrap'>
@@ -202,26 +182,11 @@ export default function ReServe() {
                       key={badge.threshold ?? 'quiz'}
                       className='relative group flex justify-center'
                     >
-                      {/* Кастомная всплывающая подсказка */}
-                      <div
-                        className={`absolute bottom-full mb-4 px-2.5 py-1.5 rounded-lg border text-[10px] font-bold shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 group-focus-within:translate-y-0 pointer-events-none z-30 w-max max-w-[160px] sm:max-w-[200px] text-center break-words leading-tight ${
-                          isDarkMode
-                            ? 'bg-neutral-950 border-neutral-800 text-amber-500'
-                            : 'bg-white border-slate-200 text-amber-600 shadow-md'
-                        }`}
-                      >
+                      <div className='absolute bottom-full mb-4 px-2.5 py-1.5 rounded-lg border text-[10px] font-bold shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 group-focus-within:translate-y-0 pointer-events-none z-30 w-max max-w-[160px] sm:max-w-[200px] text-center break-words leading-tight bg-white dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-amber-600 dark:text-amber-500 shadow-md'>
                         {badge.title}
-                        {/* Маленькая стрелочка внизу подсказки */}
-                        <div
-                          className={`absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent ${
-                            isDarkMode
-                              ? 'border-t-neutral-950'
-                              : 'border-t-white'
-                          }`}
-                        />
+                        <div className='absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-white dark:border-t-neutral-950' />
                       </div>
 
-                      {/* Иконка награды */}
                       <span
                         tabIndex={0}
                         className='w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-sm animate-bounce cursor-help focus:outline-none'

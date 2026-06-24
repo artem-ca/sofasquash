@@ -11,10 +11,33 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
-  const metricaId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || '109839456'
+  const metricaIdRaw = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || '109839456'
+
+  // # Защита от DOM XSS: разрешаем только строго цифры в ID метрики
+  const metricaId = /^\d+$/.test(metricaIdRaw) ? metricaIdRaw : '109839456'
 
   return (
     <html lang='ru' suppressHydrationWarning>
+      <head>
+        <script
+          id='theme-initializer'
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('theme');
+                  var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (dark) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body>
         <Script id='yandex-metrica' strategy='afterInteractive'>
           {`
@@ -28,7 +51,8 @@ export default function RootLayout({ children }) {
                  clickmap:true,
                  trackLinks:true,
                  accurateTrackBounce:true,
-                 webvisor:true
+                 webvisor:true,
+                 defer:true
             });
           `}
         </Script>

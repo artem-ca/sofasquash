@@ -27,13 +27,7 @@ export default function RacquetDetailModal({
 
   return (
     <div className='fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-fade-in'>
-      <div
-        className={`w-full max-w-2xl p-6 rounded-2xl border shadow-2xl relative ${
-          isDarkMode
-            ? 'bg-neutral-900 border-neutral-800 text-slate-100'
-            : 'bg-white border-slate-200 text-slate-900'
-        }`}
-      >
+      <div className='w-full max-w-2xl p-6 rounded-2xl border shadow-2xl relative bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'>
         <button
           onClick={onClose}
           className='absolute top-4 right-4 text-slate-400 hover:text-amber-500 font-bold cursor-pointer text-xl'
@@ -42,7 +36,6 @@ export default function RacquetDetailModal({
         </button>
 
         <div className='grid md:grid-cols-2 gap-6 mt-4'>
-          {/* Левая колонка: Карусель изображений */}
           <div className='flex flex-col items-center justify-center bg-slate-950/5 p-4 rounded-xl relative h-64 overflow-hidden'>
             {hasImages ? (
               <>
@@ -78,27 +71,19 @@ export default function RacquetDetailModal({
             )}
           </div>
 
-          {/* Правая колонка: Техническая таблица параметров */}
           <div className='flex flex-col justify-between'>
             <div>
               <span className='text-xs font-bold text-amber-500 uppercase tracking-widest'>
                 {racquet.brand}
               </span>
-              <h2
-                className={`text-xl font-extrabold mt-1 mb-3 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
-              >
+              <h2 className='text-xl font-extrabold mt-1 mb-3 text-slate-900 dark:text-slate-100'>
                 {racquet.model}
               </h2>
-              <p
-                className={`text-xs leading-relaxed mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
-              >
+              <p className='text-xs leading-relaxed mb-4 text-slate-500 dark:text-slate-400'>
                 {racquet.description}
               </p>
 
-              {/* Таблица параметров */}
-              <div
-                className={`border-t text-xs divide-y ${isDarkMode ? 'border-neutral-800 divide-neutral-800' : 'border-slate-100 divide-slate-100'}`}
-              >
+              <div className='border-t text-xs divide-y border-slate-100 dark:border-neutral-800 divide-slate-100 dark:divide-neutral-800'>
                 <div className='py-2 flex justify-between'>
                   <span className='text-slate-500'>Вес рамы:</span>
                   <span className='font-bold'>{racquet.weight} г</span>
@@ -134,7 +119,6 @@ export default function RacquetDetailModal({
               </div>
             </div>
 
-            {/* Действия в модалке */}
             <div className='flex gap-3 mt-6'>
               <button
                 onClick={() => onToggleComparison(racquet)}
@@ -150,11 +134,7 @@ export default function RacquetDetailModal({
               </button>
               <button
                 onClick={onClose}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
-                  isDarkMode
-                    ? 'border-neutral-800 text-slate-400 hover:bg-neutral-800'
-                    : 'border-slate-200 text-slate-600 hover:bg-slate-100'
-                }`}
+                className='px-4 py-2.5 rounded-xl text-xs font-bold border transition-colors cursor-pointer border-slate-200 dark:border-neutral-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-neutral-800'
               >
                 Назад
               </button>

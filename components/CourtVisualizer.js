@@ -1,14 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useTheme } from './ThemeContext'
 import { courtData } from '@/data/court'
 
 export default function CourtVisualizer() {
-  const { isDarkMode } = useTheme() // Глобальная тема сайта
   const [activeId, setActiveId] = useState(null)
 
-  // Определение активного описания с защитой от undefined
   const activeInfo =
     activeId && courtData[activeId]
       ? courtData[activeId]
@@ -18,25 +15,13 @@ export default function CourtVisualizer() {
           desc: 'Наведите курсор мыши на любую линию или зону 3D-корта выше, чтобы изучить правила, размеры и особенности разметки корта.',
         }
 
-  // Мягкое благородное золото для темного корта и оригинальное светлое золото для светлого корта
-  const goldHighlightFill = isDarkMode ? '#352418' : 'rgba(245, 158, 11, 0.12)'
-
   return (
-    <div
-      className={`p-6 rounded-2xl border transition-all duration-300 my-8 ${
-        isDarkMode
-          ? 'border-neutral-800 bg-neutral-900/20 text-slate-100'
-          : 'border-slate-200 bg-white text-slate-900'
-      }`}
-    >
-      {/* ШАПКА КОРТА (Центрированный аккуратный заголовок без локальной кнопки) */}
+    <div className='p-6 rounded-2xl border transition-all duration-300 my-8 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 text-slate-900 dark:text-slate-100'>
       <div className='text-center mb-6 w-full'>
         <span className='text-xs font-bold text-amber-500 uppercase tracking-widest block'>
           Масштабированная 3D-схема корта
         </span>
-        <p
-          className={`text-xs mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
-        >
+        <p className='text-xs mt-1 text-slate-500 dark:text-slate-400'>
           Наведите на линии или зоны 3D-корта для изучения правил и размеров
           разметки
         </p>
@@ -49,7 +34,6 @@ export default function CourtVisualizer() {
             <clipPath id='court-clip'>
               <rect x='21' y='20' width='558' height='360' />
             </clipPath>
-            {/* Маска для паркета пола (в 3D-перспективе) */}
             <clipPath id='floor-clip'>
               <polygon points='150,260 450,260 580,380 20,380' />
             </clipPath>
@@ -57,22 +41,16 @@ export default function CourtVisualizer() {
 
           <rect x='0' y='0' width='600' height='400' fill='transparent' />
 
-          {/* 1. БАЗОВЫЕ ПЛОСКОСТИ */}
+          {/* 1. БАЗОВЫЕ ПЛОСКОСТИ (Оформление полностью перенесено в CSS-классы) */}
 
           {/* Левая стена */}
           <polygon
             points='20,20 150,80 150,260 20,380'
-            fill={
+            className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round ${
               activeId === 'leftWall'
-                ? goldHighlightFill
-                : isDarkMode
-                  ? '#111113'
-                  : '#f8fafc'
-            }
-            stroke={isDarkMode ? '#222227' : '#e2e8f0'}
-            strokeWidth='2'
-            strokeLinejoin='round'
-            className='cursor-default transition-colors duration-200'
+                ? 'fill-amber-500/12 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
+                : 'fill-slate-50 dark:fill-[#111113] stroke-slate-200 dark:stroke-[#222227]'
+            }`}
             onMouseEnter={() => setActiveId('leftWall')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('leftWall')}
@@ -80,17 +58,11 @@ export default function CourtVisualizer() {
           {/* Правая стена */}
           <polygon
             points='580,20 450,80 450,260 580,380'
-            fill={
+            className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round ${
               activeId === 'rightWall'
-                ? goldHighlightFill
-                : isDarkMode
-                  ? '#111113'
-                  : '#f8fafc'
-            }
-            stroke={isDarkMode ? '#222227' : '#e2e8f0'}
-            strokeWidth='2'
-            strokeLinejoin='round'
-            className='cursor-default transition-colors duration-200'
+                ? 'fill-amber-500/12 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
+                : 'fill-slate-50 dark:fill-[#111113] stroke-slate-200 dark:stroke-[#222227]'
+            }`}
             onMouseEnter={() => setActiveId('rightWall')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('rightWall')}
@@ -101,16 +73,11 @@ export default function CourtVisualizer() {
             y='80'
             width='300'
             height='180'
-            fill={
+            className={`cursor-default transition-colors duration-200 stroke-2 ${
               activeId === 'frontWall'
-                ? goldHighlightFill
-                : isDarkMode
-                  ? '#16161a'
-                  : '#f1f5f9'
-            }
-            stroke={isDarkMode ? '#2d2d35' : '#cbd5e1'}
-            strokeWidth='2'
-            className='cursor-default transition-colors duration-200'
+                ? 'fill-amber-500/12 dark:fill-[#352418] stroke-slate-300 dark:stroke-[#2d2d35]'
+                : 'fill-slate-100 dark:fill-[#16161a] stroke-slate-300 dark:stroke-[#2d2d35]'
+            }`}
             onMouseEnter={() => setActiveId('frontWall')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('frontWall')}
@@ -118,23 +85,17 @@ export default function CourtVisualizer() {
           {/* Пол корта */}
           <polygon
             points='150,260 450,260 580,380 20,380'
-            fill={
+            className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round ${
               activeId === 'floor'
-                ? goldHighlightFill
-                : isDarkMode
-                  ? '#0a0a0c'
-                  : '#f1f5f9'
-            }
-            stroke={isDarkMode ? '#222227' : '#e2e8f0'}
-            strokeWidth='2'
-            strokeLinejoin='round'
-            className='cursor-default transition-colors duration-200'
+                ? 'fill-amber-500/12 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
+                : 'fill-slate-100 dark:fill-[#0a0a0c] stroke-slate-200 dark:stroke-[#222227]'
+            }`}
             onMouseEnter={() => setActiveId('floor')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('floor')}
           />
 
-          {/* ИГРОВОЕ ПОЛЕ (Зона пола для наведения на пол — строго прозрачная) */}
+          {/* ИГРОВОЕ ПОЛЕ */}
           <polygon
             points='150,260 450,260 525,330 75,330'
             fill='transparent'
@@ -149,9 +110,12 @@ export default function CourtVisualizer() {
           {/* ЛЕВЫЙ КВАДРАТ ПОДАЧИ */}
           <polygon
             points='60,330 187,330 180,355 30,355'
-            fill={activeId === 'box' ? goldHighlightFill : 'transparent'}
             clipPath='url(#floor-clip)'
-            className='cursor-pointer transition-all'
+            className={`cursor-pointer transition-all ${
+              activeId === 'box'
+                ? 'fill-amber-500/12 dark:fill-[#352418]'
+                : 'fill-transparent'
+            }`}
             onMouseEnter={() => setActiveId('box')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('box')}
@@ -170,9 +134,12 @@ export default function CourtVisualizer() {
           {/* ПРАВЫЙ КВАДРАТ ПОДАЧИ */}
           <polygon
             points='540,330 413,330 420,355 570,355'
-            fill={activeId === 'box' ? goldHighlightFill : 'transparent'}
             clipPath='url(#floor-clip)'
-            className='cursor-pointer transition-all'
+            className={`cursor-pointer transition-all ${
+              activeId === 'box'
+                ? 'fill-amber-500/12 dark:fill-[#352418]'
+                : 'fill-transparent'
+            }`}
             onMouseEnter={() => setActiveId('box')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('box')}
@@ -216,13 +183,7 @@ export default function CourtVisualizer() {
             y='243'
             width='298'
             height='17'
-            fill={
-              activeId === 'tin'
-                ? goldHighlightFill
-                : isDarkMode
-                  ? '#25252b'
-                  : '#e2e8f0'
-            }
+            className='fill-slate-200 dark:fill-[#25252b]'
           />
           <line
             x1='151'
@@ -303,24 +264,14 @@ export default function CourtVisualizer() {
       </div>
 
       {/* Информационная карточка */}
-      <div
-        className={`p-4 rounded-xl border transition-all duration-300 ${
-          isDarkMode
-            ? 'bg-neutral-950/40 border-neutral-800'
-            : 'bg-slate-50 border-slate-200'
-        }`}
-      >
-        <div
-          className={`font-bold text-sm ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}
-        >
+      <div className='p-4 rounded-xl border transition-all duration-300 bg-slate-50 dark:bg-neutral-950/40 border-slate-200 dark:border-neutral-800'>
+        <div className='font-bold text-sm text-slate-800 dark:text-slate-200'>
           {activeInfo.title}
         </div>
         <div className='text-[10px] text-amber-500 font-bold uppercase tracking-wider mt-1'>
           {activeInfo.dims}
         </div>
-        <p
-          className={`min-h-10 text-xs mt-2 leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
-        >
+        <p className='min-h-10 text-xs mt-2 leading-relaxed text-slate-500 dark:text-slate-400'>
           {activeInfo.desc}
         </p>
       </div>

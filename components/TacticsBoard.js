@@ -1,12 +1,9 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { useTheme } from './ThemeContext'
 import { tacticsData } from '@/data/tactics'
 
 export default function TacticsBoard() {
-  const { isDarkMode } = useTheme() // Глобальная тема сайта
-
   const [activeShot, setActiveShot] = useState('drive')
   const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, text: '' })
 
@@ -73,28 +70,15 @@ export default function TacticsBoard() {
   }
 
   return (
-    <div
-      className={`p-6 rounded-2xl border transition-all duration-300 relative tactics-wrapper ${
-        isDarkMode
-          ? 'border-neutral-800 bg-neutral-900/20 text-slate-100'
-          : 'border-slate-200 bg-white text-slate-900'
-      }`}
-    >
-      {/* ПЛАВАЮЩИЙ ХИНТ У КУРСОРA */}
+    <div className='p-6 rounded-2xl border transition-all duration-300 relative tactics-wrapper border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 text-slate-900 dark:text-slate-100'>
+      {/* ПЛАВАЮЩИЙ ХИНТ У КУРСОРA (Позиционирование и стили вынесены в чистые Tailwind-классы) */}
       {tooltip.show && (
         <div
           ref={tooltipRef}
-          className='absolute pointer-events-none z-50 px-3 py-2 rounded-xl text-[10px] font-bold shadow-xl border backdrop-blur-md transition-all duration-75 max-w-[220px] w-max'
+          className='absolute pointer-events-none z-50 px-3 py-2 rounded-xl text-[10px] font-bold shadow-xl border backdrop-blur-md transition-all duration-75 max-w-[220px] w-max bg-white/95 dark:bg-neutral-950/95 border-amber-600/40 dark:border-amber-500/30 text-amber-600 dark:text-amber-400'
           style={{
             left: `${tooltip.x}px`,
             top: `${tooltip.y}px`,
-            backgroundColor: isDarkMode
-              ? 'rgba(10, 10, 12, 0.95)'
-              : 'rgba(255, 255, 255, 0.95)',
-            borderColor: isDarkMode
-              ? 'rgba(245, 158, 11, 0.3)'
-              : 'rgba(217, 119, 6, 0.4)',
-            color: isDarkMode ? '#fbbf24' : '#d97706',
           }}
         >
           {tooltip.text}
@@ -114,8 +98,7 @@ export default function TacticsBoard() {
               width='320'
               height='420'
               strokeWidth='3'
-              fill={isDarkMode ? '#0f0f12' : '#f8fafc'}
-              stroke={isDarkMode ? '#26262c' : '#cbd5e1'}
+              className='fill-slate-50 dark:fill-neutral-950 stroke-slate-200 dark:stroke-neutral-800'
             />
 
             <line
@@ -162,8 +145,7 @@ export default function TacticsBoard() {
               x='200'
               y='20'
               textAnchor='middle'
-              className='text-[10px] font-bold uppercase tracking-wider transition-colors duration-300'
-              fill={isDarkMode ? '#64748b' : '#94a3b8'}
+              className='text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 fill-slate-400 dark:fill-slate-500'
             >
               Передняя стена
             </text>
@@ -172,8 +154,7 @@ export default function TacticsBoard() {
               x='200'
               y='472'
               textAnchor='middle'
-              className='text-[10px] font-bold uppercase tracking-wider transition-colors duration-300'
-              fill={isDarkMode ? '#64748b' : '#94a3b8'}
+              className='text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 fill-slate-400 dark:fill-slate-500'
             >
               Задняя стена (Стекло)
             </text>
@@ -216,8 +197,7 @@ export default function TacticsBoard() {
                   {/* Черный или белый матовый мяч в зависимости от темы */}
                   <circle
                     r='7.5'
-                    fill={isDarkMode ? '#f8fafc' : '#1c1917'}
-                    stroke={isDarkMode ? '#3f3f46' : '#94a3b8'}
+                    className='fill-stone-900 dark:fill-slate-50 stroke-slate-400 dark:stroke-zinc-700'
                     strokeWidth='0.8'
                   />
                   {/* Две маленькие желтые точки */}
@@ -249,9 +229,7 @@ export default function TacticsBoard() {
                   className={`px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                     activeShot === shotKey
                       ? 'bg-amber-500 border-amber-500 text-slate-950 font-extrabold'
-                      : isDarkMode
-                        ? 'border-neutral-800 bg-neutral-900/30 text-slate-400 hover:text-slate-200'
-                        : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50 shadow-xs'
+                      : 'border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/30 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-neutral-900 shadow-xs'
                   }`}
                 >
                   {shotKey === 'drive'
@@ -270,44 +248,30 @@ export default function TacticsBoard() {
             </div>
 
             {/* Карточка разбора */}
-            <div
-              className={`p-5 rounded-xl border transition-all duration-300 ${
-                isDarkMode
-                  ? 'bg-neutral-950/40 border-neutral-800'
-                  : 'bg-slate-50 border-slate-200'
-              }`}
-            >
-              <h3
-                className={`font-extrabold text-base ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
-              >
+            <div className='p-5 rounded-xl border transition-all duration-300 bg-slate-50 dark:bg-neutral-950/40 border-slate-200 dark:border-neutral-800'>
+              <h3 className='font-extrabold text-base text-slate-900 dark:text-slate-100'>
                 {activeInfo.title}
               </h3>
-              <p
-                className={`text-xs mt-2 leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
-              >
+              <p className='text-xs mt-2 leading-relaxed text-slate-500 dark:text-slate-400'>
                 {activeInfo.desc}
               </p>
 
               {/* Тактическое применение */}
-              <div className='mt-4 pt-3 border-t border-neutral-800/10'>
+              <div className='mt-4 pt-3 border-t border-slate-200 dark:border-neutral-800/40'>
                 <span className='text-[10px] font-bold text-amber-500 uppercase tracking-wider block mb-1'>
                   Когда применять:
                 </span>
-                <p
-                  className={`text-xs leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}
-                >
+                <p className='text-xs leading-relaxed text-slate-700 dark:text-slate-300'>
                   {activeInfo.when}
                 </p>
               </div>
 
               {/* Частые ошибки */}
-              <div className='mt-4 pt-3 border-t border-neutral-800/10'>
+              <div className='mt-4 pt-3 border-t border-slate-200 dark:border-neutral-800/40'>
                 <span className='text-[10px] font-bold text-red-500 uppercase tracking-wider block mb-1'>
                   Частая ошибка новичков:
                 </span>
-                <p
-                  className={`text-xs leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}
-                >
+                <p className='text-xs leading-relaxed text-slate-600 dark:text-slate-400'>
                   {activeInfo.mistake}
                 </p>
               </div>
