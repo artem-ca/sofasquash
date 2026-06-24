@@ -5,11 +5,11 @@ import { useTheme } from '@/components/ThemeContext'
 
 const achievements = [
   { threshold: 0, title: 'Начинающий подающий 🐣', emoji: '🐣' },
-  { threshold: 5, title: 'Подающая надежды 🌱', emoji: '🌱' },
+  { threshold: 5, title: 'Перспективный игрок 🌱', emoji: '🌱' },
   { threshold: 15, title: 'Гроза сквоша ⚡', emoji: '⚡' },
   { threshold: 30, title: 'Мастер драйва 🎯', emoji: '🎯' },
-  { threshold: 45, title: 'Непревзойдённая ⛰️', emoji: '⛰️' },
-  { threshold: 60, title: 'Королева Переподач 👑', emoji: '👑' },
+  { threshold: 45, title: 'Непревзойдённый игрок ⛰️', emoji: '⛰️' },
+  { threshold: 60, title: 'Властелин Переподач 👑', emoji: '👑' },
   { threshold: 75, title: 'Тактический гений 🧠', emoji: '🧠' },
   { threshold: 90, title: 'Легенда корта 🏆', emoji: '🏆' },
   {
@@ -20,17 +20,17 @@ const achievements = [
 ]
 
 const phrases = [
-  'Софа, подача — просто пушка! 💥',
+  'Твоя подача — просто пушка! 💥',
   'Соперник плачет в углу... 😭',
   'Правило 2.7 в действии! 🎯',
-  'Энергия Софочки зашкаливает! ⚡',
+  'Энергия на корте зашкаливает! ⚡',
   'Подача принята... ой, нет, переподаём! 😂',
-  'Ещё одна безупречная попытка от Королевы корта! 👑',
-  'Софа диктует свои правила! 💅',
+  'Ещё один безупречный взмах! 👑',
+  'Правила диктуешь ты! 💅',
   'Судья безмолвно кивает... 🤐',
-  'Софа делает эйс при любой погоде! 🌪️',
-  'Ты же моя умничка ❤️',
-  'Давай ещё раз, кошка 🐈‍⬛',
+  'Эйс при любой погоде! 🌪️',
+  'Отличная работа! ❤️',
+  'Давай ещё раз! 🎯',
   'Такую подачу не принял бы сам Диего Элиас! 👽',
   'Абсолютная грация и доминирование на Т-зоне! 💃',
   'Мяч улетел по идеальной траектории! 📈',
@@ -43,6 +43,7 @@ const phrases = [
 export default function ReServe() {
   const { isDarkMode } = useTheme()
 
+  // Состояния для логики правила 2.7
   const [sofaCount, setSofaCount] = useState(0)
   const [easterEggText, setEasterEggText] = useState('')
   const [isBouncing, setIsBouncing] = useState(false)
@@ -58,8 +59,10 @@ export default function ReServe() {
       ? unlockedBadges[unlockedBadges.length - 1].title
       : 'Начало пути 🎾'
 
+  // Безопасная загрузка локальных данных при монтировании
   useEffect(() => {
     try {
+      // Сохраняем ключ 'sofaCount', чтобы у пользователей не обнулились уже набранные клики
       const savedCount = localStorage.getItem('sofaCount')
       if (savedCount) {
         const parsedCount = parseInt(savedCount, 10)
@@ -82,6 +85,7 @@ export default function ReServe() {
       )
     }
 
+    // Регистрация Service Worker для PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker
@@ -94,6 +98,7 @@ export default function ReServe() {
     }
   }, [])
 
+  // Клик по переподаче
   const handleSofaServe = () => {
     const nextCount = sofaCount + 1
     setSofaCount(nextCount)
@@ -105,7 +110,7 @@ export default function ReServe() {
     }
 
     const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)]
-    setEasterEggText(randomPhrase || 'Ты же моя умничка ❤️')
+    setEasterEggText(randomPhrase || 'Отличная работа! ❤️')
 
     setIsBouncing(true)
     setTimeout(() => setIsBouncing(false), 300)
@@ -117,7 +122,7 @@ export default function ReServe() {
         <div className='p-8 rounded-2xl border-2 border-amber-500 bg-amber-500/5 shadow-lg shadow-amber-500/5 relative overflow-hidden transition-all'>
           <div className='absolute top-0 right-0 w-32 h-32' />
           <div className='inline-block bg-amber-500/10 text-amber-500 border border-amber-500/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-4'>
-            👑 Эксклюзивное правило Софы
+            👑 Эксклюзивное правило переподачи
           </div>
           <div className='flex items-center gap-4 mb-4'>
             <span className='text-base font-bold bg-amber-500/10 text-amber-500 w-10 h-10 flex items-center justify-center rounded-lg'>
@@ -126,14 +131,15 @@ export default function ReServe() {
             <h2 className='text-2xl font-bold text-amber-500'>Переподача</h2>
           </div>
           <div className='border-l-4 border-amber-500 pl-6 my-6 italic text-base leading-relaxed text-slate-800 dark:text-slate-200'>
-            «Софочка имеет право переподавать мяч сколько угодно раз, пока
-            подача не получится, независимо от того, почему подача не
-            получилась. Будь то аут, ошибка подачи, невозможность ответить на
-            приём этой самой подачи соперником или еще что-нибудь, во всех
-            случаях Софа может делать переподачу до тех пор, пока в розыгрыше не
-            будет 2 и более ударов».
+            «Игрок имеет право переподавать мяч сколько угодно раз, пока подача
+            не получится, независимо от того, почему подача не получилась. Будь
+            то аут, ошибка подачи, невозможность ответить на приём этой самой
+            подачи соперником или еще что-нибудь, во всех случаях игрок может
+            делать переподачу до тех пор, пока в розыгрыше не будет 2 и более
+            ударов».
           </div>
 
+          {/* Зона интерактивной пасхалки */}
           <div className='p-5 rounded-xl border border-amber-500/20 my-6 flex flex-col md:flex-row items-center justify-between gap-4 bg-amber-50/50 dark:bg-amber-500/5'>
             <div>
               <div className='text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400'>
@@ -149,22 +155,23 @@ export default function ReServe() {
                 {easterEggText ||
                   (sofaCount === 0
                     ? 'Пора это исправлять.'
-                    : 'Ждём новую подачу от Софочки... 🎾')}
+                    : 'Ждём новую подачу... 🎾')}
               </div>
             </div>
             <button
               onClick={handleSofaServe}
-              aria-label='Совершить переподачу Софы'
+              aria-label='Совершить переподачу'
               className='w-full md:w-auto px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2'
             >
               Переподать! 🎯
             </button>
           </div>
 
+          {/* Награды */}
           <div className='pt-2 border-t border-amber-500/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
             <div>
               <span className='text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500'>
-                Текущий титул Софы:
+                Ваш текущий титул:
               </span>
               <div className='text-sm font-extrabold text-amber-500 mt-1'>
                 {currentTitle}
