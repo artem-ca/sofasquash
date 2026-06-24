@@ -32,14 +32,14 @@ export default function BlogPage() {
           summary: data.summary || '',
         }
       })
-      // Сортировка статей по дате (свежие сверху)
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .sort((a, b) => b.date.localeCompare(a.date))
   }
 
   return (
-    <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
-      <div className='max-w-4xl w-full'>
-        <header className='mb-12 text-center'>
+    <div className='flex min-h-[calc(100vh-4rem)] font-sans antialiased selection:bg-amber-500/30 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
+      <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 w-full'>
+        {/* Шапка архива */}
+        <div className='max-w-4xl mx-auto w-full mb-12 text-center'>
           <div className='inline-block border px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-4 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/20'>
             База знаний сквоша
           </div>
@@ -50,19 +50,20 @@ export default function BlogPage() {
             Обучающие руководства, разборы экипировки и тактические заметки от
             команды Squash Portal.
           </p>
-        </header>
+        </div>
 
+        {/* Адаптивная сетка с добавленным классом bling */}
         {posts.length > 0 ? (
-          <div className='grid gap-6 md:grid-cols-2'>
+          <div className='grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 w-full mb-16'>
             {posts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className='p-6 rounded-2xl border transition-all duration-300 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/10 hover:border-amber-500/20 dark:hover:border-amber-500/30 flex flex-col justify-between h-full group hover:shadow-lg dark:hover:shadow-amber-500/5'
+                className='p-6 rounded-2xl border transition-all duration-300 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/10 hover:border-amber-500/20 dark:hover:border-amber-500/30 flex flex-col justify-between h-full group hover:shadow-lg dark:hover:shadow-amber-500/5 relative bling'
               >
                 <div>
                   <span className='text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500'>
-                    {post.date} • {post.author}
+                    {post.date}
                   </span>
                   <h2 className='text-xl font-bold mt-2 mb-3 text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors'>
                     {post.title}
@@ -71,8 +72,23 @@ export default function BlogPage() {
                     {post.summary}
                   </p>
                 </div>
-                <div className='mt-6 text-xs font-bold text-amber-600 dark:text-amber-500 group-hover:underline'>
-                  Читать статью ➡️
+
+                <div className='mt-6 text-xs font-bold text-amber-600 dark:text-amber-500 group-hover:underline inline-flex items-center gap-1.5 relative z-10'>
+                  Читать статью
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth='2.5'
+                    stroke='currentColor'
+                    className='w-3.5 h-3.5'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3'
+                    />
+                  </svg>
                 </div>
               </Link>
             ))}
@@ -83,7 +99,7 @@ export default function BlogPage() {
             интересного!
           </div>
         )}
-      </div>
+      </main>
     </div>
   )
 }

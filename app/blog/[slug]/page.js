@@ -5,7 +5,7 @@ import matter from 'gray-matter'
 import { marked } from 'marked'
 import Link from 'next/link'
 
-// Генерация статических путей во время сборки для GitHub Pages
+// Генерация статических путей
 export async function generateStaticParams() {
   const postsDirectory = path.join(process.cwd(), 'posts')
   if (!fs.existsSync(postsDirectory)) return []
@@ -18,9 +18,9 @@ export async function generateStaticParams() {
     }))
 }
 
-// Генерация метаданных для каждой статьи на сервере (делаем параметры асинхронными)
+// Генерация метаданных
 export async function generateMetadata({ params }) {
-  const { slug } = await params // Обязательный await в Next 15+
+  const { slug } = await params
   try {
     const filePath = path.join(process.cwd(), 'posts', `${slug}.md`)
     const fileContent = fs.readFileSync(filePath, 'utf-8')
@@ -37,9 +37,8 @@ export async function generateMetadata({ params }) {
   }
 }
 
-// Объявляем компонент асинхронным (async)
 export default async function PostPage({ params }) {
-  const { slug } = await params // Обязательный await в Next 15+
+  const { slug } = await params
   const filePath = path.join(process.cwd(), 'posts', `${slug}.md`)
 
   if (!fs.existsSync(filePath)) {
@@ -55,30 +54,50 @@ export default async function PostPage({ params }) {
 
   const fileContent = fs.readFileSync(filePath, 'utf-8')
   const { data, content } = matter(fileContent)
-
-  // Превращаем текст Markdown в чистый HTML
   const htmlContent = marked.parse(content)
 
   return (
     <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
-      <article className='max-w-2xl w-full'>
+      {/* Контейнер увеличен до max-w-4xl */}
+      <article className='max-w-4xl w-full'>
+        {/* Интерактивная минималистичная кнопка-стрелка назад */}
         <Link
           href='/blog'
-          className='text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500 hover:underline block mb-8'
+          className='inline-flex items-center justify-center w-9 h-9 rounded-lg border transition-colors bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 mb-8 cursor-pointer'
+          aria-label='Назад в блог'
         >
-          ⬅️ Назад в блог
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth='2.5'
+            stroke='currentColor'
+            className='w-5 h-5'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'
+            />
+          </svg>
         </Link>
 
         <header className='mb-8 pb-6 border-b border-slate-200 dark:border-neutral-800'>
-          <span className='text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500'>
-            {data.date} • {data.author}
-          </span>
-          <h1 className='text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 text-slate-900 dark:text-slate-100 leading-tight'>
+          {/* Блок двух раздельных дат */}
+          <div className='flex flex-wrap gap-x-4 gap-y-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500'>
+            <span>Опубликовано: {data.date}</span>
+            {data.updated && data.updated !== data.date && (
+              <span className='text-amber-600 dark:text-amber-500'>
+                Редакция: {data.updated}
+              </span>
+            )}
+          </div>
+          <h1 className='text-3xl sm:text-4xl font-extrabold tracking-tight mt-3 text-slate-900 dark:text-slate-100 leading-tight'>
             {data.title}
           </h1>
         </header>
 
-        {/* Рендеринг HTML-контента с применением кастомных стилей */}
+        {/* Контент статьи */}
         <div
           className='markdown-content text-sm leading-relaxed text-slate-700 dark:text-slate-300 space-y-6'
           dangerouslySetInnerHTML={{ __html: htmlContent }}
