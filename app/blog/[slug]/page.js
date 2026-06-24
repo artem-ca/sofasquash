@@ -83,20 +83,30 @@ export default async function PostPage({ params }) {
         </Link>
 
         <header className='mb-8 pb-6 border-b border-slate-200 dark:border-neutral-800'>
-          {/* Блок двух раздельных дат */}
-          <div className='flex flex-wrap gap-x-4 gap-y-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500'>
-            <span>Опубликовано: {data.date}</span>
+          {/* Блок метаданных по стандарту Артема Зайдуллина */}
+          <div className='flex flex-wrap items-center gap-x-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500'>
             {data.updated && data.updated !== data.date && (
-              <span className='text-amber-600 dark:text-amber-500'>
-                Редакция: {data.updated}
-              </span>
+              <>
+                <span className='text-amber-600 dark:text-amber-500'>
+                  Редакция: {data.updated}
+                </span>
+                <span>•</span>
+              </>
+            )}
+            <span>Опубликовано: {data.date}</span>
+            {data.author && (
+              <>
+                <span>•</span>
+                <span className='text-slate-400 dark:text-slate-500 font-bold normal-case'>
+                  {data.author}
+                </span>
+              </>
             )}
           </div>
           <h1 className='text-3xl sm:text-4xl font-extrabold tracking-tight mt-3 text-slate-900 dark:text-slate-100 leading-tight'>
             {data.title}
           </h1>
         </header>
-
         {/* Контент статьи */}
         <div
           className='markdown-content text-sm leading-relaxed text-slate-700 dark:text-slate-300 space-y-6'
