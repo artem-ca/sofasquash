@@ -3,9 +3,11 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { marked } from 'marked'
+import DOMPurify from 'isomorphic-dompurify'
 import Link from 'next/link'
+import { formatDate } from '@/utils/date'
 
-// Генерация статических путей
+// Генерация статических путей к постам
 export async function generateStaticParams() {
   const postsDirectory = path.join(process.cwd(), 'posts')
   if (!fs.existsSync(postsDirectory)) return []
@@ -18,7 +20,7 @@ export async function generateStaticParams() {
     }))
 }
 
-// Генерация метаданных
+// Генерация метаданных постов
 export async function generateMetadata({ params }) {
   const { slug } = await params
   try {
@@ -54,46 +56,26 @@ export default async function PostPage({ params }) {
 
   const fileContent = fs.readFileSync(filePath, 'utf-8')
   const { data, content } = matter(fileContent)
-  const htmlContent = marked.parse(content)
+
+  // Безопасный парсинг Markdown в HTML с ИИ-санитаризацией от XSS
+  const rawHtml = marked.parse(content)
+  const htmlContent = DOMPurify.sanitize(rawHtml)
 
   return (
     <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
-      {/* Контейнер увеличен до max-w-4xl */}
-      <article className='max-w-4xl w-full'>
-        {/* Интерактивная минималистичная кнопка-стрелка назад */}
-        <Link
-          href='/blog'
-          className='inline-flex items-center justify-center w-9 h-9 rounded-lg border transition-colors bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 mb-8 cursor-pointer'
-          aria-label='Назад в блог'
-        >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth='2.5'
-            stroke='currentColor'
-            className='w-5 h-5'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'
-            />
-          </svg>
-        </Link>
-
+      <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 max-w-4xl'>
         <header className='mb-8 pb-6 border-b border-slate-200 dark:border-neutral-800'>
-          {/* Блок метаданных по стандарту Артема Зайдуллина */}
+          {/* Блок метаданных */}
           <div className='flex flex-wrap items-center gap-x-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500'>
             {data.updated && data.updated !== data.date && (
               <>
                 <span className='text-amber-600 dark:text-amber-500'>
-                  Редакция: {data.updated}
+                  Редакция: {formatDate(data.updated)}
                 </span>
                 <span>•</span>
               </>
             )}
-            <span>Опубликовано: {data.date}</span>
+            <span>Опубликовано: {formatDate(data.date)}</span>
             {data.author && (
               <>
                 <span>•</span>
@@ -107,12 +89,22 @@ export default async function PostPage({ params }) {
             {data.title}
           </h1>
         </header>
-        {/* Контент статьи */}
+
+        {/* Тело статьи */}
         <div
-          className='markdown-content text-sm leading-relaxed text-slate-700 dark:text-slate-300 space-y-6'
+          className='markdown-content text-slate-800 dark:text-slate-300 text-sm leading-relaxed space-y-6'
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
-      </article>
+
+        <div className='mt-12 pt-6 border-t border-slate-200 dark:border-neutral-800'>
+          <Link
+            href='/blog'
+            className='inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500 hover:text-amber-600 transition-colors'
+          >
+            ← Назад в блог
+          </Link>
+        </div>
+      </main>
     </div>
   )
 }

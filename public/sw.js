@@ -27,10 +27,13 @@ self.addEventListener('activate', (event) => {
   self.clients.claim()
 })
 
-// Обработка запросов: отдаем кэш, но параллельно обновляем его из сети (Stale-While-Revalidate)
-// Безопасный перехват запросов (пропускает расширения браузера)
 self.addEventListener('fetch', (event) => {
-  // Игнорируем любые запросы, кроме стандартных http и https (решает баг с расширениями)
+  // Игнорируем любые запросы, кроме GET (предотвращает падение кэша при POST)
+  if (event.request.method !== 'GET') {
+    return
+  }
+
+  // Игнорируем любые запросы, кроме стандартных http и https
   if (!event.request.url.startsWith('http')) {
     return
   }

@@ -55,7 +55,7 @@ const questions = [
   },
 ]
 
-export default function Quiz({ isDarkMode, onPerfectScore, isQuizPassed }) {
+export default function Quiz({ onPerfectScore }) {
   const [currentQ, setCurrentQ] = useState(0)
   const [selectedOpt, setSelectedOpt] = useState(null)
   const [isAnswered, setIsAnswered] = useState(false)

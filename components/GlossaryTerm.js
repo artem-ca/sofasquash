@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-export default function GlossaryTerm({ term, isDarkMode }) {
+export default function GlossaryTerm({ term }) {
   const [isOpen, setIsOpen] = useState(false)
 
   const glossary = {

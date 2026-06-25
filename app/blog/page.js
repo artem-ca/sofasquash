@@ -3,6 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import Link from 'next/link'
+import { formatDate } from '@/utils/date'
 
 export const metadata = {
   title: 'Блог о сквоше — Обучение, тактика и обзоры',
@@ -27,18 +28,18 @@ export default function BlogPage() {
         return {
           slug,
           title: data.title || 'Без названия',
-          date: data.date || '',
+          date: data.date || '', // Сохраняем в формате ISO YYYY-MM-DD для сортировки
           author: data.author || 'Редакция',
           summary: data.summary || '',
         }
       })
+      // Хронологически точная сортировка ISO-строк (свежие сверху)
       .sort((a, b) => b.date.localeCompare(a.date))
   }
 
   return (
     <div className='flex min-h-[calc(100vh-4rem)] font-sans antialiased selection:bg-amber-500/30 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
       <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 w-full'>
-        {/* Шапка архива */}
         <div className='max-w-4xl mx-auto w-full mb-12 text-center'>
           <div className='inline-block border px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-4 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/20'>
             База знаний сквоша
@@ -52,7 +53,6 @@ export default function BlogPage() {
           </p>
         </div>
 
-        {/* Адаптивная сетка с добавленным классом bling */}
         {posts.length > 0 ? (
           <div className='grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 w-full mb-16'>
             {posts.map((post) => (
@@ -63,7 +63,8 @@ export default function BlogPage() {
               >
                 <div>
                   <span className='text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500'>
-                    {post.date}
+                    {formatDate(post.date)}{' '}
+                    {/* Выводим отформатированную дату */}
                   </span>
                   <h2 className='text-xl font-bold mt-2 mb-3 text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors'>
                     {post.title}

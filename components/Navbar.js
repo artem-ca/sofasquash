@@ -77,7 +77,6 @@ export default function Navbar() {
 
         {/* Мобильная зона */}
         <div className='flex items-center gap-2 md:hidden'>
-          {/* Мобильная кнопка темы (Мгновенное переключение иконки через CSS) */}
           <button
             onClick={toggleTheme}
             className='w-10 h-10 rounded-xl border flex items-center justify-center cursor-pointer bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-amber-400'
@@ -85,14 +84,10 @@ export default function Navbar() {
             <span className='block dark:hidden select-none text-sm'>🌙</span>
             <span className='hidden dark:block select-none text-sm'>☀️</span>
           </button>
-
+          {/* Кнопка-бургер  */}
           <button
             onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className={`w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer transition-colors ${
-              isDarkMode
-                ? 'bg-neutral-900 text-slate-200'
-                : 'bg-slate-100 text-slate-800'
-            }`}
+            className='w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer transition-colors bg-slate-100 dark:bg-neutral-900 text-slate-800 dark:text-slate-200'
           >
             <span className='text-lg'>{isMobileOpen ? '✕' : '☰'}</span>
           </button>
@@ -101,13 +96,7 @@ export default function Navbar() {
 
       {/* Мобильное выпадающее меню */}
       {isMobileOpen && (
-        <div
-          className={`md:hidden border-t animate-fade-in ${
-            isDarkMode
-              ? 'bg-neutral-950 border-neutral-900'
-              : 'bg-white border-slate-200'
-          }`}
-        >
+        <div className='md:hidden border-t animate-fade-in bg-white dark:bg-neutral-950 border-slate-200 dark:border-neutral-900'>
           <nav className='flex flex-col p-4 gap-2'>
             {navLinks.map((link) => {
               const isActive = pathname === link.href

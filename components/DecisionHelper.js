@@ -28,7 +28,7 @@ function decisionReducer(state, action) {
   }
 }
 
-export default function DecisionHelper({ isDarkMode }) {
+export default function DecisionHelper() {
   const [state, dispatch] = useReducer(decisionReducer, initialState)
   const { step, history } = state
 
