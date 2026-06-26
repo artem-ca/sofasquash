@@ -1,7 +1,7 @@
 // data/racquets.js
-// Общее количество ракеток после обновления: 160 ракеток
+// Общее количество ракеток после обновления: 160
 export const racquets = [
-  // === TECNIFIBRE (15 моделей: 10 оригинальных + 5 новых) ===
+  // === TECNIFIBRE (22 ракетки)
   {
     id: 'tecnifibre-carboflex-120-x-top-v2',
     brand: 'Tecnifibre',
@@ -190,11 +190,50 @@ export const racquets = [
       'Надежная и прочная модель Tecnifibre Slash 135 для начинающих и любителей. Увеличенный вес головы облегчает замах.',
     ageGroup: 'Взрослая',
   },
-  // --- Новые модели Tecnifibre ---
   {
-    id: 'tecnifibre-carboflex-125-2012',
+    id: 'tecnifibre-carboflex-130-basaltex-2009',
     brand: 'Tecnifibre',
-    model: 'Carboflex 125 (Original)',
+    model: 'Carboflex 130 Basaltex',
+    year: 2009,
+    weight: 130,
+    balanceNum: 355,
+    balanceText: 'Нейтральный',
+    headShape: 'Каплевидная',
+    stringPattern: '14x18',
+    headSize: 500,
+    material: 'Graphite / Basaltex Transmitters',
+    player: 'Mohamed Elshorbagy / Nour El Sherbini',
+    images: [
+      '/images/racquets/tecnifibre/tecnifibre-carboflex-130-basaltex.webp',
+    ],
+    description:
+      'Историческая модель 2009 года, с которой Мохамед Эльшорбаги и Нур Эль Шербини выиграли свои первые Чемпионаты мира до 19 лет. Внедрение базальтовых минеральных волокон снижает нежелательные вибрации и повышает контроль.',
+    ageGroup: 'Взрослая',
+  },
+  {
+    id: 'tecnifibre-carboflex-140-basaltex-2012',
+    brand: 'Tecnifibre',
+    model: 'Carboflex 140 Basaltex',
+    year: 2012,
+    weight: 140,
+    balanceNum: 355,
+    balanceText: 'Нейтральный',
+    headShape: 'Каплевидная',
+    stringPattern: '14x18',
+    headSize: 500,
+    material: 'Graphite / Basaltex Transmitters',
+    player: 'Thierry Lincou',
+    images: [
+      '/images/racquets/tecnifibre/tecnifibre-carboflex-140-basaltex.webp',
+    ],
+    description:
+      'Именное сильное оружие первой ракетки мира Тьерри Линку. Хлесткая 140-граммовая рама с технологией Isomorph Shaft для безупречного баланса сильного замаха и поглощения отдачи.',
+    ageGroup: 'Взрослая',
+  },
+  {
+    id: 'tecnifibre-carboflex-125-heritage-2012',
+    brand: 'Tecnifibre',
+    model: 'Carboflex 125 Heritage',
     year: 2012,
     weight: 125,
     balanceNum: 350,
@@ -203,8 +242,10 @@ export const racquets = [
     stringPattern: '14x18',
     headSize: 500,
     material: 'Graphite / Fast Fibre',
-    player: 'Thierry Lincou',
-    images: ['/images/racquets/tecnifibre/tecnifibre-carboflex-125-2012.webp'],
+    player: 'Mohamed Elshorbagy / Nour El Sherbini',
+    images: [
+      '/images/racquets/tecnifibre/tecnifibre-carboflex-125-heritage-2012.webp',
+    ],
     description:
       'Оригинальный канонический желто-черный Carboflex, заложивший стандарты высочайшей маневренности и взрывной скорости свинга.',
     ageGroup: 'Взрослая',
@@ -248,6 +289,46 @@ export const racquets = [
     ageGroup: 'Взрослая',
   },
   {
+    id: 'tecnifibre-carboflex-125-ns-x-speed-2018',
+    brand: 'Tecnifibre',
+    model: 'Carboflex 125 NS X-Speed',
+    year: 2018,
+    weight: 125,
+    balanceNum: 350,
+    balanceText: 'Нейтральный',
+    headShape: 'Каплевидная',
+    stringPattern: '14x18',
+    headSize: 500,
+    material: 'Graphite / Aeroshaft',
+    player: 'Nour El Sherbini',
+    images: [
+      '/images/racquets/tecnifibre/tecnifibre-carboflex-125-ns-x-speed.webp',
+    ],
+    description:
+      'Именная модель Нур Эль Шербини, выпущенная параллельно с классической версией X-Speed. Имеет идентичные весовые характеристики, но поставляется с зауженным диаметром рукоятки для более точного кистевого контроля.',
+    ageGroup: 'Взрослая',
+  },
+  {
+    id: 'tecnifibre-carboflex-cannonball-2019',
+    brand: 'Tecnifibre',
+    model: 'Carboflex Cannonball',
+    year: 2019,
+    weight: 125,
+    balanceNum: 360,
+    balanceText: 'В голову',
+    headShape: 'Каплевидная',
+    stringPattern: '14x18',
+    headSize: 500,
+    material: 'Premium Graphite / Fast Fibre',
+    player: 'Miguel Angel Rodriguez',
+    images: [
+      '/images/racquets/tecnifibre/tecnifibre-carboflex-cannonball.webp',
+    ],
+    description:
+      'Фирменная именная модель колумбийского канонира Мигеля Родригеса. Отличается от классических версий Carboflex измененным балансом с небольшим смещением веса в голову для нанесения мощных, сокрушительных драйвов.',
+    ageGroup: 'Взрослая',
+  },
+  {
     id: 'tecnifibre-carboflex-125-airshaft-2020',
     brand: 'Tecnifibre',
     model: 'Carboflex 125 Airshaft',
@@ -268,9 +349,9 @@ export const racquets = [
     ageGroup: 'Взрослая',
   },
   {
-    id: 'tecnifibre-carboflex-125-x-top-2022',
+    id: 'tecnifibre-carboflex-125-x-top-2022-v1',
     brand: 'Tecnifibre',
-    model: 'Carboflex 125 X-Top (V1)',
+    model: 'Carboflex 125 X-Top V1',
     year: 2022,
     weight: 125,
     balanceNum: 350,
@@ -280,9 +361,71 @@ export const racquets = [
     headSize: 500,
     material: 'Premium Graphite / Aramid',
     player: 'Mohamed Elshorbagy',
-    images: ['/images/racquets/tecnifibre/tecnifibre-carboflex-125-x-top.webp'],
+    images: [
+      '/images/racquets/tecnifibre/tecnifibre-carboflex-125-x-top-v1.webp',
+    ],
     description:
       'Первая оригинальная безбамперная версия X-Top, внедрившая технологию активных арамидных и тефлоновых нитей на ободе для снижения трения.',
+    ageGroup: 'Взрослая',
+  },
+  {
+    id: 'tecnifibre-carboflex-130-airshaft-2020',
+    brand: 'Tecnifibre',
+    model: 'Carboflex 130 Airshaft',
+    year: 2020,
+    weight: 130,
+    balanceNum: 350,
+    balanceText: 'Нейтральный',
+    headShape: 'Каплевидная',
+    stringPattern: '14x18',
+    headSize: 500,
+    material: 'Graphite / X-Arms',
+    player: 'Marwan Elshorbagy',
+    images: [
+      '/images/racquets/tecnifibre/tecnifibre-carboflex-130-airshaft.webp',
+    ],
+    description:
+      'Средневесовая рама технологического семейства Airshaft. Превосходный выбор для клубных игроков контроля, желающих получить идеальную точность в удержании темпа. Официальное игровое оружие Марвана Эльшорбаги.',
+    ageGroup: 'Взрослая',
+  },
+  {
+    id: 'tecnifibre-carboflex-125-airshaft-ns-2020',
+    brand: 'Tecnifibre',
+    model: 'Carboflex 125 Airshaft NS',
+    year: 2020,
+    weight: 125,
+    balanceNum: 350,
+    balanceText: 'Нейтральный',
+    headShape: 'Каплевидная',
+    stringPattern: '14x18',
+    headSize: 500,
+    material: 'Graphite / X-Arms',
+    player: 'Nour El Sherbini',
+    images: [
+      '/images/racquets/tecnifibre/tecnifibre-carboflex-125-airshaft-ns.webp',
+    ],
+    description:
+      'Именная модель чемпионки мира Нур Эль Шербини из поколения Airshaft. Конструкция отличается зауженным диаметром рукоятки для более тонкого и маневренного хвата. Включает аэродинамические ребра жесткости X-Arms.',
+    ageGroup: 'Взрослая',
+  },
+  {
+    id: 'tecnifibre-carboflex-125-ns-x-top-2022',
+    brand: 'Tecnifibre',
+    model: 'Carboflex 125 NS X-Top',
+    year: 2022,
+    weight: 125,
+    balanceNum: 350,
+    balanceText: 'Нейтральный',
+    headShape: 'Каплевидная',
+    stringPattern: '14x18',
+    headSize: 500,
+    material: 'Premium Graphite / Aramid / PTFE',
+    player: 'Nour El Sherbini',
+    images: [
+      '/images/racquets/tecnifibre/tecnifibre-carboflex-125-ns-x-top.webp',
+    ],
+    description:
+      'Женская именная модификация первой серии революционных безбамперных ракеток X-Top V1, разработанная для Нур Эль Шербини. Обод усилен высокопрочными арамидными нитями, а рукоятка заужена для максимальной хлесткости.',
     ageGroup: 'Взрослая',
   },
 

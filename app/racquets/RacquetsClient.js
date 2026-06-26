@@ -9,6 +9,12 @@ import { useTheme } from '@/components/ThemeContext'
 export default function RacquetsPage() {
   const { isDarkMode } = useTheme()
 
+  // Динамический подсчет количества ракеток по каждому бренду
+  const brandCounts = racquets.reduce((acc, r) => {
+    acc[r.brand] = (acc[r.brand] || 0) + 1
+    return acc
+  }, {})
+
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('all')
   const [selectedWeight, setSelectedWeight] = useState('all')
@@ -103,7 +109,7 @@ export default function RacquetsPage() {
             <div className='mb-4'>
               <input
                 type='text'
-                placeholder='Поиск среди 160 моделей по бренду или названию (например, Dunlop, Harrow)...'
+                placeholder={`Поиск по бренду или названию (например, Harrow, Tecnifibre)...`}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className='w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 transition-all bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'
@@ -118,20 +124,29 @@ export default function RacquetsPage() {
                       val: selectedBrand,
                       set: setSelectedBrand,
                       opt: [
-                        ['all', 'Все бренды'],
-                        ['Harrow', 'Harrow'],
-                        ['Head', 'Head'],
-                        ['Tecnifibre', 'Tecnifibre'],
-                        ['Dunlop', 'Dunlop'],
-                        ['Oliver', 'Oliver'],
-                        ['Karakal', 'Karakal'],
-                        ['Eye', 'Eye'],
-                        ['Prince', 'Prince'],
-                        ['Black Knight', 'Black Knight'],
-                        ['Wilson', 'Wilson'],
-                        ['Salming', 'Salming'],
-                        ['Unsquashable', 'Unsquashable'],
-                        ['Xamsa', 'Xamsa'],
+                        ['all', `Все бренды (${racquets.length})`],
+                        ['Harrow', `Harrow (${brandCounts['Harrow'] || 0})`],
+                        ['Head', `Head (${brandCounts['Head'] || 0})`],
+                        [
+                          'Tecnifibre',
+                          `Tecnifibre (${brandCounts['Tecnifibre'] || 0})`,
+                        ],
+                        ['Dunlop', `Dunlop (${brandCounts['Dunlop'] || 0})`],
+                        ['Oliver', `Oliver (${brandCounts['Oliver'] || 0})`],
+                        ['Karakal', `Karakal (${brandCounts['Karakal'] || 0})`],
+                        ['Eye', `Eye (${brandCounts['Eye'] || 0})`],
+                        ['Prince', `Prince (${brandCounts['Prince'] || 0})`],
+                        [
+                          'Black Knight',
+                          `Black Knight (${brandCounts['Black Knight'] || 0})`,
+                        ],
+                        ['Wilson', `Wilson (${brandCounts['Wilson'] || 0})`],
+                        ['Salming', `Salming (${brandCounts['Salming'] || 0})`],
+                        [
+                          'Unsquashable',
+                          `Unsquashable (${brandCounts['Unsquashable'] || 0})`,
+                        ],
+                        ['Xamsa', `Xamsa (${brandCounts['Xamsa'] || 0})`],
                       ],
                     },
                     Weight: {
