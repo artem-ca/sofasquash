@@ -84,18 +84,6 @@ export default function ReServe() {
         'Доступ к localStorage для isQuizPassed заблокирован браузером',
       )
     }
-
-    // Регистрация Service Worker для PWA
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker
-          .register('/sw.js')
-          .then((reg) => console.log('PWA Service Worker зарегистрирован!'))
-          .catch((err) =>
-            console.error('Ошибка регистрации Service Worker:', err),
-          )
-      })
-    }
   }, [])
 
   // Клик по переподаче
@@ -186,7 +174,11 @@ export default function ReServe() {
                 <div className='flex gap-1.5 mt-3 sm:justify-end flex-wrap'>
                   {unlockedBadges.map((badge, index) => (
                     <div
-                      key={badge.threshold ?? 'quiz'}
+                      key={
+                        badge.threshold !== undefined
+                          ? badge.threshold
+                          : badge.title
+                      }
                       className='relative group flex justify-center'
                     >
                       <div className='absolute bottom-full mb-4 px-2.5 py-1.5 rounded-lg border text-[10px] font-bold shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 group-focus-within:translate-y-0 pointer-events-none z-30 w-max max-w-[160px] sm:max-w-[200px] text-center break-words leading-tight bg-white dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-amber-600 dark:text-amber-500 shadow-md'>

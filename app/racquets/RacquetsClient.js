@@ -15,6 +15,7 @@ export default function RacquetsPage() {
   const [selectedShape, setSelectedShape] = useState('all')
   const [selectedBalance, setSelectedBalance] = useState('all')
   const [selectedAgeGroup, setSelectedAgeGroup] = useState('all')
+  const [selectedYear, setSelectedYear] = useState('all')
 
   const [comparisonList, setComparisonList] = useState([])
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false)
@@ -62,21 +63,33 @@ export default function RacquetsPage() {
       matchesWeight = racquet.weight >= 120 && racquet.weight <= 130
     if (selectedWeight === 'heavy') matchesWeight = racquet.weight > 130
 
+    let matchesYear = true
+    if (selectedYear === '2024-2026')
+      matchesYear = racquet.year >= 2024 && racquet.year <= 2026
+    if (selectedYear === '2020-2023')
+      matchesYear = racquet.year >= 2020 && racquet.year <= 2023
+    if (selectedYear === '2015-2019')
+      matchesYear = racquet.year >= 2015 && racquet.year <= 2019
+    if (selectedYear === '2010-2014')
+      matchesYear = racquet.year >= 2010 && racquet.year <= 2014
+    if (selectedYear === 'under-2010') matchesYear = racquet.year < 2010
+
     return (
       matchesSearch &&
       matchesBrand &&
       matchesShape &&
       matchesBalance &&
       matchesWeight &&
-      matchesAgeGroup
+      matchesAgeGroup &&
+      matchesYear
     )
   })
 
   return (
     <div className='flex min-h-[calc(100vh-4rem)] font-sans antialiased selection:bg-amber-500/30'>
       <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 w-full'>
-        <div className='max-w-4xl mx-auto w-full mb-12'>
-          <header className='mb-12'>
+        <div className='max-w-6xl mx-auto w-full mb-12'>
+          <header className='mb-12 text-center'>
             <h1 className='text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 dark:bg-gradient-to-r dark:from-amber-200 dark:via-yellow-400 dark:to-amber-500 dark:bg-clip-text dark:text-transparent'>
               Энциклопедия ракеток
             </h1>
@@ -90,15 +103,15 @@ export default function RacquetsPage() {
             <div className='mb-4'>
               <input
                 type='text'
-                placeholder='Поиск по бренду или модели (например, Dunlop, Harrow)...'
+                placeholder='Поиск среди 160 моделей по бренду или названию (например, Dunlop, Harrow)...'
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className='w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 transition-all bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'
               />
             </div>
 
-            <div className='grid grid-cols-2 md:grid-cols-5 gap-3'>
-              {['Brand', 'Weight', 'Shape', 'Balance', 'AgeGroup'].map(
+            <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3'>
+              {['Brand', 'Weight', 'Shape', 'Balance', 'AgeGroup', 'Year'].map(
                 (filterType) => {
                   const stateMap = {
                     Brand: {
@@ -113,6 +126,12 @@ export default function RacquetsPage() {
                         ['Oliver', 'Oliver'],
                         ['Karakal', 'Karakal'],
                         ['Eye', 'Eye'],
+                        ['Prince', 'Prince'],
+                        ['Black Knight', 'Black Knight'],
+                        ['Wilson', 'Wilson'],
+                        ['Salming', 'Salming'],
+                        ['Unsquashable', 'Unsquashable'],
+                        ['Xamsa', 'Xamsa'],
                       ],
                     },
                     Weight: {
@@ -151,6 +170,18 @@ export default function RacquetsPage() {
                         ['all', 'Любой возраст'],
                         ['Взрослая', 'Взрослая'],
                         ['Детская', 'Детская'],
+                      ],
+                    },
+                    Year: {
+                      val: selectedYear,
+                      set: setSelectedYear,
+                      opt: [
+                        ['all', 'Любой год'],
+                        ['2024-2026', '2024-2026 (Новинки)'],
+                        ['2020-2023', '2020-2023'],
+                        ['2015-2019', '2015-2019'],
+                        ['2010-2014', '2010-2014'],
+                        ['under-2010', 'До 2010 (Ретро)'],
                       ],
                     },
                   }[filterType]
@@ -228,7 +259,7 @@ export default function RacquetsPage() {
 
         {isCompareModalOpen && (
           <div className='fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto'>
-            <div className='w-full max-w-4xl p-6 rounded-2xl border shadow-2xl relative bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'>
+            <div className='w-full max-w-2xl p-6 rounded-2xl border shadow-2xl relative bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'>
               <button
                 onClick={() => setIsCompareModalOpen(false)}
                 className='absolute top-4 right-4 text-slate-400 hover:text-slate-200 font-bold cursor-pointer text-xl'
@@ -244,13 +275,13 @@ export default function RacquetsPage() {
                 <table className='w-full text-xs text-left border-collapse min-w-[600px]'>
                   <thead>
                     <tr className='border-b border-slate-200 dark:border-neutral-800'>
-                      <th className='p-3 text-slate-500 font-bold uppercase tracking-wider w-[150px]'>
+                      <th className='p-3 text-slate-500 font-bold uppercase tracking-wider w-[160px]'>
                         Параметр
                       </th>
                       {comparisonList.map((item) => (
                         <th
                           key={item.id}
-                          className='p-3 font-bold text-sm text-amber-500 w-[150px]'
+                          className='p-3 font-bold text-amber-500 text-center w-[150px]'
                         >
                           {item.brand} <br />
                           <span className='text-slate-900 dark:text-slate-100 font-medium text-xs'>
@@ -262,6 +293,7 @@ export default function RacquetsPage() {
                   </thead>
                   <tbody className='text-slate-700 dark:text-slate-300'>
                     {[
+                      'Year',
                       'Weight',
                       'Balance',
                       'Shape',
@@ -271,6 +303,10 @@ export default function RacquetsPage() {
                       'Player',
                     ].map((param) => {
                       const labelMap = {
+                        Year: {
+                          title: 'Год выпуска',
+                          val: (item) => `${item.year} г`,
+                        },
                         Weight: {
                           title: 'Вес рамы',
                           val: (item) => `${item.weight} г`,
@@ -313,7 +349,7 @@ export default function RacquetsPage() {
                           {comparisonList.map((item) => (
                             <td
                               key={item.id}
-                              className={`p-3 font-semibold ${param === 'Player' ? 'italic text-amber-500' : ''}`}
+                              className={`p-3 font-semibold text-center ${param === 'Player' ? 'italic text-amber-500' : ''}`}
                             >
                               {labelMap.val(item)}
                             </td>

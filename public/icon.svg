@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#0a0a0a"/>
+
+  <!-- Squash ball -->
+  <circle cx="256" cy="280" r="72" fill="#f59e0b"/>
+  <circle cx="256" cy="280" r="72" stroke="#d97706" stroke-width="4"/>
+  <!-- Ball seam lines -->
+  <path d="M210 240 Q240 260 256 260 Q272 260 302 240" stroke="#0a0a0a" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M210 320 Q240 300 256 300 Q272 300 302 320" stroke="#0a0a0a" stroke-width="5" stroke-linecap="round" fill="none"/>
+
+  <!-- Racket handle -->
+  <rect x="324" y="80" width="24" height="140" rx="8" fill="#e5e7eb" transform="rotate(30 336 150)"/>
+  <rect x="324" y="80" width="24" height="140" rx="8" fill="none" stroke="#9ca3af" stroke-width="2" transform="rotate(30 336 150)"/>
+
+  <!-- Racket head -->
+  <ellipse cx="376" cy="100" rx="56" ry="70" fill="none" stroke="#e5e7eb" stroke-width="6" transform="rotate(30 376 100)"/>
+  <!-- Strings vertical -->
+  <line x1="356" y1="50" x2="380" y2="150" stroke="#9ca3af" stroke-width="1.5" transform="rotate(30 376 100)"/>
+  <line x1="370" y1="45" x2="394" y2="145" stroke="#9ca3af" stroke-width="1.5" transform="rotate(30 376 100)"/>
+  <line x1="384" y1="50" x2="408" y2="150" stroke="#9ca3af" stroke-width="1.5" transform="rotate(30 376 100)"/>
+  <line x1="398" y1="55" x2="418" y2="150" stroke="#9ca3af" stroke-width="1.5" transform="rotate(30 376 100)"/>
+  <!-- Strings horizontal -->
+  <line x1="332" y1="80" x2="420" y2="80" stroke="#9ca3af" stroke-width="1.5" transform="rotate(30 376 100)"/>
+  <line x1="328" y1="100" x2="424" y2="100" stroke="#9ca3af" stroke-width="1.5" transform="rotate(30 376 100)"/>
+  <line x1="328" y1="120" x2="424" y2="120" stroke="#9ca3af" stroke-width="1.5" transform="rotate(30 376 100)"/>
+  <line x1="332" y1="140" x2="420" y2="140" stroke="#9ca3af" stroke-width="1.5" transform="rotate(30 376 100)"/>
+
+  <!-- "S" letter below ball -->
+  <text x="256" y="420" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="800" fill="#f59e0b" letter-spacing="-2">S</text>
+
+  <!-- Subtle glow ring -->
+  <circle cx="256" cy="280" r="84" stroke="#f59e0b" stroke-width="1" opacity="0.3"/>
+</svg>

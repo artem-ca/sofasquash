@@ -11,15 +11,18 @@ export default function RacquetDetailModal({
   onClose,
 }) {
   const [activeImageIdx, setActiveImageIdx] = useState(0)
+  const [imgError, setImgError] = useState(false)
   const hasImages = racquet.images && racquet.images.length > 0
 
   const handleNextImage = (e) => {
     e.stopPropagation()
+    setImgError(false)
     setActiveImageIdx((prev) => (prev + 1) % racquet.images.length)
   }
 
   const handlePrevImage = (e) => {
     e.stopPropagation()
+    setImgError(false)
     setActiveImageIdx(
       (prev) => (prev - 1 + racquet.images.length) % racquet.images.length,
     )
@@ -37,13 +40,14 @@ export default function RacquetDetailModal({
 
         <div className='grid md:grid-cols-2 gap-6 mt-4'>
           <div className='flex flex-col items-center justify-center bg-slate-950/5 p-4 rounded-xl relative h-64 overflow-hidden'>
-            {hasImages ? (
+            {hasImages && !imgError ? (
               <>
                 <img
                   src={racquet.images[activeImageIdx]}
                   alt={`${racquet.brand} ${racquet.model}`}
                   width={500}
                   height={500}
+                  onError={() => setImgError(true)}
                   className='object-contain h-full w-auto max-h-56 select-none'
                 />
                 {racquet.images.length > 1 && (
@@ -67,7 +71,7 @@ export default function RacquetDetailModal({
                 )}
               </>
             ) : (
-              <RacquetVectorIcon isDarkMode={isDarkMode} />
+              <RacquetVectorIcon />
             )}
           </div>
 

@@ -1,5 +1,14 @@
 const CACHE_NAME = 'squash-rules-cache-v1'
-const ASSETS_TO_CACHE = ['/', '/manifest.json', '/icon.svg']
+const ASSETS_TO_CACHE = [
+  '/',
+  '/racquets',
+  '/tactics',
+  '/glossary',
+  '/rules',
+  '/blog',
+  '/manifest.json',
+  '/icon.svg',
+]
 
 // Установка: кэшируем базовые файлы
 self.addEventListener('install', (event) => {

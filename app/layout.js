@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@/components/ThemeContext'
 import Navbar from '@/components/Navbar'
+import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
 import './globals.css'
 
 import Script from 'next/script'
@@ -58,6 +59,7 @@ export default function RootLayout({ children }) {
         </Script>
         <ThemeProvider>
           <Navbar />
+          {/* <ServiceWorkerRegister /> */}
           {children}
         </ThemeProvider>
       </body>

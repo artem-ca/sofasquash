@@ -1,7 +1,7 @@
 'use client'
 
 // Векторный силуэт-заглушка
-export default function RacquetVectorIcon({ isDarkMode }) {
+export default function RacquetVectorIcon() {
   return (
     <svg viewBox='0 0 100 200' className='w-full h-36 max-h-40 my-2 opacity-85'>
       <ellipse
@@ -10,7 +10,7 @@ export default function RacquetVectorIcon({ isDarkMode }) {
         rx='28'
         ry='38'
         fill='transparent'
-        stroke={isDarkMode ? '#f59e0b' : '#d97706'}
+        className='stroke-amber-600 dark:stroke-amber-500'
         strokeWidth='3'
       />
       <line
@@ -18,7 +18,7 @@ export default function RacquetVectorIcon({ isDarkMode }) {
         y1='60'
         x2='65'
         y2='60'
-        stroke={isDarkMode ? '#334155' : '#cbd5e1'}
+        className='stroke-slate-300 dark:stroke-slate-700'
         strokeWidth='1'
       />
       <line
@@ -26,7 +26,7 @@ export default function RacquetVectorIcon({ isDarkMode }) {
         y1='45'
         x2='70'
         y2='45'
-        stroke={isDarkMode ? '#334155' : '#cbd5e1'}
+        className='stroke-slate-300 dark:stroke-slate-700'
         strokeWidth='1'
       />
       <line
@@ -34,7 +34,7 @@ export default function RacquetVectorIcon({ isDarkMode }) {
         y1='75'
         x2='70'
         y2='75'
-        stroke={isDarkMode ? '#334155' : '#cbd5e1'}
+        className='stroke-slate-300 dark:stroke-slate-700'
         strokeWidth='1'
       />
       <line
@@ -42,7 +42,7 @@ export default function RacquetVectorIcon({ isDarkMode }) {
         y1='25'
         x2='50'
         y2='95'
-        stroke={isDarkMode ? '#334155' : '#cbd5e1'}
+        className='stroke-slate-300 dark:stroke-slate-700'
         strokeWidth='1'
       />
       <line
@@ -50,7 +50,7 @@ export default function RacquetVectorIcon({ isDarkMode }) {
         y1='30'
         x2='40'
         y2='90'
-        stroke={isDarkMode ? '#334155' : '#cbd5e1'}
+        className='stroke-slate-300 dark:stroke-slate-700'
         strokeWidth='1'
       />
       <line
@@ -58,13 +58,13 @@ export default function RacquetVectorIcon({ isDarkMode }) {
         y1='30'
         x2='60'
         y2='90'
-        stroke={isDarkMode ? '#334155' : '#cbd5e1'}
+        className='stroke-slate-300 dark:stroke-slate-700'
         strokeWidth='1'
       />
       <path
         d='M30,95 L44,130 L56,130 L70,95'
         fill='transparent'
-        stroke={isDarkMode ? '#f59e0b' : '#d97706'}
+        className='stroke-amber-600 dark:stroke-amber-500'
         strokeWidth='3'
       />
       <rect
@@ -73,8 +73,7 @@ export default function RacquetVectorIcon({ isDarkMode }) {
         width='10'
         height='60'
         rx='1'
-        fill={isDarkMode ? '#1e293b' : '#f1f5f9'}
-        stroke={isDarkMode ? '#f59e0b' : '#d97706'}
+        className='fill-slate-100 dark:fill-slate-800 stroke-amber-600 dark:stroke-amber-500'
         strokeWidth='2'
       />
       <rect
@@ -83,7 +82,7 @@ export default function RacquetVectorIcon({ isDarkMode }) {
         width='14'
         height='6'
         rx='1'
-        fill={isDarkMode ? '#f59e0b' : '#d97706'}
+        className='fill-amber-600 dark:fill-amber-500'
       />
     </svg>
   )
