@@ -28,7 +28,7 @@ export default function RacquetCard({
       )}
 
       {/* Зона изображения */}
-      <div className='w-full h-64 max-h-72 flex items-center justify-center bg-transparent mt-2 transition-transform duration-300 group-hover:scale-105'>
+      <div className='w-full h-64 max-h-72 flex items-center justify-center bg-white mt-2 transition-transform duration-300 group-hover:scale-105'>
         {hasImages && !imgError ? (
           <img
             src={racquet.images[0]}

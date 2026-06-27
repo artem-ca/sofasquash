@@ -6,9 +6,25 @@ import './globals.css'
 import Script from 'next/script'
 
 export const metadata = {
-  title: 'Правила сквоша — Редакция 2026',
-  description: 'Интерактивный свод официальных правил сквоша с поправками',
+  title: 'SQUASH PORTAL — интерактивная база знаний о сквоше',
+  description:
+    'Интерактивный свод официальных правил сквоша, тактический планшет, энциклопедия на 250+ ракеток и тренерский блог.',
   manifest: '/manifest.json',
+  openGraph: {
+    title: 'SQUASH PORTAL — Все о сквоше',
+    description:
+      'Правила, термины, тактика, ракетки 3D-корт и тренерский блог.',
+    url: 'https://sofasquash.ru',
+    siteName: 'Squash Portal',
+    locale: 'ru_RU',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SQUASH PORTAL — Все о сквоше',
+    description:
+      'Интерактивный портал о сквоше: правила, тактики, база ракеток.',
+  },
 }
 
 export default function RootLayout({ children }) {
@@ -59,7 +75,7 @@ export default function RootLayout({ children }) {
         </Script>
         <ThemeProvider>
           <Navbar />
-          {/* <ServiceWorkerRegister /> */}
+          <ServiceWorkerRegister />
           {children}
         </ThemeProvider>
       </body>

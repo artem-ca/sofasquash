@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import RacquetVectorIcon from './RacquetVectorIcon'
 
 export default function RacquetDetailModal({
@@ -13,6 +13,27 @@ export default function RacquetDetailModal({
   const [activeImageIdx, setActiveImageIdx] = useState(0)
   const [imgError, setImgError] = useState(false)
   const hasImages = racquet.images && racquet.images.length > 0
+
+  // Блокировка прокрутки фона страницы при открытии модального окна
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [])
+
+  // Закрытие модального окна по клавише Escape
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onClose])
 
   const handleNextImage = (e) => {
     e.stopPropagation()
@@ -33,6 +54,7 @@ export default function RacquetDetailModal({
       <div className='w-full max-w-2xl p-6 rounded-2xl border shadow-2xl relative bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'>
         <button
           onClick={onClose}
+          aria-label='Закрыть детальное окно'
           className='absolute top-4 right-4 text-slate-400 hover:text-amber-500 font-bold cursor-pointer text-xl'
         >
           ✕
@@ -54,12 +76,14 @@ export default function RacquetDetailModal({
                   <>
                     <button
                       onClick={handlePrevImage}
+                      aria-label='Предыдущее изображение'
                       className='absolute left-2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center font-bold text-xs cursor-pointer'
                     >
                       ◀
                     </button>
                     <button
                       onClick={handleNextImage}
+                      aria-label='Следующее изображение'
                       className='absolute right-2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center font-bold text-xs cursor-pointer'
                     >
                       ▶

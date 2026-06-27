@@ -6,6 +6,9 @@ import RacquetCard from '@/components/RacquetCard'
 import RacquetDetailModal from '@/components/RacquetDetailModal'
 import { useTheme } from '@/components/ThemeContext'
 
+// Генерируем уникальный упорядоченный список брендов напрямую из базы данных
+const uniqueBrands = [...new Set(racquets.map((r) => r.brand))].sort()
+
 export default function RacquetsPage() {
   const { isDarkMode } = useTheme()
 
@@ -91,8 +94,38 @@ export default function RacquetsPage() {
     )
   })
 
+  // Динамическая микроразметка Schema.org (JSON-LD) для богатых поисковых сниппетов Google и Яндекс
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: filteredRacquets.slice(0, 50).map((racquet, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      item: {
+        '@type': 'Product',
+        name: `${racquet.brand} ${racquet.model}`,
+        image: `https://sofasquash.ru${racquet.images[0] || '/icon.svg'}`,
+        description: racquet.description,
+        brand: {
+          '@type': 'Brand',
+          name: racquet.brand,
+        },
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'RUB',
+          availability: 'https://schema.org/InStock',
+        },
+      },
+    })),
+  }
+
   return (
     <div className='flex min-h-[calc(100vh-4rem)] font-sans antialiased selection:bg-amber-500/30'>
+      {/* Внедрение структурированных данных Schema.org */}
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 w-full'>
         <div className='max-w-6xl mx-auto w-full mb-12'>
           <header className='mb-12 text-center'>
@@ -125,28 +158,10 @@ export default function RacquetsPage() {
                       set: setSelectedBrand,
                       opt: [
                         ['all', `Все бренды (${racquets.length})`],
-                        ['Harrow', `Harrow (${brandCounts['Harrow'] || 0})`],
-                        ['Head', `Head (${brandCounts['Head'] || 0})`],
-                        [
-                          'Tecnifibre',
-                          `Tecnifibre (${brandCounts['Tecnifibre'] || 0})`,
-                        ],
-                        ['Dunlop', `Dunlop (${brandCounts['Dunlop'] || 0})`],
-                        ['Oliver', `Oliver (${brandCounts['Oliver'] || 0})`],
-                        ['Karakal', `Karakal (${brandCounts['Karakal'] || 0})`],
-                        ['Eye', `Eye (${brandCounts['Eye'] || 0})`],
-                        ['Prince', `Prince (${brandCounts['Prince'] || 0})`],
-                        [
-                          'Black Knight',
-                          `Black Knight (${brandCounts['Black Knight'] || 0})`,
-                        ],
-                        ['Wilson', `Wilson (${brandCounts['Wilson'] || 0})`],
-                        ['Salming', `Salming (${brandCounts['Salming'] || 0})`],
-                        [
-                          'Unsquashable',
-                          `Unsquashable (${brandCounts['Unsquashable'] || 0})`,
-                        ],
-                        ['Xamsa', `Xamsa (${brandCounts['Xamsa'] || 0})`],
+                        ...uniqueBrands.map((brand) => [
+                          brand,
+                          `${brand} (${brandCounts[brand] || 0})`,
+                        ]),
                       ],
                     },
                     Weight: {
@@ -206,6 +221,7 @@ export default function RacquetsPage() {
                       key={filterType}
                       value={stateMap.val}
                       onChange={(e) => stateMap.set(e.target.value)}
+                      aria-label={`Фильтр по параметру ${filterType}`}
                       className='px-3 py-2.5 rounded-lg border text-xs font-semibold focus:outline-none cursor-pointer bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'
                     >
                       {stateMap.opt.map(([v, label]) => (
