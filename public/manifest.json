@@ -1,12 +1,11 @@
 {
-  "name": "Squash Rules 2026",
-  "short_name": "Squash Rules",
-  "description": "Интерактивный кодекс правил сквоша 2026",
+  "name": "Squash Portal",
+  "short_name": "Squash Portal",
+  "description": "Интерактивная база знаний о сквоше: правила, тактика, ракетки и блог",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
+  "background_color": "#0a0a0c",
   "theme_color": "#f59e0b",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "/icon.svg",

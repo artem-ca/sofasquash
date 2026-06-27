@@ -5,6 +5,8 @@ import './globals.css'
 
 import Script from 'next/script'
 
+const SITE_URL = 'https://sofasquash.ru'
+
 export const metadata = {
   title: 'SQUASH PORTAL — интерактивная база знаний о сквоше',
   description:
@@ -14,16 +16,25 @@ export const metadata = {
     title: 'SQUASH PORTAL — Все о сквоше',
     description:
       'Правила, термины, тактика, ракетки 3D-корт и тренерский блог.',
-    url: 'https://sofasquash.ru',
+    url: SITE_URL,
     siteName: 'Squash Portal',
     locale: 'ru_RU',
     type: 'website',
+    images: [
+      {
+        url: `${SITE_URL}/og.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Squash Portal — интерактивная база знаний о сквоше',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'SQUASH PORTAL — Все о сквоше',
     description:
       'Интерактивный портал о сквоше: правила, тактики, база ракеток.',
+    images: [`${SITE_URL}/og.png`],
   },
 }
 
