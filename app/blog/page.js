@@ -2,8 +2,7 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import Link from 'next/link'
-import { formatDate } from '@/utils/date'
+import BlogList from './BlogList'
 
 export const metadata = {
   title: 'Блог о сквоше — Обучение, тактика и обзоры',
@@ -31,21 +30,24 @@ export default function BlogPage() {
           date: data.date || '', // Сохраняем в формате ISO YYYY-MM-DD для сортировки
           author: data.author || 'Редакция',
           summary: data.summary || '',
+          topics: Array.isArray(data.topics) ? data.topics : [],
         }
       })
       // Хронологически точная сортировка ISO-строк (свежие сверху)
       .sort((a, b) => b.date.localeCompare(a.date))
   }
 
+  // Собираем уникальный список тем для фильтра (по алфавиту)
+  const topics = [...new Set(posts.flatMap((post) => post.topics))].sort(
+    (a, b) => a.localeCompare(b, 'ru'),
+  )
+
   return (
     <div className='flex min-h-[calc(100vh-4rem)] font-sans antialiased selection:bg-amber-500/30 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
       <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 w-full'>
         <div className='max-w-4xl mx-auto w-full mb-12 text-center'>
-          <div className='inline-block border px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-4 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/20'>
-            База знаний сквоша
-          </div>
           <h1 className='text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 dark:bg-gradient-to-r dark:from-amber-200 dark:via-yellow-400 dark:to-amber-500 dark:bg-clip-text dark:text-transparent'>
-            Блог & Статьи
+            Блог
           </h1>
           <p className='text-base leading-relaxed max-w-2xl mx-auto text-slate-600 dark:text-slate-400'>
             Обучающие руководства, разборы экипировки и тактические заметки от
@@ -53,53 +55,7 @@ export default function BlogPage() {
           </p>
         </div>
 
-        {posts.length > 0 ? (
-          <div className='grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 w-full mb-16'>
-            {posts.map((post) => (
-              <Link
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                className='p-6 rounded-2xl border transition-all duration-300 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/10 hover:border-amber-500/20 dark:hover:border-amber-500/30 flex flex-col justify-between h-full group hover:shadow-lg dark:hover:shadow-amber-500/5 relative bling'
-              >
-                <div>
-                  <span className='text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500'>
-                    {formatDate(post.date)}{' '}
-                    {/* Выводим отформатированную дату */}
-                  </span>
-                  <h2 className='text-xl font-bold mt-2 mb-3 text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors'>
-                    {post.title}
-                  </h2>
-                  <p className='text-xs leading-relaxed text-slate-500 dark:text-slate-400 line-clamp-3'>
-                    {post.summary}
-                  </p>
-                </div>
-
-                <div className='mt-6 text-xs font-bold text-amber-600 dark:text-amber-500 group-hover:underline inline-flex items-center gap-1.5 relative z-10'>
-                  Читать статью
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    strokeWidth='2.5'
-                    stroke='currentColor'
-                    className='w-3.5 h-3.5'
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3'
-                    />
-                  </svg>
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <div className='text-center py-12 text-sm text-slate-500'>
-            Статьи находятся в процессе публикации. Скоро здесь появится много
-            интересного!
-          </div>
-        )}
+        <BlogList posts={posts} topics={topics} />
       </main>
     </div>
   )
