@@ -40,7 +40,7 @@ export default function Navbar() {
           <span className='font-extrabold text-base tracking-wider'>
             SQUASH
           </span>
-          <span className='text-[9px] text-amber-500 font-bold uppercase tracking-widest mt-0.5'>
+          <span className='text-[9px] text-amber-600 dark:text-amber-500 font-bold uppercase tracking-widest mt-0.5'>
             portal
           </span>
         </Link>

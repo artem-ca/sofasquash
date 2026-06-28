@@ -213,7 +213,7 @@ export default function TacticsBoard() {
         <div className='flex flex-col justify-between h-full'>
           <div>
             {/* ШАПКА РАЗДЕЛА УДАРОВ */}
-            <span className='text-xs font-bold text-amber-500 uppercase tracking-widest block mb-4'>
+            <span className='text-xs font-bold text-amber-600 dark:text-amber-500 uppercase tracking-widest block mb-4'>
               Выберите тип удара:
             </span>
 
@@ -249,16 +249,16 @@ export default function TacticsBoard() {
 
             {/* Карточка разбора */}
             <div className='p-5 rounded-xl border transition-all duration-300 bg-slate-50 dark:bg-neutral-950/40 border-slate-200 dark:border-neutral-800'>
-              <h3 className='font-extrabold text-base text-slate-900 dark:text-slate-100'>
+              <h2 className='font-extrabold text-base text-slate-900 dark:text-slate-100'>
                 {activeInfo.title}
-              </h3>
+              </h2>
               <p className='text-xs mt-2 leading-relaxed text-slate-500 dark:text-slate-400'>
                 {activeInfo.desc}
               </p>
 
               {/* Тактическое применение */}
               <div className='mt-4 pt-3 border-t border-slate-200 dark:border-neutral-800/40'>
-                <span className='text-[10px] font-bold text-amber-500 uppercase tracking-wider block mb-1'>
+                <span className='text-[10px] font-bold text-amber-600 dark:text-amber-500 uppercase tracking-wider block mb-1'>
                   Когда применять:
                 </span>
                 <p className='text-xs leading-relaxed text-slate-700 dark:text-slate-300'>

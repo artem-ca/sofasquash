@@ -87,7 +87,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <Navbar />
           <ServiceWorkerRegister />
-          {children}
+          <main>{children}</main>
         </ThemeProvider>
       </body>
     </html>

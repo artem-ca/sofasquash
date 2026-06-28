@@ -18,7 +18,7 @@ export default function CourtVisualizer() {
   return (
     <div className='p-6 rounded-2xl border transition-all duration-300 my-8 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 text-slate-900 dark:text-slate-100'>
       <div className='text-center mb-6 w-full'>
-        <span className='text-xs font-bold text-amber-500 uppercase tracking-widest block'>
+        <span className='text-xs font-bold text-amber-600 dark:text-amber-500 uppercase tracking-widest block'>
           Масштабированная 3D-схема корта
         </span>
         <p className='text-xs mt-1 text-slate-500 dark:text-slate-400'>
@@ -268,7 +268,7 @@ export default function CourtVisualizer() {
         <div className='font-bold text-sm text-slate-800 dark:text-slate-200'>
           {activeInfo.title}
         </div>
-        <div className='text-[10px] text-amber-500 font-bold uppercase tracking-wider mt-1'>
+        <div className='text-[10px] text-amber-600 dark:text-amber-500 font-bold uppercase tracking-wider mt-1'>
           {activeInfo.dims}
         </div>
         <p className='min-h-10 text-xs mt-2 leading-relaxed text-slate-500 dark:text-slate-400'>
