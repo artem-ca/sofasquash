@@ -69,6 +69,389 @@ html {
   border-top: 1px solid var(--color-neutral-800);
 }
 
+/* Расширенная типографика статей блога */
+.markdown-content p {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.markdown-content h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-slate-800);
+}
+
+:where(.dark) .markdown-content h4 {
+  color: var(--color-slate-200);
+}
+
+.markdown-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.markdown-content blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--color-amber-500);
+  border-radius: 0 0.75rem 0.75rem 0;
+  background: var(--color-amber-50);
+  color: var(--color-slate-700);
+  font-style: normal;
+}
+
+:where(.dark) .markdown-content blockquote {
+  background: rgb(245 158 11 / 0.08);
+  color: var(--color-slate-300);
+}
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.8125rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-slate-200);
+}
+
+:where(.dark) .markdown-content table {
+  border-color: var(--color-neutral-800);
+}
+
+.markdown-content thead {
+  background: var(--color-slate-100);
+}
+
+:where(.dark) .markdown-content thead {
+  background: var(--color-neutral-900);
+}
+
+.markdown-content th,
+.markdown-content td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-slate-200);
+  vertical-align: top;
+}
+
+:where(.dark) .markdown-content th,
+:where(.dark) .markdown-content td {
+  border-bottom-color: var(--color-neutral-800);
+}
+
+.markdown-content th {
+  font-weight: 700;
+  color: var(--color-slate-900);
+}
+
+:where(.dark) .markdown-content th {
+  color: var(--color-slate-100);
+}
+
+.markdown-content tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.markdown-content a {
+  color: var(--color-amber-600);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+:where(.dark) .markdown-content a {
+  color: var(--color-amber-400);
+}
+
+.markdown-content a:hover {
+  color: var(--color-amber-500);
+}
+
+/* Компоненты внутри статей */
+.markdown-content .blog-lead {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-slate-700);
+  margin-bottom: 1.5rem;
+}
+
+:where(.dark) .markdown-content .blog-lead {
+  color: var(--color-slate-300);
+}
+
+.markdown-content .blog-meta-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.markdown-content .blog-tag {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--color-amber-50);
+  color: var(--color-amber-700);
+  border: 1px solid var(--color-amber-200);
+}
+
+:where(.dark) .markdown-content .blog-tag {
+  background: rgb(245 158 11 / 0.1);
+  color: var(--color-amber-400);
+  border-color: rgb(245 158 11 / 0.2);
+}
+
+.markdown-content .blog-callout {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--color-slate-200);
+  background: var(--color-white);
+}
+
+:where(.dark) .markdown-content .blog-callout {
+  border-color: var(--color-neutral-800);
+  background: rgb(23 23 23 / 0.4);
+}
+
+.markdown-content .blog-callout-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: var(--color-amber-600);
+}
+
+:where(.dark) .markdown-content .blog-callout-title {
+  color: var(--color-amber-400);
+}
+
+.markdown-content .blog-callout p:last-child,
+.markdown-content .blog-callout ul:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content .blog-callout--key {
+  border-color: rgb(245 158 11 / 0.35);
+  background: var(--color-amber-50);
+}
+
+:where(.dark) .markdown-content .blog-callout--key {
+  border-color: rgb(245 158 11 / 0.25);
+  background: rgb(245 158 11 / 0.06);
+}
+
+.markdown-content .blog-callout--warn {
+  border-color: rgb(251 146 60 / 0.35);
+  background: rgb(255 247 237);
+}
+
+:where(.dark) .markdown-content .blog-callout--warn {
+  border-color: rgb(251 146 60 / 0.25);
+  background: rgb(251 146 60 / 0.06);
+}
+
+.markdown-content .blog-callout--tip {
+  border-color: rgb(59 130 246 / 0.25);
+  background: rgb(239 246 255);
+}
+
+:where(.dark) .markdown-content .blog-callout--tip {
+  border-color: rgb(59 130 246 / 0.2);
+  background: rgb(59 130 246 / 0.06);
+}
+
+.markdown-content .blog-callout--tip .blog-callout-title {
+  color: rgb(37 99 235);
+}
+
+:where(.dark) .markdown-content .blog-callout--tip .blog-callout-title {
+  color: rgb(96 165 250);
+}
+
+.markdown-content .blog-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+@media (min-width: 640px) {
+  .markdown-content .blog-grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.markdown-content .blog-card {
+  padding: 1.25rem 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--color-slate-200);
+  background: var(--color-white);
+}
+
+:where(.dark) .markdown-content .blog-card {
+  border-color: var(--color-neutral-800);
+  background: rgb(23 23 23 / 0.35);
+}
+
+.markdown-content .blog-card h3 {
+  margin-top: 0;
+  font-size: 1.125rem;
+}
+
+.markdown-content .blog-card-label {
+  display: inline-block;
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-amber-600);
+  margin-bottom: 0.5rem;
+}
+
+:where(.dark) .markdown-content .blog-card-label {
+  color: var(--color-amber-400);
+}
+
+.markdown-content .blog-toc {
+  padding: 1.25rem 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--color-slate-200);
+  background: var(--color-slate-50);
+  margin: 2rem 0;
+}
+
+:where(.dark) .markdown-content .blog-toc {
+  border-color: var(--color-neutral-800);
+  background: rgb(23 23 23 / 0.5);
+}
+
+.markdown-content .blog-toc-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  color: var(--color-slate-500);
+}
+
+.markdown-content .blog-toc ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.markdown-content .blog-toc li {
+  margin-bottom: 0.35rem;
+}
+
+.markdown-content .blog-toc a {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.markdown-content .blog-toc a:hover {
+  text-decoration: underline;
+}
+
+.markdown-content .blog-checklist {
+  list-style: none;
+  padding-left: 0;
+  margin: 1rem 0;
+}
+
+.markdown-content .blog-checklist li {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.markdown-content .blog-checklist li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 800;
+  color: var(--color-amber-500);
+}
+
+.markdown-content .blog-prose-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.5rem 0;
+  color: var(--color-slate-400);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.markdown-content .blog-prose-divider::before,
+.markdown-content .blog-prose-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-slate-200);
+}
+
+:where(.dark) .markdown-content .blog-prose-divider::before,
+:where(.dark) .markdown-content .blog-prose-divider::after {
+  background: var(--color-neutral-800);
+}
+
+.markdown-content .blog-cta {
+  margin: 2.5rem 0 1rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  border: 1px solid rgb(245 158 11 / 0.3);
+  background: linear-gradient(
+    135deg,
+    rgb(245 158 11 / 0.08),
+    rgb(245 158 11 / 0.02)
+  );
+}
+
+:where(.dark) .markdown-content .blog-cta {
+  background: linear-gradient(
+    135deg,
+    rgb(245 158 11 / 0.12),
+    rgb(245 158 11 / 0.03)
+  );
+}
+
+.markdown-content .blog-cta p {
+  margin-bottom: 1rem;
+}
+
+.markdown-content .blog-cta a {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  background: var(--color-amber-500);
+  color: var(--color-slate-950);
+  font-weight: 800;
+  font-size: 0.8125rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.markdown-content .blog-cta a:hover {
+  background: var(--color-amber-600);
+  color: var(--color-slate-950);
+}
+
 /* Эффект блика Bling для карточек (смягченная золотистая версия) */
 .bling {
   position: relative;

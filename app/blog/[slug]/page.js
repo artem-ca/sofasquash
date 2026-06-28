@@ -92,7 +92,7 @@ export default async function PostPage({ params }) {
 
         {/* Тело статьи */}
         <div
-          className='markdown-content text-slate-800 dark:text-slate-300 text-sm leading-relaxed space-y-6'
+          className='markdown-content text-slate-800 dark:text-slate-300 text-base leading-relaxed space-y-6'
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
 
