@@ -124,7 +124,9 @@ export default function RacquetsPage() {
       {/* Внедрение структурированных данных Schema.org */}
       <script
         type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        }}
       />
       <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 w-full'>
         <div className='max-w-6xl mx-auto w-full mb-12'>
