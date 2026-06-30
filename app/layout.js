@@ -45,7 +45,7 @@ export default function RootLayout({ children }) {
   const metricaId = /^\d+$/.test(metricaIdRaw) ? metricaIdRaw : '109839456'
 
   return (
-    <html lang='ru' suppressHydrationWarning>
+    <html lang='ru' data-scroll-behavior='smooth' suppressHydrationWarning>
       <head>
         <script
           id='theme-initializer'
