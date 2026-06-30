@@ -65,27 +65,35 @@ export default async function PostPage({ params }) {
     <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
       <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 max-w-4xl'>
         <header className='mb-8 pb-6 border-b border-slate-200 dark:border-neutral-800'>
-          {/* Блок метаданных */}
-          <div className='flex flex-wrap items-center gap-x-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500'>
-            {data.updated && data.updated !== data.date && (
-              <>
-                <span className='text-amber-600 dark:text-amber-500'>
-                  Редакция: {formatDate(data.updated)}
-                </span>
-                <span>•</span>
-              </>
-            )}
-            <span>Опубликовано: {formatDate(data.date)}</span>
-            {data.author && (
-              <>
-                <span>•</span>
-                <span className='text-slate-400 dark:text-slate-500 font-bold normal-case'>
-                  {data.author}
-                </span>
-              </>
-            )}
+          {/* Верхняя панель: кнопка назад слева, метаданные справа в одну линию */}
+          <div className='flex items-center justify-between gap-4 mb-4'>
+            <Link
+              href='/blog'
+              className='inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500 hover:text-amber-600 transition-colors shrink-0'
+            >
+              ← Назад в блог
+            </Link>
+            <div className='flex items-center justify-end gap-x-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 text-right'>
+              {data.updated && data.updated !== data.date && (
+                <>
+                  <span className='text-amber-600 dark:text-amber-500'>
+                    Редакция: {formatDate(data.updated)}
+                  </span>
+                  <span>•</span>
+                </>
+              )}
+              <span>Опубликовано: {formatDate(data.date)}</span>
+              {data.author && (
+                <>
+                  <span>•</span>
+                  <span className='text-slate-400 dark:text-slate-500 font-bold normal-case'>
+                    {data.author}
+                  </span>
+                </>
+              )}
+            </div>
           </div>
-          <h1 className='text-3xl sm:text-4xl font-extrabold tracking-tight mt-3 text-slate-900 dark:text-slate-100 leading-tight'>
+          <h1 className='text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 leading-tight'>
             {data.title}
           </h1>
         </header>
