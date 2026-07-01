@@ -2,7 +2,7 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import BlogList from './BlogList'
+import BlogClient from './BlogClient'
 
 export const metadata = {
   title: 'Блог о сквоше — Обучение, тактика и обзоры',
@@ -43,7 +43,7 @@ export default function BlogPage() {
   )
 
   return (
-    <div className='flex min-h-[calc(100vh-4rem)] font-sans antialiased selection:bg-amber-500/30 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
+    <div className='flex min-h-[calc(100vh-4rem)] font-sans antialiased selection:bg-amber-500/30 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100 transition-colors duration-300'>
       <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 w-full'>
         <div className='max-w-4xl mx-auto w-full mb-12 text-center'>
           <h1 className='text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 dark:bg-gradient-to-r dark:from-amber-200 dark:via-yellow-400 dark:to-amber-500 dark:bg-clip-text dark:text-transparent'>
@@ -55,7 +55,7 @@ export default function BlogPage() {
           </p>
         </div>
 
-        <BlogList posts={posts} topics={topics} />
+        <BlogClient posts={posts} topics={topics} />
       </main>
     </div>
   )

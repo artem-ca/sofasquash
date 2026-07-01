@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { formatDate } from '@/utils/date'
 
-export default function BlogList({ posts, topics }) {
+export default function BlogClient({ posts, topics }) {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedTopic, setSelectedTopic] = useState('all')
 
@@ -26,39 +26,49 @@ export default function BlogList({ posts, topics }) {
 
   return (
     <>
-      <div className='max-w-4xl mx-auto w-full mb-10'>
-        <div className='p-5 rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 shadow-xs'>
+      <section className='max-w-4xl mx-auto w-full mb-10 space-y-4'>
+        {/* Поиск на всю ширину */}
+        <div className='relative w-full'>
           <input
             type='text'
             placeholder='Поиск по статьям...'
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             aria-label='Поиск по статьям'
-            className='w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 transition-all bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'
+            className='w-full px-3 py-2.5 rounded-md border text-xs focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600 transition-all bg-neutral-50/50 dark:bg-neutral-900/30 border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100'
           />
-
-          <div className='flex flex-wrap gap-2 mt-4'>
-            {['all', ...topics].map((topic) => {
-              const isActive = selectedTopic === topic
-              return (
-                <button
-                  key={topic}
-                  type='button'
-                  onClick={() => setSelectedTopic(topic)}
-                  aria-pressed={isActive}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide cursor-pointer transition-all border ${
-                    isActive
-                      ? 'bg-amber-500 border-amber-500 text-slate-950'
-                      : 'bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-600 dark:text-slate-400 hover:border-amber-500/40 hover:text-amber-600 dark:hover:text-amber-400'
-                  }`}
-                >
-                  {topic === 'all' ? 'Все темы' : topic}
-                </button>
-              )
-            })}
-          </div>
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm('')}
+              className='absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 text-xs cursor-pointer'
+            >
+              ✕
+            </button>
+          )}
         </div>
-      </div>
+
+        {/* Темы блога под поиском, отцентрированные */}
+        <div className='flex items-center justify-center gap-1 border-b md:border-none border-slate-100 dark:border-neutral-900 pb-2 md:pb-0 overflow-x-auto scrollbar-none'>
+          {['all', ...topics].map((topic) => {
+            const isActive = selectedTopic === topic
+            return (
+              <button
+                key={topic}
+                type='button'
+                onClick={() => setSelectedTopic(topic)}
+                aria-pressed={isActive}
+                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                  isActive
+                    ? 'bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-950'
+                    : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
+                }`}
+              >
+                {topic === 'all' ? 'Все темы' : topic}
+              </button>
+            )
+          })}
+        </div>
+      </section>
 
       {filteredPosts.length > 0 ? (
         <div className='grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 w-full mb-16'>
