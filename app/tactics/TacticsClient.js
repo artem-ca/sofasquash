@@ -1,5 +1,6 @@
 'use client'
 
+import CourtVisualizer from '@/components/CourtVisualizer'
 import TacticsBoard from '@/components/TacticsBoard'
 
 export default function TacticsClient() {
@@ -7,7 +8,7 @@ export default function TacticsClient() {
     <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 transition-colors duration-300 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
       <div className='max-w-4xl w-full'>
         <header className='mb-12 text-center'>
-          <div className='inline-block border px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-4 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/20'>
+          <div className='inline-flex border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/30 text-neutral-600 dark:text-neutral-400 rounded px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-4'>
             Физика и тактика сквоша
           </div>
           <h1 className='text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 dark:bg-gradient-to-r dark:from-amber-200 dark:via-yellow-400 dark:to-amber-500 dark:bg-clip-text dark:text-transparent'>
@@ -19,8 +20,13 @@ export default function TacticsClient() {
           </p>
         </header>
 
+        {/* 3D-Корт */}
+        <CourtVisualizer />
+
         {/* Наш тактический планшет */}
-        <TacticsBoard />
+        <div className='mt-12'>
+          <TacticsBoard />
+        </div>
       </div>
     </div>
   )

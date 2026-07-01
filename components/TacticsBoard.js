@@ -70,12 +70,12 @@ export default function TacticsBoard() {
   }
 
   return (
-    <div className='p-6 rounded-2xl border transition-all duration-300 relative tactics-wrapper border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 text-slate-900 dark:text-slate-100'>
+    <div className='p-6 rounded-xl border transition-all duration-300 relative tactics-wrapper border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 text-slate-900 dark:text-slate-100'>
       {/* ПЛАВАЮЩИЙ ХИНТ У КУРСОРA (Позиционирование и стили вынесены в чистые Tailwind-классы) */}
       {tooltip.show && (
         <div
           ref={tooltipRef}
-          className='absolute pointer-events-none z-50 px-3 py-2 rounded-xl text-[10px] font-bold shadow-xl border backdrop-blur-md transition-all duration-75 max-w-[220px] w-max bg-white/95 dark:bg-neutral-950/95 border-amber-600/40 dark:border-amber-500/30 text-amber-600 dark:text-amber-400'
+          className='absolute pointer-events-none z-50 px-3 py-2 rounded-lg text-[10px] font-bold shadow-xl border backdrop-blur-md transition-all duration-75 max-w-[220px] w-max bg-white/95 dark:bg-neutral-950/95 border-amber-600/40 dark:border-amber-500/30 text-amber-600 dark:text-amber-400'
           style={{
             left: `${tooltip.x}px`,
             top: `${tooltip.y}px`,
@@ -85,12 +85,12 @@ export default function TacticsBoard() {
         </div>
       )}
 
-      <div className='grid md:grid-cols-2 gap-8 items-center'>
+      <div className='grid md:grid-cols-2 gap-8 items-start'>
         {/* Левая колонка: Интерактивный SVG-планшет */}
         <div className='flex flex-col items-center justify-center'>
           <svg
             viewBox='0 0 400 480'
-            className='w-full max-w-[340px] h-auto select-none'
+            className='w-full max-w-[400px] h-auto select-none'
           >
             <rect
               x='40'
@@ -226,7 +226,7 @@ export default function TacticsBoard() {
                     setActiveShot(shotKey)
                     setTooltip((prev) => ({ ...prev, show: false })) // Сброс хинта
                   }}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer ${
+                  className={`px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                     activeShot === shotKey
                       ? 'bg-amber-500 border-amber-500 text-slate-950 font-extrabold'
                       : 'border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/30 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-neutral-900 shadow-xs'
@@ -236,34 +236,38 @@ export default function TacticsBoard() {
                     ? 'Драйв'
                     : shotKey === 'boast'
                       ? 'Боуст'
-                      : shotKey === 'crosscourt'
-                        ? 'Кросс'
-                        : shotKey === 'lob'
-                          ? 'Лоб'
-                          : shotKey === 'drop'
-                            ? 'Дроп'
-                            : 'Киллшот'}
+                      : shotKey === 'reverse_boast'
+                        ? 'Реверс-боуст'
+                        : shotKey === 'crosscourt'
+                          ? 'Кросс'
+                          : shotKey === 'lob'
+                            ? 'Лоб'
+                            : shotKey === 'drop'
+                              ? 'Дроп'
+                              : 'Киллшот'}
                 </button>
               ))}
             </div>
 
             {/* Карточка разбора */}
-            <div className='p-5 rounded-xl border transition-all duration-300 bg-slate-50 dark:bg-neutral-950/40 border-slate-200 dark:border-neutral-800'>
-              <h2 className='font-extrabold text-base text-slate-900 dark:text-slate-100'>
-                {activeInfo.title}
-              </h2>
-              <p className='text-xs mt-2 leading-relaxed text-slate-500 dark:text-slate-400'>
-                {activeInfo.desc}
-              </p>
-
-              {/* Тактическое применение */}
-              <div className='mt-4 pt-3 border-t border-slate-200 dark:border-neutral-800/40'>
-                <span className='text-[10px] font-bold text-amber-600 dark:text-amber-500 uppercase tracking-wider block mb-1'>
-                  Когда применять:
-                </span>
-                <p className='text-xs leading-relaxed text-slate-700 dark:text-slate-300'>
-                  {activeInfo.when}
+            <div className='p-5 rounded-lg border transition-all duration-300 bg-slate-50 dark:bg-neutral-950/40 border-slate-200 dark:border-neutral-800 min-h-[310px] flex flex-col justify-between'>
+              <div>
+                <h2 className='font-extrabold text-base text-slate-900 dark:text-slate-100'>
+                  {activeInfo.title}
+                </h2>
+                <p className='text-xs mt-2 leading-relaxed text-slate-500 dark:text-slate-400'>
+                  {activeInfo.desc}
                 </p>
+
+                {/* Тактическое применение */}
+                <div className='mt-4 pt-3 border-t border-slate-200 dark:border-neutral-800/40'>
+                  <span className='text-[10px] font-bold text-amber-600 dark:text-amber-500 uppercase tracking-wider block mb-1'>
+                    Когда применять:
+                  </span>
+                  <p className='text-xs leading-relaxed text-slate-700 dark:text-slate-300'>
+                    {activeInfo.when}
+                  </p>
+                </div>
               </div>
 
               {/* Частые ошибки */}
