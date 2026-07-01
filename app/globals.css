@@ -8,6 +8,10 @@
 /* Плавная прокрутка страницы */
 html {
   scroll-behavior: smooth;
+  /* Резервируем место под вертикальный скроллбар всегда, чтобы появление/
+     исчезновение скроллбара между страницами не сдвигало ширину контента
+     и не вызывало «мерцание» sticky-навбара (шириной w-full). */
+  scrollbar-gutter: stable;
 }
 
 /* Стилизация отрендеренного контента статей блога */
@@ -450,6 +454,49 @@ html {
 .markdown-content .blog-cta a:hover {
   background: var(--color-amber-600);
   color: var(--color-slate-950);
+}
+
+/* Анимации появления для страницы «Энциклопедия» */
+@keyframes enc-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes enc-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Плавный «выезд» снизу с задержкой (для stagger через animation-delay) */
+.enc-reveal {
+  opacity: 0;
+  animation: enc-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Плавное проявление без сдвига */
+.enc-fade {
+  opacity: 0;
+  animation: enc-fade-in 0.8s ease-out both;
+}
+
+/* Уважаем настройку «уменьшить движение» */
+@media (prefers-reduced-motion: reduce) {
+  .enc-reveal,
+  .enc-fade {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Эффект блика Bling для карточек (смягченная золотистая версия) */
