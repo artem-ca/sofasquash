@@ -15,7 +15,7 @@ const encyclopediaLinks = [
   {
     href: '/players',
     label: 'Игроки',
-    desc: 'Топ-50 PSA и легенды сквоша с характеристиками',
+    desc: 'База игроков PSA World Tour, легенд и любителей',
   },
   {
     href: '/glossary',

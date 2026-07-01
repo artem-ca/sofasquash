@@ -5,9 +5,9 @@ import matter from 'gray-matter'
 import PlayersClient from './PlayersClient'
 
 export const metadata = {
-  title: 'Профессиональные игроки в сквош — Топ-50 PSA и легенды',
+  title: 'Игроки в сквош — База профилей PSA World Tour и легенд',
   description:
-    'Интерактивная база лучших игроков в сквош: топ-50 мужчин и женщин PSA World Tour прямо сейчас, а также величайшие легенды, завершившие карьеру.',
+    'Интерактивная база игроков в сквош: профессионалы PSA World Tour, легенды спорта, завершившие карьеру, и клубные игроки. Рейтинги, статистика, инвентарь и биографии.',
 }
 
 export default function PlayersPage() {
