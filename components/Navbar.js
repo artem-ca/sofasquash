@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useTheme } from './ThemeContext'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -42,6 +42,28 @@ export default function Navbar() {
   const { isDarkMode, toggleTheme } = useTheme()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const pathname = usePathname()
+  const headerRef = useRef(null)
+
+  // Закрываем мобильное меню по клику/тапу вне навбара и по Escape
+  useEffect(() => {
+    if (!isMobileOpen) return
+
+    const handleOutside = (e) => {
+      if (headerRef.current && !headerRef.current.contains(e.target)) {
+        setIsMobileOpen(false)
+      }
+    }
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') setIsMobileOpen(false)
+    }
+
+    document.addEventListener('pointerdown', handleOutside)
+    document.addEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('pointerdown', handleOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isMobileOpen])
 
   // Отслеживаем смену адреса в Next.js и вручную отправляем событие просмотра в Метрику
   useEffect(() => {
@@ -81,7 +103,10 @@ export default function Navbar() {
     }`
 
   return (
-    <header className='sticky top-0 z-50 w-full border-b transition-colors duration-300 backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border-slate-200 dark:border-neutral-900 text-slate-900 dark:text-slate-100'>
+    <header
+      ref={headerRef}
+      className='sticky top-0 z-50 w-full border-b transition-colors duration-300 backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border-slate-200 dark:border-neutral-900 text-slate-900 dark:text-slate-100'
+    >
       <div className='max-w-5xl mx-auto px-6 h-16 flex items-center justify-between'>
         {/* Логотип */}
         <Link href='/' className='flex flex-col leading-none select-none'>
@@ -191,6 +216,8 @@ export default function Navbar() {
           {/* Кнопка-бургер  */}
           <button
             onClick={() => setIsMobileOpen(!isMobileOpen)}
+            aria-expanded={isMobileOpen}
+            aria-label={isMobileOpen ? 'Закрыть меню' : 'Открыть меню'}
             className='w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer transition-colors bg-slate-100 dark:bg-neutral-900 text-slate-800 dark:text-slate-200'
           >
             <span className='text-lg'>{isMobileOpen ? '✕' : '☰'}</span>

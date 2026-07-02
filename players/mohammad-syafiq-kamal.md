@@ -1,26 +1,23 @@
 ---
-id: "mohammad-syafiq-kamal"
-name: "Моhаммад Сйафиq Камал"
-nameEn: "Mohammad Syafiq Kamal"
-gender: "male"
-status: "active"
+id: mohammad-syafiq-kamal
+name: Mohammad Syafiq Kamal
+nameEn: Mohammad Syafiq Kamal
+gender: male
+status: active
 rank: 156
 highestRank: 156
-country: "72"
-countryCode: "USA"
+country: Малайзия
+countryCode: MAS
 age: 25
-dob: "Неизвестно"
-birthplace: "Неизвестно"
-experience: "Профессиональный игрок PSA"
-racket: "Dunlop"
-height: "—"
-weight: "—"
-plays: "Правша"
+dob: Неизвестно
+birthplace: Неизвестно
+experience: Профессиональный игрок PSA
+racket: Dunlop
+height: —
+weight: —
+plays: Правша
 titles: 0
 photo: null
-custom: false
 ---
 
-Моhаммад Сйафиq Камал (Mohammad Syafiq Kamal) — профессиональный игрок в сквош, представляющий страну 72. 
-
-Выступает в мировом туре Professional Squash Association (PSA). На текущий момент занимает 156 место в мировом рейтинге. Известен своей техничной игрой, выносливостью на корте и стремлением к победе в каждом розыгрыше.
+Mohammad Syafiq Kamal (Mohammad Syafiq Kamal) — профессиональный игрок в сквош, представляющий Малайзия. Выступает на туре PSA World Tour. На текущий момент занимает 156 место в мировом рейтинге.

@@ -1,26 +1,23 @@
 ---
-id: "naoki-hayashi"
-name: "Наоки Hайасhи"
-nameEn: "Naoki Hayashi"
-gender: "male"
-status: "active"
+id: naoki-hayashi
+name: Naoki Hayashi
+nameEn: Naoki Hayashi
+gender: male
+status: active
 rank: 117
 highestRank: 117
-country: "143"
-countryCode: "USA"
+country: Япония
+countryCode: JPN
 age: 25
-dob: "Неизвестно"
-birthplace: "Неизвестно"
-experience: "Профессиональный игрок PSA"
-racket: "Dunlop"
-height: "—"
-weight: "—"
-plays: "Правша"
+dob: Неизвестно
+birthplace: Неизвестно
+experience: Профессиональный игрок PSA
+racket: Dunlop
+height: —
+weight: —
+plays: Правша
 titles: 0
 photo: null
-custom: false
 ---
 
-Наоки Hайасhи (Naoki Hayashi) — профессиональный игрок в сквош, представляющий страну 143. 
-
-Выступает в мировом туре Professional Squash Association (PSA). На текущий момент занимает 117 место в мировом рейтинге. Известен своей техничной игрой, выносливостью на корте и стремлением к победе в каждом розыгрыше.
+Naoki Hayashi (Naoki Hayashi) — профессиональный игрок в сквош, представляющий Япония. Выступает на туре PSA World Tour. На текущий момент занимает 117 место в мировом рейтинге.

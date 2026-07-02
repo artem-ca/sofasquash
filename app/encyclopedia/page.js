@@ -4,12 +4,14 @@ import path from 'path'
 import Link from 'next/link'
 import { racquets } from '../../data/racquets'
 import { glossaryTerms } from '../../data/glossary'
+import { buildPageMetadata } from '@/constants/site'
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: 'Энциклопедия сквоша — Ракетки, игроки, термины и правила',
   description:
     'Обзор справочной базы Squash Portal: энциклопедия ракеток, профили игроков PSA, глоссарий терминов и официальные правила сквоша — всё в одном месте.',
-}
+  path: '/encyclopedia',
+})
 
 function getPlayersCount() {
   try {

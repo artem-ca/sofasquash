@@ -4,14 +4,14 @@ import { useState, useEffect } from 'react'
 import { racquets } from '../../data/racquets'
 import RacquetCard from '@/components/RacquetCard'
 import RacquetDetailModal from '@/components/RacquetDetailModal'
-import { useTheme } from '@/components/ThemeContext'
+import PageHeader from '@/components/ui/PageHeader'
+import SearchInput from '@/components/ui/SearchInput'
+import { SITE_URL } from '@/constants/site'
 
 // Генерируем уникальный упорядоченный список брендов напрямую из базы данных
 const uniqueBrands = [...new Set(racquets.map((r) => r.brand))].sort()
 
 export default function RacquetsPage() {
-  const { isDarkMode } = useTheme()
-
   // Динамический подсчет количества ракеток по каждому бренду
   const brandCounts = racquets.reduce((acc, r) => {
     acc[r.brand] = (acc[r.brand] || 0) + 1
@@ -104,7 +104,7 @@ export default function RacquetsPage() {
       item: {
         '@type': 'Product',
         name: `${racquet.brand} ${racquet.model}`,
-        image: `https://sofasquash.ru${racquet.images[0] || '/icon.svg'}`,
+        image: `${SITE_URL}${racquet.images[0] || '/icon.svg'}`,
         description: racquet.description,
         brand: {
           '@type': 'Brand',
@@ -130,24 +130,20 @@ export default function RacquetsPage() {
       />
       <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 w-full'>
         <div className='max-w-6xl mx-auto w-full mb-12'>
-          <header className='mb-12 text-center'>
-            <h1 className='text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 dark:bg-gradient-to-r dark:from-amber-200 dark:via-yellow-400 dark:to-amber-500 dark:bg-clip-text dark:text-transparent'>
-              Энциклопедия ракеток
-            </h1>
-            <p className='text-base leading-relaxed text-slate-600 dark:text-slate-400'>
-              Технический разбор, параметры веса, геометрия и сравнение
-              профессиональных сквош-ракеток (WSF).
-            </p>
-          </header>
+          <PageHeader
+            title='Энциклопедия ракеток'
+            subtitle='Технический разбор, параметры веса, геометрия и сравнение профессиональных сквош-ракеток (WSF).'
+            subtitleClassName='text-base leading-relaxed text-slate-600 dark:text-slate-400'
+          />
 
           <section className='p-6 rounded-2xl border transition-all border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 shadow-xs'>
             <div className='mb-4'>
-              <input
-                type='text'
-                placeholder={`Поиск по бренду или названию (например, Harrow, Tecnifibre)...`}
+              <SearchInput
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className='w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 transition-all bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'
+                onChange={setSearchTerm}
+                placeholder='Поиск по бренду или названию (например, Harrow, Tecnifibre)...'
+                ariaLabel='Поиск по ракеткам'
+                variant='amber-muted'
               />
             </div>
 
@@ -250,7 +246,6 @@ export default function RacquetsPage() {
             <RacquetCard
               key={racquet.id}
               racquet={racquet}
-              isDarkMode={isDarkMode}
               isCompared={
                 !!comparisonList.find((item) => item.id === racquet.id)
               }
@@ -281,7 +276,6 @@ export default function RacquetsPage() {
         {selectedRacquet && (
           <RacquetDetailModal
             racquet={selectedRacquet}
-            isDarkMode={isDarkMode}
             isCompared={
               !!comparisonList.find((item) => item.id === selectedRacquet.id)
             }

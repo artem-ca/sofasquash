@@ -1,11 +1,10 @@
 import { ThemeProvider } from '@/components/ThemeContext'
 import Navbar from '@/components/Navbar'
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
+import { SITE_URL, DEFAULT_OG_IMAGE } from '@/constants/site'
 import './globals.css'
 
 import Script from 'next/script'
-
-const SITE_URL = 'https://sofasquash.ru'
 
 export const metadata = {
   title: 'SQUASH PORTAL — интерактивная база знаний о сквоше',
@@ -20,21 +19,14 @@ export const metadata = {
     siteName: 'Squash Portal',
     locale: 'ru_RU',
     type: 'website',
-    images: [
-      {
-        url: `${SITE_URL}/og.png`,
-        width: 1200,
-        height: 630,
-        alt: 'Squash Portal — интерактивная база знаний о сквоше',
-      },
-    ],
+    images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'SQUASH PORTAL — Все о сквоше',
     description:
       'Интерактивный портал о сквоше: правила, тактики, база ракеток.',
-    images: [`${SITE_URL}/og.png`],
+    images: [DEFAULT_OG_IMAGE.url],
   },
 }
 

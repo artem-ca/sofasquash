@@ -1,74 +1,38 @@
 // app/players/[slug]/page.js
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
-import { marked } from 'marked'
-import DOMPurify from 'isomorphic-dompurify'
 import Link from 'next/link'
-
-const countryFlags = {
-  EGY: '🇪🇬',
-  NZL: '🇳🇿',
-  PER: '🇵🇪',
-  FRA: '🇫🇷',
-  WAL: '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
-  ENG: '🇬🇧',
-  MEX: '🇲🇽',
-  MAS: '🇲🇾',
-  SUI: '🇨🇭',
-  IND: '🇮🇳',
-  COL: '🇨🇴',
-  USA: '🇺🇸',
-  SCO: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-  PAK: '🇵🇰',
-  ESP: '🇪🇸',
-  BEL: '🇧🇪',
-  FIN: '🇫🇮',
-  LAT: '🇱🇻',
-  NED: '🇳🇱',
-  AUS: '🇦🇺',
-  CAN: '🇨🇦',
-  HKG: '🇭🇰',
-  RUS: '🇷🇺',
-}
+import { countryFlags } from '@/constants/countryFlags'
+import { buildPageMetadata } from '@/constants/site'
+import { getContentSlugs, getContentEntry, markdownToHtml } from '@/lib/content'
 
 // Генерация статических путей к страницам игроков
 export async function generateStaticParams() {
-  const playersDirectory = path.join(process.cwd(), 'players')
-  if (!fs.existsSync(playersDirectory)) return []
-
-  const filenames = fs.readdirSync(playersDirectory)
-  return filenames
-    .filter((filename) => filename.endsWith('.md'))
-    .map((filename) => ({
-      slug: filename.replace('.md', ''),
-    }))
+  return getContentSlugs('players').map((slug) => ({ slug }))
 }
 
 // Генерация метаданных игрока для SEO
 export async function generateMetadata({ params }) {
   const { slug } = await params
-  try {
-    const filePath = path.join(process.cwd(), 'players', `${slug}.md`)
-    const fileContent = fs.readFileSync(filePath, 'utf-8')
-    const { data } = matter(fileContent)
+  const entry = getContentEntry('players', slug)
 
-    return {
-      title: `${data.name} (${data.nameEn}) — Профиль игрока в сквош`,
-      description: `Биография, статистика, ракетка и достижения игрока в сквош: ${data.name}. Текущий ранг PSA: ${data.rank || 'Легенда'}.`,
-    }
-  } catch (e) {
+  if (!entry) {
     return {
       title: 'Игрок не найден — Squash Portal',
     }
   }
+
+  const { data } = entry
+  return buildPageMetadata({
+    title: `${data.name} (${data.nameEn}) — Профиль игрока в сквош`,
+    description: `Биография, статистика, ракетка и достижения игрока в сквош: ${data.name}. Текущий ранг PSA: ${data.rank || 'Легенда'}.`,
+    path: `/players/${slug}`,
+  })
 }
 
 export default async function PlayerPage({ params }) {
   const { slug } = await params
-  const filePath = path.join(process.cwd(), 'players', `${slug}.md`)
+  const entry = getContentEntry('players', slug)
 
-  if (!fs.existsSync(filePath)) {
+  if (!entry) {
     return (
       <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-white dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200'>
         <h1 className='text-xl font-bold mb-4'>Игрок не найден</h1>
@@ -79,12 +43,10 @@ export default async function PlayerPage({ params }) {
     )
   }
 
-  const fileContent = fs.readFileSync(filePath, 'utf-8')
-  const { data, content } = matter(fileContent)
+  const { data, content } = entry
 
   // Безопасный парсинг Markdown биографии в HTML
-  const rawHtml = marked.parse(content)
-  const htmlContent = DOMPurify.sanitize(rawHtml)
+  const htmlContent = markdownToHtml(content)
 
   const flag = countryFlags[data.countryCode] || ''
   const initials = data.name

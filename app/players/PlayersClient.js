@@ -2,32 +2,8 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-
-const countryFlags = {
-  EGY: '🇪🇬',
-  NZL: '🇳🇿',
-  PER: '🇵🇪',
-  FRA: '🇫🇷',
-  WAL: '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
-  ENG: '🇬🇧',
-  MEX: '🇲🇽',
-  MAS: '🇲🇾',
-  SUI: '🇨🇭',
-  IND: '🇮🇳',
-  COL: '🇨🇴',
-  USA: '🇺🇸',
-  SCO: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-  PAK: '🇵🇰',
-  ESP: '🇪🇸',
-  BEL: '🇧🇪',
-  FIN: '🇫🇮',
-  LAT: '🇱🇻',
-  NED: '🇳🇱',
-  AUS: '🇦🇺',
-  CAN: '🇨🇦',
-  HKG: '🇭🇰',
-  RUS: '🇷🇺',
-}
+import { countryFlags } from '@/constants/countryFlags'
+import SearchInput from '@/components/ui/SearchInput'
 
 export default function PlayersClient({ initialPlayers = [] }) {
   const [searchTerm, setSearchTerm] = useState('')
@@ -103,104 +79,99 @@ export default function PlayersClient({ initialPlayers = [] }) {
       <main className='flex-1 px-4 py-10 lg:px-8 lg:py-16 w-full max-w-none'>
         {/* Шапка и панель фильтров ограничены по ширине и отцентрированы; на всю ширину только карточки */}
         <div className='max-w-6xl mx-auto w-full'>
-        {/* Заголовок страницы */}
-        <header className='mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-neutral-100 dark:border-neutral-900 pb-6'>
-          <div>
-            <h1 className='text-2xl lg:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100'>
-              Игроки
-            </h1>
-            <p className='text-xs text-neutral-500 dark:text-neutral-400 mt-1 max-w-xl'>
-              Реестр профессиональных сквошистов: топ-50 мужчин и женщин PSA
-              World Tour, а также выдающиеся легенды мирового спорта.
-            </p>
-          </div>
-
-          {/* Переключатель вида (Сетка / Список) - Сетка по умолчанию и идет первой */}
-          <div className='flex items-center gap-1 bg-neutral-100 dark:bg-neutral-900 p-1 rounded-md self-start md:self-auto'>
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`px-3 py-1.5 rounded-sm text-xs font-medium transition-all cursor-pointer ${
-                viewMode === 'grid'
-                  ? 'bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 shadow-xs'
-                  : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
-              }`}
-            >
-              Сетка
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={`px-3 py-1.5 rounded-sm text-xs font-medium transition-all cursor-pointer ${
-                viewMode === 'list'
-                  ? 'bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 shadow-xs'
-                  : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
-              }`}
-            >
-              Список
-            </button>
-          </div>
-        </header>
-
-        {/* Панель поиска и вкладок */}
-        <section className='mb-8 space-y-4'>
-          {/* Поиск и Вкладки в одну строку на десктопе */}
-          <div className='flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between'>
-            {/* Вкладки категорий */}
-            <div className='flex items-center gap-1 border-b lg:border-none border-neutral-100 dark:border-neutral-900 pb-2 lg:pb-0 overflow-x-auto scrollbar-none'>
-              {[
-                { id: 'all', label: 'Все' },
-                { id: 'male', label: 'Мужчины' },
-                { id: 'female', label: 'Женщины' },
-                { id: 'retired', label: 'Легенды' },
-              ].map((tab) => {
-                const isActive = activeTab === tab.id
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => {
-                      setActiveTab(tab.id)
-                      if (tab.id === 'retired' && sortBy === 'rank') {
-                        setSortBy('titles')
-                      } else if (tab.id !== 'retired' && sortBy === 'titles') {
-                        setSortBy('rank')
-                      }
-                    }}
-                    className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                      isActive
-                        ? 'bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-950'
-                        : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
-                    }`}
-                  >
-                    {tab.label}
-                    <span className='ml-1.5 text-[10px] opacity-60 font-normal'>
-                      {tabCounts[tab.id]}
-                    </span>
-                  </button>
-                )
-              })}
+          {/* Заголовок страницы */}
+          <header className='mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-neutral-100 dark:border-neutral-900 pb-6'>
+            <div>
+              <h1 className='text-2xl lg:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100'>
+                Игроки
+              </h1>
+              <p className='text-xs text-neutral-500 dark:text-neutral-400 mt-1 max-w-xl'>
+                Реестр профессиональных сквошистов: топ-50 мужчин и женщин PSA
+                World Tour, а также выдающиеся легенды мирового спорта.
+              </p>
             </div>
 
-            {/* Поиск */}
-            <div className='relative flex-1 max-w-md lg:ml-auto'>
-              <input
-                type='text'
-                placeholder='Поиск по имени или стране...'
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className='w-full px-3 py-2 rounded-md border text-xs focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600 transition-all bg-neutral-50/50 dark:bg-neutral-900/30 border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100'
-              />
-              {searchTerm && (
-                <button
-                  onClick={() => setSearchTerm('')}
-                  className='absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 text-xs'
-                >
-                  ✕
-                </button>
-              )}
+            {/* Переключатель вида (Сетка / Список) - Сетка по умолчанию и идет первой */}
+            <div className='flex items-center gap-1 bg-neutral-100 dark:bg-neutral-900 p-1 rounded-md self-start md:self-auto'>
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`px-3 py-1.5 rounded-sm text-xs font-medium transition-all cursor-pointer ${
+                  viewMode === 'grid'
+                    ? 'bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 shadow-xs'
+                    : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
+                }`}
+              >
+                Сетка
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`px-3 py-1.5 rounded-sm text-xs font-medium transition-all cursor-pointer ${
+                  viewMode === 'list'
+                    ? 'bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 shadow-xs'
+                    : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
+                }`}
+              >
+                Список
+              </button>
             </div>
-          </div>
+          </header>
 
-          {/* Фильтры скрыты комментарием по запросу пользователя */}
-          {/*
+          {/* Панель поиска и вкладок */}
+          <section className='mb-8 space-y-4'>
+            {/* Поиск и Вкладки в одну строку на десктопе */}
+            <div className='flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between'>
+              {/* Вкладки категорий */}
+              <div className='flex items-center gap-1 border-b lg:border-none border-neutral-100 dark:border-neutral-900 pb-2 lg:pb-0 overflow-x-auto scrollbar-none'>
+                {[
+                  { id: 'all', label: 'Все' },
+                  { id: 'male', label: 'Мужчины' },
+                  { id: 'female', label: 'Женщины' },
+                  { id: 'retired', label: 'Легенды' },
+                ].map((tab) => {
+                  const isActive = activeTab === tab.id
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => {
+                        setActiveTab(tab.id)
+                        if (tab.id === 'retired' && sortBy === 'rank') {
+                          setSortBy('titles')
+                        } else if (
+                          tab.id !== 'retired' &&
+                          sortBy === 'titles'
+                        ) {
+                          setSortBy('rank')
+                        }
+                      }}
+                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                        isActive
+                          ? 'bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-950'
+                          : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
+                      }`}
+                    >
+                      {tab.label}
+                      <span className='ml-1.5 text-[10px] opacity-60 font-normal'>
+                        {tabCounts[tab.id]}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Поиск */}
+              <div className='flex-1 max-w-md lg:ml-auto'>
+                <SearchInput
+                  value={searchTerm}
+                  onChange={setSearchTerm}
+                  placeholder='Поиск по имени или стране...'
+                  ariaLabel='Поиск по игрокам'
+                  variant='neutral'
+                />
+              </div>
+            </div>
+
+            {/* Фильтры скрыты */}
+            {/*
           <div className='h-px bg-neutral-100 dark:bg-neutral-900'></div>
           <div className='grid grid-cols-2 gap-3 max-w-md'>
             <select
@@ -227,7 +198,7 @@ export default function PlayersClient({ initialPlayers = [] }) {
             </select>
           </div>
           */}
-        </section>
+          </section>
         </div>
 
         {/* Основной контент: Список или Сетка */}
@@ -271,7 +242,10 @@ export default function PlayersClient({ initialPlayers = [] }) {
                                   👑
                                 </span>
                               ) : player.custom ? (
-                                <span className='text-neutral-400 dark:text-neutral-500' title='Клубный игрок'>
+                                <span
+                                  className='text-neutral-400 dark:text-neutral-500'
+                                  title='Клубный игрок'
+                                >
                                   —
                                 </span>
                               ) : (

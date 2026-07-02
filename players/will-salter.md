@@ -1,26 +1,23 @@
 ---
-id: "will-salter"
-name: "Wилл Салтер"
-nameEn: "Will Salter"
-gender: "male"
-status: "active"
+id: will-salter
+name: Will Salter
+nameEn: Will Salter
+gender: male
+status: active
 rank: 132
 highestRank: 132
-country: "176"
-countryCode: "USA"
+country: Англия
+countryCode: ENG
 age: 25
-dob: "Неизвестно"
-birthplace: "Неизвестно"
-experience: "Профессиональный игрок PSA"
-racket: "Dunlop"
-height: "—"
-weight: "—"
-plays: "Правша"
+dob: Неизвестно
+birthplace: Неизвестно
+experience: Профессиональный игрок PSA
+racket: Dunlop
+height: —
+weight: —
+plays: Правша
 titles: 0
 photo: null
-custom: false
 ---
 
-Wилл Салтер (Will Salter) — профессиональный игрок в сквош, представляющий страну 176. 
-
-Выступает в мировом туре Professional Squash Association (PSA). На текущий момент занимает 132 место в мировом рейтинге. Известен своей техничной игрой, выносливостью на корте и стремлением к победе в каждом розыгрыше.
+Will Salter (Will Salter) — профессиональный игрок в сквош, представляющий Англия. Выступает на туре PSA World Tour. На текущий момент занимает 132 место в мировом рейтинге.

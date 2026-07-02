@@ -5,7 +5,6 @@ import RacquetVectorIcon from './RacquetVectorIcon'
 
 export default function RacquetDetailModal({
   racquet,
-  isDarkMode,
   isCompared,
   onToggleComparison,
   onClose,

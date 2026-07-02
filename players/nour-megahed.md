@@ -1,26 +1,23 @@
 ---
-id: "nour-megahed"
-name: "Ноур Мегаhед"
-nameEn: "Nour Megahed"
-gender: "female"
-status: "active"
+id: nour-megahed
+name: Nour Megahed
+nameEn: Nour Megahed
+gender: female
+status: active
 rank: 82
 highestRank: 82
-country: "71"
-countryCode: "USA"
+country: Египет
+countryCode: EGY
 age: 25
-dob: "Неизвестно"
-birthplace: "Неизвестно"
-experience: "Профессиональный игрок PSA"
-racket: "Dunlop"
-height: "—"
-weight: "—"
-plays: "Правша"
+dob: Неизвестно
+birthplace: Неизвестно
+experience: Профессиональный игрок PSA
+racket: Dunlop
+height: —
+weight: —
+plays: Правша
 titles: 0
 photo: null
-custom: false
 ---
 
-Ноур Мегаhед (Nour Megahed) — профессиональный игрок в сквош, представляющий страну 71. 
-
-Выступает в мировом туре Professional Squash Association (PSA). На текущий момент занимает 82 место в мировом рейтинге. Известен своей техничной игрой, выносливостью на корте и стремлением к победе в каждом розыгрыше.
+Nour Megahed (Nour Megahed) — профессиональная сквошистка, представляющая Египет. Выступает на туре PSA World Tour. На текущий момент занимает 82 место в мировом рейтинге.

@@ -3,6 +3,8 @@
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { formatDate } from '@/utils/date'
+import SearchInput from '@/components/ui/SearchInput'
+import FilterPills from '@/components/ui/FilterPills'
 
 export default function BlogClient({ posts, topics }) {
   const [searchTerm, setSearchTerm] = useState('')
@@ -28,46 +30,25 @@ export default function BlogClient({ posts, topics }) {
     <>
       <section className='max-w-4xl mx-auto w-full mb-10 space-y-4'>
         {/* Поиск на всю ширину */}
-        <div className='relative w-full'>
-          <input
-            type='text'
-            placeholder='Поиск по статьям...'
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            aria-label='Поиск по статьям'
-            className='w-full px-3 py-2.5 rounded-md border text-xs focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600 transition-all bg-neutral-50/50 dark:bg-neutral-900/30 border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100'
-          />
-          {searchTerm && (
-            <button
-              onClick={() => setSearchTerm('')}
-              className='absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 text-xs cursor-pointer'
-            >
-              ✕
-            </button>
-          )}
-        </div>
+        <SearchInput
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder='Поиск по статьям...'
+          ariaLabel='Поиск по статьям'
+          variant='neutral'
+        />
 
         {/* Темы блога под поиском, отцентрированные */}
-        <div className='flex items-center justify-center gap-1 border-b md:border-none border-slate-100 dark:border-neutral-900 pb-2 md:pb-0 overflow-x-auto scrollbar-none'>
-          {['all', ...topics].map((topic) => {
-            const isActive = selectedTopic === topic
-            return (
-              <button
-                key={topic}
-                type='button'
-                onClick={() => setSelectedTopic(topic)}
-                aria-pressed={isActive}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                  isActive
-                    ? 'bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-950'
-                    : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
-                }`}
-              >
-                {topic === 'all' ? 'Все темы' : topic}
-              </button>
-            )
-          })}
-        </div>
+        <FilterPills
+          options={['all', ...topics].map((topic) => ({
+            value: topic,
+            label: topic === 'all' ? 'Все темы' : topic,
+          }))}
+          value={selectedTopic}
+          onChange={setSelectedTopic}
+          variant='neutral'
+          className='flex items-center justify-center gap-1 border-b md:border-none border-slate-100 dark:border-neutral-900 pb-2 md:pb-0 overflow-x-auto scrollbar-none'
+        />
       </section>
 
       {filteredPosts.length > 0 ? (

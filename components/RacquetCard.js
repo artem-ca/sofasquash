@@ -5,7 +5,6 @@ import RacquetVectorIcon from '@/components/RacquetVectorIcon'
 
 export default function RacquetCard({
   racquet,
-  isDarkMode,
   isCompared,
   onClick,
 }) {
@@ -40,7 +39,7 @@ export default function RacquetCard({
             className='object-contain h-full w-auto select-none'
           />
         ) : (
-          <RacquetVectorIcon isDarkMode={isDarkMode} />
+          <RacquetVectorIcon />
         )}
       </div>
 

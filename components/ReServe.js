@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useTheme } from '@/components/ThemeContext'
 
 const achievements = [
   { threshold: 0, title: 'Начинающий подающий 🐣', emoji: '🐣' },
@@ -41,8 +40,6 @@ const phrases = [
 ]
 
 export default function ReServe() {
-  const { isDarkMode } = useTheme()
-
   // Состояния для логики правила 2.7
   const [sofaCount, setSofaCount] = useState(0)
   const [easterEggText, setEasterEggText] = useState('')

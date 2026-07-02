@@ -1,49 +1,38 @@
 // app/blog/[slug]/page.js
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
-import { marked } from 'marked'
-import DOMPurify from 'isomorphic-dompurify'
 import Link from 'next/link'
 import { formatDate } from '@/utils/date'
+import { buildPageMetadata } from '@/constants/site'
+import { getContentSlugs, getContentEntry, markdownToHtml } from '@/lib/content'
 
 // Генерация статических путей к постам
 export async function generateStaticParams() {
-  const postsDirectory = path.join(process.cwd(), 'posts')
-  if (!fs.existsSync(postsDirectory)) return []
-
-  const filenames = fs.readdirSync(postsDirectory)
-  return filenames
-    .filter((filename) => filename.endsWith('.md'))
-    .map((filename) => ({
-      slug: filename.replace('.md', ''),
-    }))
+  return getContentSlugs('posts').map((slug) => ({ slug }))
 }
 
 // Генерация метаданных постов
 export async function generateMetadata({ params }) {
   const { slug } = await params
-  try {
-    const filePath = path.join(process.cwd(), 'posts', `${slug}.md`)
-    const fileContent = fs.readFileSync(filePath, 'utf-8')
-    const { data } = matter(fileContent)
+  const entry = getContentEntry('posts', slug)
 
-    return {
-      title: `${data.title} — Блог Squash Portal`,
-      description: data.summary || 'Обучающие материалы по сквошу',
-    }
-  } catch (e) {
+  if (!entry) {
     return {
       title: 'Статья не найдена — Squash Portal',
     }
   }
+
+  return buildPageMetadata({
+    title: `${entry.data.title} — Блог Squash Portal`,
+    description: entry.data.summary || 'Обучающие материалы по сквошу',
+    path: `/blog/${slug}`,
+    type: 'article',
+  })
 }
 
 export default async function PostPage({ params }) {
   const { slug } = await params
-  const filePath = path.join(process.cwd(), 'posts', `${slug}.md`)
+  const entry = getContentEntry('posts', slug)
 
-  if (!fs.existsSync(filePath)) {
+  if (!entry) {
     return (
       <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
         <h1 className='text-2xl font-bold mb-4'>Статья не найдена</h1>
@@ -54,16 +43,14 @@ export default async function PostPage({ params }) {
     )
   }
 
-  const fileContent = fs.readFileSync(filePath, 'utf-8')
-  const { data, content } = matter(fileContent)
+  const { data, content } = entry
 
-  // Безопасный парсинг Markdown в HTML с ИИ-санитаризацией от XSS
-  const rawHtml = marked.parse(content)
-  const htmlContent = DOMPurify.sanitize(rawHtml)
+  // Безопасный парсинг Markdown в HTML с санитайзингом от XSS
+  const htmlContent = markdownToHtml(content)
 
   return (
     <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
-      <main className='flex-1 px-6 py-12 lg:px-16 lg:py-20 max-w-4xl'>
+      <main className='flex-1 w-full max-w-4xl'>
         <header className='mb-8 pb-6 border-b border-slate-200 dark:border-neutral-800'>
           {/* Верхняя панель: кнопка назад слева, метаданные справа в одну линию */}
           <div className='flex items-center justify-between gap-4 mb-4'>

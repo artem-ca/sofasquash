@@ -1,88 +1,81 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+import { getContentEntries } from '@/lib/content'
+import { SITE_URL } from '@/constants/site'
 
 export const dynamic = 'force-static'
 
-const BASE_URL = 'https://sofasquash.ru'
-
 function getBlogEntries() {
-  const postsDirectory = path.join(process.cwd(), 'posts')
+  return getContentEntries('posts').map(({ slug, data }) => {
+    const lastModified = data.updated || data.date
 
-  if (!fs.existsSync(postsDirectory)) {
-    return []
-  }
+    return {
+      url: `${SITE_URL}/blog/${slug}`,
+      lastModified: lastModified ? new Date(lastModified) : new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    }
+  })
+}
 
-  return fs
-    .readdirSync(postsDirectory)
-    .filter((filename) => filename.endsWith('.md'))
-    .map((filename) => {
-      const slug = filename.replace(/\.md$/, '')
-      const filePath = path.join(postsDirectory, filename)
-      const { data } = matter(fs.readFileSync(filePath, 'utf-8'))
-
-      const lastModified = data.updated || data.date
-
-      return {
-        url: `${BASE_URL}/blog/${slug}`,
-        lastModified: lastModified ? new Date(lastModified) : new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.7,
-      }
-    })
+function getPlayerEntries() {
+  return getContentEntries('players').map(({ slug }) => ({
+    url: `${SITE_URL}/players/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }))
 }
 
 export default function sitemap() {
   const staticPages = [
     {
-      url: BASE_URL,
+      url: SITE_URL,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1.0,
     },
     {
-      url: `${BASE_URL}/encyclopedia`,
+      url: `${SITE_URL}/encyclopedia`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/racquets`,
+      url: `${SITE_URL}/racquets`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/players`,
+      url: `${SITE_URL}/players`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/tactics`,
+      url: `${SITE_URL}/tactics`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/glossary`,
+      url: `${SITE_URL}/glossary`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.6,
     },
     {
-      url: `${BASE_URL}/rules`,
+      url: `${SITE_URL}/rules`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/blog`,
+      url: `${SITE_URL}/blog`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
   ]
 
-  return [...staticPages, ...getBlogEntries()]
+  return [...staticPages, ...getBlogEntries(), ...getPlayerEntries()]
 }

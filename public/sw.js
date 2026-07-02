@@ -1,7 +1,9 @@
-const CACHE_NAME = 'squash-rules-cache-v1'
-const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'squash-portal-v2'
+const SHELL_ASSETS = [
   '/',
+  '/encyclopedia',
   '/racquets',
+  '/players',
   '/tactics',
   '/glossary',
   '/rules',
@@ -10,68 +12,72 @@ const ASSETS_TO_CACHE = [
   '/icon.svg',
 ]
 
-// Установка: кэшируем базовые файлы
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE)
-    }),
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL_ASSETS)),
   )
   self.skipWaiting()
 })
 
-// Активация: очищаем старый кэш, если обновилась версия
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
+    caches.keys().then((cacheNames) =>
+      Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
             return caches.delete(cache)
           }
         }),
-      )
-    }),
+      ),
+    ),
   )
   self.clients.claim()
 })
 
+function isHtmlNavigation(request) {
+  if (request.mode === 'navigate') return true
+  const accept = request.headers.get('accept') || ''
+  return accept.includes('text/html')
+}
+
 self.addEventListener('fetch', (event) => {
-  // Игнорируем любые запросы, кроме GET (предотвращает падение кэша при POST)
-  if (event.request.method !== 'GET') {
+  if (event.request.method !== 'GET') return
+  if (!event.request.url.startsWith('http')) return
+
+  // HTML: network-first — после деплоя пользователи быстрее получают свежий контент
+  if (isHtmlNavigation(event.request)) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse.status === 200) {
+            const responseClone = networkResponse.clone()
+            caches
+              .open(CACHE_NAME)
+              .then((cache) => cache.put(event.request, responseClone))
+          }
+          return networkResponse
+        })
+        .catch(() => caches.match(event.request)),
+    )
     return
   }
 
-  // Игнорируем любые запросы, кроме стандартных http и https
-  if (!event.request.url.startsWith('http')) {
-    return
-  }
-
+  // Статика: stale-while-revalidate
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        fetch(event.request)
-          .then((networkResponse) => {
-            if (networkResponse.status === 200) {
-              caches
-                .open(CACHE_NAME)
-                .then((cache) => cache.put(event.request, networkResponse))
-            }
-          })
-          .catch(() => {})
+      const networkFetch = fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse.status === 200) {
+            const responseClone = networkResponse.clone()
+            caches
+              .open(CACHE_NAME)
+              .then((cache) => cache.put(event.request, responseClone))
+          }
+          return networkResponse
+        })
+        .catch(() => null)
 
-        return cachedResponse
-      }
-
-      return fetch(event.request).then((networkResponse) => {
-        if (networkResponse.status === 200) {
-          const responseClone = networkResponse.clone()
-          caches
-            .open(CACHE_NAME)
-            .then((cache) => cache.put(event.request, responseClone))
-        }
-        return networkResponse
-      })
+      return cachedResponse || networkFetch
     }),
   )
 })

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useTheme } from '@/components/ThemeContext'
 import GlossaryTerm from '@/components/GlossaryTerm'
 import KeyTakeaway from '@/components/KeyTakeaway'
 import Quiz from '@/components/Quiz'
@@ -10,7 +9,6 @@ import ReServe from '@/components/ReServe'
 import Link from 'next/link'
 
 export default function RulesPage() {
-  const { isDarkMode } = useTheme()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('sec-1')
   const [isQuizPassed, setIsQuizPassed] = useState(false)
@@ -395,7 +393,6 @@ export default function RulesPage() {
                               <GlossaryTerm
                                 key={pIdx}
                                 term={part}
-                                isDarkMode={isDarkMode}
                               />
                             )
                           }
@@ -408,7 +405,6 @@ export default function RulesPage() {
                 <KeyTakeaway
                   title={sec.takeaway.title}
                   emoji={sec.takeaway.emoji}
-                  isDarkMode={isDarkMode}
                 >
                   {sec.takeaway.text}
                 </KeyTakeaway>
@@ -423,13 +419,12 @@ export default function RulesPage() {
             ))}
 
             <Quiz
-              isDarkMode={isDarkMode}
               onPerfectScore={handlePerfectQuizScore}
               isQuizPassed={isQuizPassed}
             />
           </>
         ) : (
-          <DecisionHelper isDarkMode={isDarkMode} />
+          <DecisionHelper />
         )}
       </main>
     </div>

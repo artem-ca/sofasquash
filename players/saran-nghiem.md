@@ -1,26 +1,23 @@
 ---
-id: "saran-nghiem"
-name: "Саран Нгhием"
-nameEn: "Saran Nghiem"
-gender: "female"
-status: "active"
+id: saran-nghiem
+name: Saran Nghiem
+nameEn: Saran Nghiem
+gender: female
+status: active
 rank: 55
 highestRank: 55
-country: "50"
-countryCode: "USA"
+country: Австралия
+countryCode: AUS
 age: 25
-dob: "Неизвестно"
-birthplace: "Неизвестно"
-experience: "Профессиональный игрок PSA"
-racket: "Dunlop"
-height: "—"
-weight: "—"
-plays: "Правша"
+dob: Неизвестно
+birthplace: Неизвестно
+experience: Профессиональный игрок PSA
+racket: Dunlop
+height: —
+weight: —
+plays: Правша
 titles: 0
 photo: null
-custom: false
 ---
 
-Саран Нгhием (Saran Nghiem) — профессиональный игрок в сквош, представляющий страну 50. 
-
-Выступает в мировом туре Professional Squash Association (PSA). На текущий момент занимает 55 место в мировом рейтинге. Известен своей техничной игрой, выносливостью на корте и стремлением к победе в каждом розыгрыше.
+Saran Nghiem (Saran Nghiem) — профессиональная сквошистка, представляющая Австралия. Выступает на туре PSA World Tour. На текущий момент занимает 55 место в мировом рейтинге.
