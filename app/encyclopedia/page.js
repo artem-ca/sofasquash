@@ -72,7 +72,13 @@ export default function EncyclopediaPage() {
                 {/* Ручка */}
                 <line x1='0' y1='0' x2='0' y2='-15' strokeWidth='3.2' />
                 {/* Набалдашник */}
-                <circle cx='0' cy='0.5' r='1.9' fill='currentColor' stroke='none' />
+                <circle
+                  cx='0'
+                  cy='0.5'
+                  r='1.9'
+                  fill='currentColor'
+                  stroke='none'
+                />
               </g>
             ))}
           </g>
@@ -161,7 +167,10 @@ export default function EncyclopediaPage() {
             >
               <Link
                 href={section.href}
-                className='bling group relative flex flex-col h-full p-8 rounded-3xl border transition-all duration-300 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 hover:border-amber-500/40 dark:hover:border-amber-500/40 hover:shadow-xl dark:hover:shadow-amber-500/5 hover:-translate-y-1'
+                className='bling group relative flex flex-col h-full p-8 rounded-3xl border transition-all 
+                duration-300 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20
+               hover:border-amber-500/40 dark:hover:border-amber-500/40 hover:shadow-xl 
+               dark:hover:shadow-amber-500/5 hover:-translate-y-1'
               >
                 <div className='flex items-center justify-between mb-5'>
                   {section.icon ? (
@@ -171,19 +180,28 @@ export default function EncyclopediaPage() {
                       {section.emoji}
                     </span>
                   )}
-                  <span className='text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20'>
+                  <span
+                    className='text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-50 
+                  dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20'
+                  >
                     {section.stat}
                   </span>
                 </div>
 
-                <h2 className='text-2xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors'>
+                <h2
+                  className='text-2xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-slate-100 
+                group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors'
+                >
                   {section.title}
                 </h2>
                 <p className='text-sm leading-relaxed text-slate-600 dark:text-slate-400 flex-1'>
                   {section.desc}
                 </p>
 
-                <div className='mt-6 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500'>
+                <div
+                  className='mt-6 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider 
+                text-amber-600 dark:text-amber-500'
+                >
                   Открыть раздел
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -206,21 +224,27 @@ export default function EncyclopediaPage() {
         </div>
 
         {/* Нижний CTA */}
-        <div className='enc-reveal mt-16 text-center' style={{ animationDelay: '0.95s' }}>
+        <div
+          className='enc-reveal mt-16 text-center'
+          style={{ animationDelay: '0.95s' }}
+        >
           <p className='text-sm text-slate-500 dark:text-slate-400 mb-5'>
-            Хотите не только справку, но и практику? Загляните в тренерский блог и
-            на тактический планшет.
+            Хотите не только справку, но и практику? Загляните в тренерский блог
+            и на тактический планшет.
           </p>
           <div className='flex flex-wrap items-center justify-center gap-3'>
             <Link
               href='/blog'
-              className='inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm shadow-lg transition-all active:scale-95'
+              className='inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-amber-500 hover:bg-amber-600
+               text-slate-950 font-bold text-sm shadow-lg transition-all active:scale-95'
             >
               Читать блог →
             </Link>
             <Link
               href='/tactics'
-              className='inline-flex items-center gap-2 px-6 py-3 rounded-2xl border font-bold text-sm transition-all active:scale-95 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300 hover:border-amber-500/40 hover:text-amber-600 dark:hover:text-amber-400'
+              className='inline-flex items-center gap-2 px-6 py-3 rounded-2xl border font-bold text-sm transition-all 
+              active:scale-95 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300
+               hover:border-amber-500/40 hover:text-amber-600 dark:hover:text-amber-400'
             >
               Тактический планшет
             </Link>

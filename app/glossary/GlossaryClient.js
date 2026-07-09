@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { glossaryTerms } from '../../data/glossary'
 import PageHeader from '@/components/ui/PageHeader'
 import SearchInput from '@/components/ui/SearchInput'
@@ -34,6 +34,27 @@ export default function GlossaryPage() {
   const toggleExpand = (id) => {
     setExpandedId(expandedId === id ? null : id)
   }
+
+  // Авто-раскрытие аккордеона термина при переходе по ссылке-якорю
+  useEffect(() => {
+    // Проверяем наличие хэша (якоря) в URL при загрузке страницы
+    const hash = window.location.hash.replace('#', '')
+    if (hash) {
+      // Проверяем, существует ли такой ID в базе терминов
+      const termExists = glossaryTerms.some((item) => item.id === hash)
+      if (termExists) {
+        setExpandedId(hash) // Раскрываем нужный аккордеон
+
+        // Плавно прокручиваем экран к открывшемуся термину
+        setTimeout(() => {
+          const element = document.getElementById(`term-panel-${hash}`)
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          }
+        }, 150)
+      }
+    }
+  }, [])
 
   return (
     <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 transition-colors duration-300 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>

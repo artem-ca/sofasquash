@@ -40,7 +40,7 @@ html {
   font-weight: 700;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
-  color: var(--color-amber-500);
+  /* color: var(--color-amber-500); */
 }
 
 .markdown-content ul {
@@ -172,11 +172,81 @@ html {
   color: var(--color-amber-400);
 }
 
-.markdown-content a:hover {
-  color: var(--color-amber-500);
+/* Компоненты внутри статей */
+
+/* Оформлене карточки удара в блоге */
+.markdown-content .blog-card {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
-/* Компоненты внутри статей */
+/* Оформление карточки в темной теме */
+.dark .blog-card {
+  border-color: #262626;
+  background-color: rgba(23, 23, 23, 0.2);
+}
+
+/* Состояния наведения (Hover) на карточку */
+.blog-card:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-0.25rem);
+}
+
+/* Наведение на карточку в темной теме */
+.dark .blog-card:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.05);
+}
+
+.blog-card-label {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #fbbf24;
+  transition: color 0.2s ease-in-out;
+}
+
+/* Заголовок в темной теме */
+.dark .blog-card-label {
+  color: #f1f5f9;
+}
+
+/* Эффект group-hover: заголовок меняет цвет при наведении на КАРТОЧКУ */
+.blog-card:hover .blog-card-label {
+  /* color: #d97706;  */
+}
+
+.dark .blog-card:hover .blog-card-label {
+  color: #fbbf24;
+}
+/* Описание карточки (p)  */
+.blog-card-desc {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: #475569;
+  flex: 1;
+}
+
+/* Описание в темной теме */
+.dark .blog-card-desc {
+  color: #94a3b8;
+}
+
 .markdown-content .blog-lead {
   font-size: 1.0625rem;
   line-height: 1.75;
@@ -204,7 +274,7 @@ html {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   background: var(--color-amber-50);
-  color: var(--color-amber-700);
+  /* color: var(--color-amber-700); */
   border: 1px solid var(--color-amber-200);
 }
 
@@ -294,37 +364,6 @@ html {
   .markdown-content .blog-grid-2 {
     grid-template-columns: 1fr 1fr;
   }
-}
-
-.markdown-content .blog-card {
-  padding: 1.25rem 1.5rem;
-  border-radius: 1rem;
-  border: 1px solid var(--color-slate-200);
-  background: var(--color-white);
-}
-
-:where(.dark) .markdown-content .blog-card {
-  border-color: var(--color-neutral-800);
-  background: rgb(23 23 23 / 0.35);
-}
-
-.markdown-content .blog-card h3 {
-  margin-top: 0;
-  font-size: 1.125rem;
-}
-
-.markdown-content .blog-card-label {
-  display: inline-block;
-  font-size: 0.625rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-amber-600);
-  margin-bottom: 0.5rem;
-}
-
-:where(.dark) .markdown-content .blog-card-label {
-  color: var(--color-amber-400);
 }
 
 .markdown-content .blog-toc {
