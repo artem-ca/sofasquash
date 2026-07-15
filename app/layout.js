@@ -11,6 +11,14 @@ export const metadata = {
   description:
     'Интерактивный свод официальных правил сквоша, тактический планшет, энциклопедия на 250+ ракеток и тренерский блог.',
   manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
   openGraph: {
     title: 'SQUASH PORTAL — Все о сквоше',
     description:
@@ -59,6 +67,8 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        {/* Метрика только в production — dev-сессии не засоряют статистику и вебвизор */}
+        {process.env.NODE_ENV === 'production' && (
         <Script id='yandex-metrica' strategy='afterInteractive'>
           {`
             (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -76,6 +86,7 @@ export default function RootLayout({ children }) {
             });
           `}
         </Script>
+        )}
         <ThemeProvider>
           <Navbar />
           <ServiceWorkerRegister />
