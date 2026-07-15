@@ -34,6 +34,8 @@ export default function PlayersClient({ initialPlayers = [] }) {
         matchesTab = player.gender === 'female' && player.status === 'active'
       } else if (activeTab === 'retired') {
         matchesTab = player.status === 'retired'
+      } else if (activeTab === 'club') {
+        matchesTab = player.custom
       }
 
       const matchesCountry =
@@ -81,6 +83,7 @@ export default function PlayersClient({ initialPlayers = [] }) {
         (p) => p.gender === 'female' && p.status === 'active',
       ).length,
       retired: initialPlayers.filter((p) => p.status === 'retired').length,
+      club: initialPlayers.filter((p) => p.custom).length,
     }
   }, [initialPlayers])
 
@@ -138,6 +141,7 @@ export default function PlayersClient({ initialPlayers = [] }) {
                   { id: 'male', label: 'Мужчины' },
                   { id: 'female', label: 'Женщины' },
                   { id: 'retired', label: 'Легенды' },
+                  { id: 'club', label: 'Клуб' },
                 ].map((tab) => {
                   const isActive = activeTab === tab.id
                   return (
