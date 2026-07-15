@@ -21,9 +21,15 @@ export async function generateMetadata({ params }) {
   }
 
   const { data } = entry
+  const statusLine = data.custom
+    ? 'Клубный игрок и тренер.'
+    : data.rank
+      ? `Текущий ранг PSA: ${data.rank}.`
+      : 'Легенда мирового сквоша.'
+
   return buildPageMetadata({
     title: `${data.name} (${data.nameEn}) — Профиль игрока в сквош`,
-    description: `Биография, статистика, ракетка и достижения игрока в сквош: ${data.name}. Текущий ранг PSA: ${data.rank || 'Легенда'}.`,
+    description: `Биография, статистика, ракетка и достижения игрока в сквош: ${data.name}. ${statusLine}`,
     path: `/players/${slug}`,
   })
 }

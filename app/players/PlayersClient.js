@@ -41,16 +41,26 @@ export default function PlayersClient({ initialPlayers = [] }) {
       return matchesSearch && matchesTab && matchesCountry
     })
 
+    // Явная локаль обязательна: ранги дублируются между мужским и женским
+    // туром, а часть имён пока латиницей. Без неё порядок кириллица/латиница
+    // зависит от локали среды, и SSR-порядок расходится с клиентским
+    // (hydration mismatch).
+    const byName = (a, b) => a.name.localeCompare(b.name, 'ru')
+
     result.sort((a, b) => {
       if (sortBy === 'rank') {
         if (a.status === 'retired' && b.status === 'active') return 1
         if (a.status === 'active' && b.status === 'retired') return -1
         if (a.status === 'active' && b.status === 'active') {
-          return a.rank - b.rank
+          // Игроки без ранга PSA (клубные, rank: null) — в конец списка
+          const rankA = a.rank ?? Infinity
+          const rankB = b.rank ?? Infinity
+          if (rankA !== rankB) return rankA - rankB
+          return byName(a, b)
         }
-        return a.name.localeCompare(b.name)
+        return byName(a, b)
       } else if (sortBy === 'name') {
-        return a.name.localeCompare(b.name)
+        return byName(a, b)
       } else if (sortBy === 'titles') {
         return b.titles - a.titles
       }
