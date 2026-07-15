@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useTheme } from './ThemeContext'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import SearchPalette from './SearchPalette'
 
 // Разделы энциклопедии — вынесены в выпадающее меню «Энциклопедия»
 const encyclopediaLinks = [
@@ -41,8 +42,16 @@ const encyclopediaHrefs = encyclopediaLinks.map((l) => l.href)
 export default function Navbar() {
   const { isDarkMode, toggleTheme } = useTheme()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [shortcutHint, setShortcutHint] = useState('⌘K')
   const pathname = usePathname()
   const headerRef = useRef(null)
+
+  // На не-Mac показываем Ctrl K вместо ⌘K (после гидрации, без mismatch)
+  useEffect(() => {
+    const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)
+    if (!isMac) setShortcutHint('Ctrl K')
+  }, [])
 
   // Закрываем мобильное меню по клику/тапу вне навбара и по Escape
   useEffect(() => {
@@ -103,11 +112,12 @@ export default function Navbar() {
     }`
 
   return (
+    <>
     <header
       ref={headerRef}
       className='sticky top-0 z-50 w-full border-b transition-colors duration-300 backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border-slate-200 dark:border-neutral-900 text-slate-900 dark:text-slate-100'
     >
-      <div className='max-w-5xl mx-auto px-6 h-16 flex items-center justify-between'>
+      <div className='max-w-6xl mx-auto px-6 h-16 flex items-center justify-between'>
         {/* Логотип */}
         <Link href='/' className='flex flex-col leading-none select-none'>
           <span className='font-extrabold text-base tracking-wider'>
@@ -120,6 +130,29 @@ export default function Navbar() {
 
         {/* Десктопное меню */}
         <nav className='hidden md:flex items-center gap-6'>
+          {/* Кнопка поиска (командная палитра ⌘K) */}
+          <button
+            onClick={() => setIsSearchOpen(true)}
+            aria-label='Поиск по сайту'
+            className='inline-flex items-center gap-2 h-9 w-56 pl-3 pr-2 rounded-md border cursor-pointer transition-colors bg-slate-100 dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-500 dark:text-neutral-400 hover:bg-slate-200/70 dark:hover:bg-neutral-800'
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              className='w-4 h-4 shrink-0'
+            >
+              <circle cx='11' cy='11' r='7' />
+              <path strokeLinecap='round' d='m21 21-4.3-4.3' />
+            </svg>
+            <span className='text-sm'>Поиск</span>
+            <kbd className='ml-auto text-[11px] font-semibold tracking-[0.2em] px-1.5 py-0.5'>
+              {shortcutHint}
+            </kbd>
+          </button>
+
           {/* Главная */}
           <Link href='/' className={desktopLinkClass(pathname === '/')}>
             Главная
@@ -207,6 +240,23 @@ export default function Navbar() {
         {/* Мобильная зона */}
         <div className='flex items-center gap-2 md:hidden'>
           <button
+            onClick={() => setIsSearchOpen(true)}
+            aria-label='Поиск по сайту'
+            className='w-10 h-10 rounded-xl border flex items-center justify-center cursor-pointer bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300'
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              className='w-4 h-4'
+            >
+              <circle cx='11' cy='11' r='7' />
+              <path strokeLinecap='round' d='m21 21-4.3-4.3' />
+            </svg>
+          </button>
+          <button
             onClick={toggleTheme}
             className='w-10 h-10 rounded-xl border flex items-center justify-center cursor-pointer bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-amber-400'
           >
@@ -284,5 +334,12 @@ export default function Navbar() {
         </div>
       )}
     </header>
+
+      <SearchPalette
+        open={isSearchOpen}
+        onOpen={() => setIsSearchOpen(true)}
+        onClose={() => setIsSearchOpen(false)}
+      />
+    </>
   )
 }

@@ -38,6 +38,12 @@ export default function RacquetsPage() {
     }
   }, [warningMessage])
 
+  // Предзаполняем поиск из ?q= — так глобальный поиск открывает нужную ракетку
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q')
+    if (q) setSearchTerm(q)
+  }, [])
+
   const toggleComparison = (racquet) => {
     const exists = comparisonList.find((item) => item.id === racquet.id)
     if (exists) {

@@ -7,6 +7,7 @@ import Quiz from '@/components/Quiz'
 import DecisionHelper from '@/components/DecisionHelper'
 import ReServe from '@/components/ReServe'
 import Link from 'next/link'
+import { ruleChapters } from '@/data/rules'
 
 export default function RulesPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -74,22 +75,9 @@ export default function RulesPage() {
     return () => observer.disconnect()
   }, [])
 
-  const menuItems = [
-    { id: 'sec-1', label: '1. Игра' },
-    { id: 'sec-2', label: '2. Очки' },
-    { id: 'sec-3', label: '3. Судьи' },
-    { id: 'sec-4', label: '4. Разминка' },
-    { id: 'sec-5', label: '5. Подача' },
-    { id: 'sec-6', label: '6. Розыгрыш' },
-    { id: 'sec-7', label: '7. Интервалы' },
-    { id: 'sec-8', label: '8. Помехи' },
-    { id: 'sec-9', label: '9. Мяч в игрока' },
-    { id: 'sec-10', label: '10. Апелляции' },
-    { id: 'sec-11', label: '11. Мяч и экип' },
-    { id: 'sec-12', label: '12. Состояние корта' },
-    { id: 'sec-13', label: '13. Травмы' },
-    { id: 'sec-14', label: '14. Поведение' },
-  ]
+  // Пункты бокового меню берём из единого оглавления (data/rules.js);
+  // keywords там нужны только для поиска и в меню не используются.
+  const menuItems = ruleChapters.map(({ id, label }) => ({ id, label }))
 
   const sectionsContent = [
     {
