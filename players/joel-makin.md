@@ -17,7 +17,7 @@ height: "180 см"
 weight: "80 кг"
 plays: "Правша"
 titles: 6
-photo: null
+photo: /images/players/joel-makin.webp
 ---
 
 Прозван "The Golden Tiger" за невероятный атлетизм, фантастическую физическую подготовку и неуступчивый характер. Макин превращает каждый матч в изнурительную битву на истощение. Победитель British Nationals.

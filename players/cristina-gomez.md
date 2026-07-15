@@ -17,7 +17,7 @@ height: "166 см"
 weight: "57 кг"
 plays: "Правша"
 titles: 2
-photo: null
+photo: /images/players/cristina-gomez.webp
 ---
 
 Первая ракетка Испании среди женщин. Очень быстрая и выносливая спортсменка с отличной защитой.

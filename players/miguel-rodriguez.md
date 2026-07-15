@@ -17,7 +17,7 @@ height: "170 см"
 weight: "72 кг"
 plays: "Правша"
 titles: 30
-photo: null
+photo: /images/players/miguel-rodriguez.webp
 ---
 
 Легендарный "Колумбийский Пушка" (The Colombian Cannonball). Самый успешный южноамериканский игрок до появления Диего Элиаса. Известен невероятной скоростью, прыжками и победой на British Open 2018.

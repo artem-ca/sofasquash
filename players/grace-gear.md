@@ -17,7 +17,7 @@ height: "167 см"
 weight: "59 кг"
 plays: "Правша"
 titles: 3
-photo: null
+photo: /images/players/grace-gear.webp
 ---
 
 Стабильная английская спортсменка с отличной тактической подготовкой и хорошей защитой.

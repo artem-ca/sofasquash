@@ -17,7 +17,7 @@ height: "162 см"
 weight: "54 кг"
 plays: "Правша"
 titles: 5
-photo: null
+photo: /images/players/tong-tsz-wing.webp
 ---
 
 Опытная спортсменка из Гонконга. Многократный призер Азиатских игр, известная своей цепкостью в защите.

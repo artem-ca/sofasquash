@@ -17,7 +17,7 @@ height: "164 см"
 weight: "56 кг"
 plays: "Правша"
 titles: 3
-photo: null
+photo: /images/players/enora-villard.webp
 ---
 
 Третий номер сборной Франции. Очень стабильный позиционный игрок с отличной физической выносливостью.

@@ -17,7 +17,7 @@ height: "174 см"
 weight: "69 кг"
 plays: "Правша"
 titles: 6
-photo: null
+photo: /images/players/farida-mohamed.webp
 ---
 
 Прозвана "The Bazooka" за феноменальную силу своих ударов. Одна из самых мощных и физически доминирующих теннисисток в туре.

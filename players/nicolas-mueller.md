@@ -17,7 +17,7 @@ height: "183 см"
 weight: "80 кг"
 plays: "Правша"
 titles: 11
-photo: null
+photo: /images/players/nicolas-mueller.webp
 ---
 
 Прозван "The Swiss Rocket" (Швейцарская ракета). Самый успешный швейцарский игрок в истории. Известен своей невероятно мягкой кистью, обманными ударами и элегантным стилем.

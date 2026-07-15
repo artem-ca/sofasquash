@@ -17,7 +17,7 @@ height: "181 см"
 weight: "75 кг"
 plays: "Правша"
 titles: 3
-photo: null
+photo: /images/players/yannick-wilhelmi.webp
 ---
 
 Второй номер сборной Швейцарии. Быстро прогрессирующий молодой игрок с отличной физической базой и агрессивным воллеем.

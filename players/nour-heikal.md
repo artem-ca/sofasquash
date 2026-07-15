@@ -17,7 +17,7 @@ height: "168 см"
 weight: "59 кг"
 plays: "Правша"
 titles: 1
-photo: null
+photo: /images/players/nour-heikal.webp
 ---
 
 Молодая египетская сквошистка с хорошей физической базой и стабильной игрой на задней линии.

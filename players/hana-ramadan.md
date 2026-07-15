@@ -17,7 +17,7 @@ height: "166 см"
 weight: "61 кг"
 plays: "Правша"
 titles: 4
-photo: null
+photo: /images/players/hana-ramadan.webp
 ---
 
 Опытная египетская спортсменка с очень стабильной игрой вдоль стен и отличным позиционным сквошем.

@@ -17,7 +17,7 @@ height: "178 см"
 weight: "73 кг"
 plays: "Левша"
 titles: 4
-photo: null
+photo: /images/players/velavan-senthilkumar.webp
 ---
 
 Бывший чемпион Азии среди юниоров. Выпускник Колумбийского университета. Быстрый и агрессивный левша с отличной атакой с лёта.

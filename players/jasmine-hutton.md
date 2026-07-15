@@ -17,7 +17,7 @@ height: "168 см"
 weight: "60 кг"
 plays: "Левша"
 titles: 6
-photo: null
+photo: /images/players/jasmine-hutton.webp
 ---
 
 Трехкратная чемпионка Англии. Очень одаренная левша с прекрасным бэкхэндом и отличным чувством темпа игры.

@@ -17,7 +17,7 @@ height: "178 см"
 weight: "74 кг"
 plays: "Правша"
 titles: 2
-photo: null
+photo: /images/players/matias-knudsen.webp
 ---
 
 Третий номер сборной Колумбии. Учился в Дрексельском университете в США. Обладает отличной скоростью и выносливостью.

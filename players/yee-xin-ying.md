@@ -17,7 +17,7 @@ height: "163 см"
 weight: "55 кг"
 plays: "Правша"
 titles: 2
-photo: null
+photo: /images/players/yee-xin-ying.webp
 ---
 
 Молодая малайзийская спортсменка с отличной скоростью и агрессивным атакующим стилем.

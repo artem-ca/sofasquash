@@ -17,7 +17,7 @@ height: "178 см"
 weight: "72 кг"
 plays: "Правша"
 titles: 4
-photo: null
+photo: /images/players/sam-todd.webp
 ---
 
 Бывший чемпион British Junior Open в нескольких возрастных категориях. Обладает отличной атакующей техникой и высокой скоростью на корте.

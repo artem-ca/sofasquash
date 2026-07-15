@@ -17,7 +17,7 @@ height: "168 см"
 weight: "62 кг"
 plays: "Правша"
 titles: 16
-photo: null
+photo: /images/players/hania-el-hammamy.webp
 ---
 
 Лидер мирового женского рейтинга. Прозвана "The Leopard" за невероятную грацию, атлетизм и агрессивную защиту. Обладает сумасшедшей скоростью и выносливостью, превращая матчи в зрелищное шоу. Победительница British Open и World Tour Finals.

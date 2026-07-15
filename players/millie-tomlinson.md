@@ -17,7 +17,7 @@ height: "165 см"
 weight: "58 кг"
 plays: "Правша"
 titles: 15
-photo: null
+photo: /images/players/millie-tomlinson.webp
 ---
 
 Бывшая чемпионка Европы в одиночном разряде. Очень надежный позиционный игрок с отличной защитой.

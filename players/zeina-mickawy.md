@@ -17,7 +17,7 @@ height: "168 см"
 weight: "62 кг"
 plays: "Правша"
 titles: 4
-photo: null
+photo: /images/players/zeina-mickawy.webp
 ---
 
 Опытная египетская сквошистка с отличным воллеем и агрессивной манерой игры у передней стены.

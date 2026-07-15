@@ -17,7 +17,7 @@ height: "182 см"
 weight: "77 кг"
 plays: "Правша"
 titles: 3
-photo: null
+photo: /images/players/muhammad-ashab-irfan.webp
 ---
 
 Один из самых талантливых молодых пакистанских игроков. Обладает отличным физическим потенциалом и мощным драйвом справа.

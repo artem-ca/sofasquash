@@ -17,7 +17,7 @@ height: "172 см"
 weight: "65 кг"
 plays: "Правша"
 titles: 3
-photo: null
+photo: /images/players/mariam-metwally.webp
 ---
 
 Бывшая финалистка юниорского чемпионата мира. Обладает потрясающей атакующей техникой и мягкой кистью.

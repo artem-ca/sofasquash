@@ -17,7 +17,7 @@ height: "169 см"
 weight: "60 кг"
 plays: "Правша"
 titles: 1
-photo: null
+photo: /images/players/nadien-elhammamy.webp
 ---
 
 Младшая сестра Хании Эль-Хаммами. Обладает великолепной генетикой, прекрасной координацией и отличным воллеем.

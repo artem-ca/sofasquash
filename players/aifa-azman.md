@@ -17,7 +17,7 @@ height: "166 см"
 weight: "58 кг"
 plays: "Правша"
 titles: 5
-photo: null
+photo: /images/players/aifa-azman.webp
 ---
 
 Старшая сестра Айры Азман. Победительница нескольких крупных турниров серии PSA Challenger, игрок национальной сборной Малайзии.
