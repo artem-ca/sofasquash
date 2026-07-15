@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import RacquetVectorIcon from '@/components/RacquetVectorIcon'
 
 export default function RacquetCard({
@@ -29,7 +30,7 @@ export default function RacquetCard({
       {/* Зона изображения */}
       <div className='w-full h-64 max-h-72 flex items-center justify-center bg-white mt-2 transition-transform duration-300 group-hover:scale-105'>
         {hasImages && !imgError ? (
-          <img
+          <Image
             src={racquet.images[0]}
             alt={`${racquet.brand} ${racquet.model}`}
             loading='lazy'

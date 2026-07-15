@@ -1,4 +1,5 @@
 // app/players/[slug]/page.js
+import Image from 'next/image'
 import Link from 'next/link'
 import { countryFlags } from '@/constants/countryFlags'
 import { buildPageMetadata } from '@/constants/site'
@@ -115,10 +116,12 @@ export default async function PlayerPage({ params }) {
             <div className='p-4 flex items-center justify-center border-b border-neutral-200 dark:border-neutral-900 bg-white dark:bg-neutral-950/40'>
               <div className='w-full aspect-[3/4] rounded bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center relative overflow-hidden border border-neutral-200/50 dark:border-neutral-800/50'>
                 {data.photo ? (
-                  <img
+                  <Image
                     src={data.photo}
                     alt={data.name}
-                    className='object-cover w-full h-full'
+                    fill
+                    sizes='(max-width: 768px) 100vw, 320px'
+                    className='object-cover'
                   />
                 ) : (
                   <div className='flex flex-col items-center justify-center text-center opacity-60 dark:opacity-40'>

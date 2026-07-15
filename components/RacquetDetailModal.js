@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import RacquetVectorIcon from './RacquetVectorIcon'
 
 export default function RacquetDetailModal({
@@ -63,7 +64,7 @@ export default function RacquetDetailModal({
           <div className='flex flex-col items-center justify-center bg-slate-950/5 p-4 rounded-xl relative h-64 overflow-hidden'>
             {hasImages && !imgError ? (
               <>
-                <img
+                <Image
                   src={racquet.images[activeImageIdx]}
                   alt={`${racquet.brand} ${racquet.model}`}
                   width={500}

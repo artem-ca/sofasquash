@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { countryFlags } from '@/constants/countryFlags'
 import SearchInput from '@/components/ui/SearchInput'
@@ -343,10 +344,12 @@ export default function PlayersClient({ initialPlayers = [] }) {
                     {/* Фото-зона на весь фон карточки */}
                     <div className='absolute inset-0 w-full h-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-900/40 transition-transform duration-300 group-hover:scale-105'>
                       {player.photo ? (
-                        <img
+                        <Image
                           src={player.photo}
                           alt={player.name}
-                          className='object-cover w-full h-full'
+                          fill
+                          sizes='(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw'
+                          className='object-cover'
                         />
                       ) : (
                         <div className='flex flex-col items-center justify-center text-center opacity-60 dark:opacity-40'>
