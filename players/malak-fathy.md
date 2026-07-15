@@ -1,6 +1,6 @@
 ---
 id: malak-fathy
-name: Malak Fathy
+name: "Малак Фатхи"
 nameEn: Malak Fathy
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 91
 highestRank: 91
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 21
+dob: "03.04.2005"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
-weight: —
+height: "173 см"
+weight: "61 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/malak-fathy.webp
 ---
 
-Malak Fathy (Malak Fathy) — профессиональная сквошистка, представляющая Египет. Выступает на туре PSA World Tour. На текущий момент занимает 91 место в мировом рейтинге.
+Малак Фатхи (Malak Fathy) — египетская спортсменка из Каира. Выступает на туре PSA World Tour, представляя сильнейшую женскую сквош-державу мира.
+
+Тренируется под руководством Ахмеда Шехаты.

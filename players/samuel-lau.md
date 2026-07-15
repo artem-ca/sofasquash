@@ -1,23 +1,23 @@
 ---
 id: samuel-lau
-name: Самуел Лау
+name: "Сэмюэл Лау"
 nameEn: Samuel Lau
 gender: male
 status: active
 rank: 796
 highestRank: 796
-country: Гонконг
-countryCode: HKG
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+country: "Сингапур"
+countryCode: "SGP"
+age: 21
+dob: "16.09.2004"
+birthplace: "Сингапур"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
+height: "181 см"
 weight: —
 plays: Правша
 titles: 0
 photo: null
 ---
 
-Самуел Лау (Samuel Lau) — профессиональный игрок в сквош, представляющий Гонконг. Выступает на туре PSA World Tour. На текущий момент занимает 796 место в мировом рейтинге.
+Сэмюэл Лау (Samuel Lau) — сингапурский игрок. Представляет молодое поколение сквоша Сингапура, набирающее международный опыт на турнирах PSA.

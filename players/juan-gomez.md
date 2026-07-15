@@ -1,6 +1,6 @@
 ---
 id: juan-gomez
-name: Juan Gomez
+name: "Хуан Гомес"
 nameEn: Juan Gomez
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 962
 highestRank: 962
 country: Колумбия
 countryCode: COL
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 29
+dob: "26.05.1997"
+birthplace: "Колумбия"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
+height: "178 см"
 weight: —
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/juan-gomez.webp
 ---
 
-Juan Gomez (Juan Gomez) — профессиональный игрок в сквош, представляющий Колумбия. Выступает на туре PSA World Tour. На текущий момент занимает 962 место в мировом рейтинге.
+Хуан Гомес (Juan Gomez) — колумбийский игрок. Представляет латиноамериканский сквош, центром которого в последние годы стала именно Колумбия с её высокогорной Боготой и сильной турнирной сеткой.
+
+Тренируется у Хуана Лухана.

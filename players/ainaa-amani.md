@@ -1,6 +1,6 @@
 ---
 id: ainaa-amani
-name: Аинаа Амани
+name: "Айна Амани"
 nameEn: Ainaa Amani
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 54
 highestRank: 54
 country: Малайзия
 countryCode: MAS
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 24
+dob: "18.03.2002"
+birthplace: "Малайзия"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Dunlop"
+height: "165 см"
+weight: "50 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/ainaa-amani.webp
 ---
 
-Аинаа Амани (Ainaa Amani) — профессиональная сквошистка, представляющая Малайзия. Выступает на туре PSA World Tour. На текущий момент занимает 54 место в мировом рейтинге.
+Айна Амани (Ainaa Amani) — малайзийская спортсменка из штата Селангор. Представляет страну с богатыми сквош-традициями: именно Малайзия подарила миру великую Никол Дэвид, и новое поколение малайзиек равняется на неё.
+
+Тренируется под руководством Нафизвана Аднана, в прошлом одного из лидеров мужской сборной Малайзии.

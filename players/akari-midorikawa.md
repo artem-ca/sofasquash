@@ -1,6 +1,6 @@
 ---
 id: akari-midorikawa
-name: Akari Midorikawa
+name: "Акари Мидорикава"
 nameEn: Akari Midorikawa
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 94
 highestRank: 94
 country: Япония
 countryCode: JPN
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 20
+dob: "15.08.2005"
+birthplace: "Япония"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Tecnifibre"
+height: "151 см"
+weight: "50 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/akari-midorikawa.webp
 ---
 
-Akari Midorikawa (Akari Midorikawa) — профессиональная сквошистка, представляющая Япония. Выступает на туре PSA World Tour. На текущий момент занимает 94 место в мировом рейтинге.
+Акари Мидорикава (Akari Midorikawa) — японская спортсменка из префектуры Сайтама. Представляет растущий японский женский сквош, который в последние годы всё увереннее заявляет о себе на азиатской и мировой арене.
+
+Выступает на профессиональном туре PSA World Tour.

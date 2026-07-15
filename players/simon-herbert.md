@@ -1,23 +1,25 @@
 ---
 id: simon-herbert
-name: Simon Herbert
+name: "Саймон Херберт"
 nameEn: Simon Herbert
 gender: male
 status: active
 rank: 57
 highestRank: 57
-country: Австралия
-countryCode: AUS
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+country: "Англия"
+countryCode: "ENG"
+age: 24
+dob: "26.08.2001"
+birthplace: "Великобритания"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Dunlop"
+height: "181 см"
+weight: "67 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/simon-herbert.webp
 ---
 
-Simon Herbert (Simon Herbert) — профессиональный игрок в сквош, представляющий Австралия. Выступает на туре PSA World Tour. На текущий момент занимает 57 место в мировом рейтинге.
+Саймон Херберт (Simon Herbert) — английский профессионал, базирующийся в Лестере. Уверенно набирает очки в мировом туре PSA.
+
+Тренируется у Роба Оуэна.

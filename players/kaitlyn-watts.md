@@ -1,23 +1,25 @@
 ---
 id: kaitlyn-watts
-name: Kaitlyn Watts
+name: "Кейтлин Уоттс"
 nameEn: Kaitlyn Watts
 gender: female
 status: active
 rank: 77
 highestRank: 77
-country: Австралия
-countryCode: AUS
+country: "Новая Зеландия"
+countryCode: "NZL"
 age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+dob: "01.03.2001"
+birthplace: "Новая Зеландия"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Karakal"
+height: "169 см"
+weight: "60 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/kaitlyn-watts.webp
 ---
 
-Kaitlyn Watts (Kaitlyn Watts) — профессиональная сквошистка, представляющая Австралия. Выступает на туре PSA World Tour. На текущий момент занимает 77 место в мировом рейтинге.
+Кейтлин Уоттс (Kaitlyn Watts) — новозеландская спортсменка из Палмерстон-Норта. Представляет страну великой Дам Сьюзен Девой и продолжает её традиции в женском туре PSA.
+
+Тренируется у Кайли Линдсей, в прошлом игрока сборной Новой Зеландии.

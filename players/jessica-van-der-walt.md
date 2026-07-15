@@ -1,6 +1,6 @@
 ---
 id: jessica-van-der-walt
-name: Jessica van der Walt
+name: "Джессика ван дер Валт"
 nameEn: Jessica van der Walt
 gender: female
 status: active
@@ -20,4 +20,6 @@ titles: 0
 photo: null
 ---
 
-Jessica van der Walt (Jessica van der Walt) — профессиональная сквошистка, представляющая ЮАР. Выступает на туре PSA World Tour. На текущий момент занимает 70 место в мировом рейтинге.
+Джессика ван дер Валт (Jessica van der Walt) — южноафриканская спортсменка. Представляет ЮАР — страну с давними сквош-традициями, подарившую миру немало сильных профессионалов.
+
+Выступает на туре PSA World Tour.

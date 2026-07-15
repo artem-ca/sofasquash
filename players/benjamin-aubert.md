@@ -1,6 +1,6 @@
 ---
 id: benjamin-aubert
-name: Benjamin Aubert
+name: "Бенжамен Обер"
 nameEn: Benjamin Aubert
 gender: male
 status: active
@@ -8,16 +8,16 @@ rank: 127
 highestRank: 127
 country: Франция
 countryCode: FRA
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 28
+dob: "13.11.1997"
+birthplace: "Франция"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
-weight: —
+height: "178 см"
+weight: "67 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/benjamin-aubert.webp
 ---
 
-Benjamin Aubert (Benjamin Aubert) — профессиональный игрок в сквош, представляющий Франция. Выступает на туре PSA World Tour. На текущий момент занимает 127 место в мировом рейтинге.
+Бенжамен Обер (Benjamin Aubert) — французский профессионал из коммуны Руаффьё. Выступает на туре PSA World Tour, представляя французскую школу сквоша, известную своей техничной и позиционной игрой.

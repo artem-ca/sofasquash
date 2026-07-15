@@ -1,6 +1,6 @@
 ---
 id: nardine-garas
-name: Нардине Гарас
+name: "Нардин Гарас"
 nameEn: Nardine Garas
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 32
 highestRank: 32
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 22
+dob: "19.12.2003"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Tecnifibre"
+height: "172 см"
+weight: "68 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/nardine-garas.webp
 ---
 
-Нардине Гарас (Nardine Garas) — профессиональная сквошистка, представляющая Египет. Выступает на туре PSA World Tour. На текущий момент занимает 32 место в мировом рейтинге.
+Нардин Гарас (Nardine Garas) — египетская спортсменка из Каира, стабильный игрок верхней части женского рейтинга PSA. В её тренерский штаб входят Карим Али, Омнея Кави и Мохамед Абдельлатиф.
+
+Вне корта увлекается музыкой.

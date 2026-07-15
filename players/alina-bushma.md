@@ -1,6 +1,6 @@
 ---
 id: alina-bushma
-name: Alina Bushma
+name: "Алина Бушма"
 nameEn: Alina Bushma
 gender: female
 status: active
@@ -9,15 +9,17 @@ highestRank: 48
 country: Украина
 countryCode: UKR
 age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+dob: "06.12.2000"
+birthplace: "Украина"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Harrow"
+height: "166 см"
+weight: "62 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/alina-bushma.webp
 ---
 
-Alina Bushma (Alina Bushma) — профессиональная сквошистка, представляющая Украина. Выступает на туре PSA World Tour. На текущий момент занимает 48 место в мировом рейтинге.
+Алина Бушма (Alina Bushma) — украинская спортсменка, одна из немногих представительниц Украины в профессиональном сквоше. Базируется в Филадельфии (США), где тренируется под руководством Дилана Каннингема и Грэма Уильямса.
+
+Выступает на туре PSA World Tour.

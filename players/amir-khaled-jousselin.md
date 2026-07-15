@@ -1,6 +1,6 @@
 ---
 id: amir-khaled-jousselin
-name: Amir Khaled-Jousselin
+name: "Амир Халед-Жусселен"
 nameEn: Amir Khaled-Jousselin
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 111
 highestRank: 111
 country: Франция
 countryCode: FRA
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 18
+dob: "18.05.2008"
+birthplace: "Франция"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Technifibre"
+height: "175 см"
+weight: "60 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/amir-khaled-jousselin.webp
 ---
 
-Amir Khaled-Jousselin (Amir Khaled-Jousselin) — профессиональный игрок в сквош, представляющий Франция. Выступает на туре PSA World Tour. На текущий момент занимает 111 место в мировом рейтинге.
+Амир Халед-Жусселен (Amir Khaled-Jousselin) — французский профессионал из Нанси. Представляет одну из сильнейших сквош-школ Европы: Франция стабильно поставляет игроков в мировую элиту.
+
+Тренируется под руководством Бертрана Тиссо и Этьена Буссара.

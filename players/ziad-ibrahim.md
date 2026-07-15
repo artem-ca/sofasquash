@@ -1,6 +1,6 @@
 ---
 id: ziad-ibrahim
-name: Ziad Ibrahim
+name: "Зиад Ибрагим"
 nameEn: Ziad Ibrahim
 gender: male
 status: active
@@ -9,15 +9,17 @@ highestRank: 146
 country: Египет
 countryCode: EGY
 age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+dob: "04.07.2001"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
-weight: —
+height: "186 см"
+weight: "80 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/ziad-ibrahim.webp
 ---
 
-Ziad Ibrahim (Ziad Ibrahim) — профессиональный игрок в сквош, представляющий Египет. Выступает на туре PSA World Tour. На текущий момент занимает 146 место в мировом рейтинге.
+Зиад Ибрагим (Ziad Ibrahim) — египетский профессионал из Каира. Пробивается в туре PSA через челленджеры и жёсткую внутреннюю конкуренцию египетского сквоша.
+
+Тренируется у Ахмеда Ибрагима.

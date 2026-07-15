@@ -1,6 +1,6 @@
 ---
 id: cristina-tartarone
-name: Cristina Tartarone
+name: "Кристина Тартароне"
 nameEn: Cristina Tartarone
 gender: female
 status: active
@@ -9,15 +9,17 @@ highestRank: 100
 country: Италия
 countryCode: ITA
 age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+dob: "04.06.2001"
+birthplace: "Италия"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Unsquashable"
+height: "173 см"
+weight: "60 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/cristina-tartarone.webp
 ---
 
-Cristina Tartarone (Cristina Tartarone) — профессиональная сквошистка, представляющая Италия. Выступает на туре PSA World Tour. На текущий момент занимает 100 место в мировом рейтинге.
+Кристина Тартароне (Cristina Tartarone) — итальянская спортсменка из Ренде. Одна из немногих итальянок в профессиональном туре: сквош в Италии — нишевый вид спорта, и её результаты помогают ему расти.
+
+Тренируется у Маркуса Берретта и Сальваторе Сперанцы.

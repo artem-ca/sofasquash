@@ -1,6 +1,6 @@
 ---
 id: maco-lvy
-name: Macéo Lévy
+name: "Масео Леви"
 nameEn: Macéo Lévy
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 91
 highestRank: 91
 country: Франция
 countryCode: FRA
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 23
+dob: "26.04.2003"
+birthplace: "Франция"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Tecnifibre"
+height: "180 см"
+weight: "76 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/maco-lvy.webp
 ---
 
-Macéo Lévy (Macéo Lévy) — профессиональный игрок в сквош, представляющий Франция. Выступает на туре PSA World Tour. На текущий момент занимает 91 место в мировом рейтинге.
+Масео Леви (Macéo Lévy) — французский профессионал из Экс-ан-Прованса, одного из главных сквош-центров Франции. Тренируется под руководством Янна Перрена, Янна Менего и Франка Дюга.
+
+Помимо выступлений в туре ведёт собственный видеоблог о жизни профессионального игрока на YouTube.

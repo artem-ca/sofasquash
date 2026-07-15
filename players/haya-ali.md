@@ -1,6 +1,6 @@
 ---
 id: haya-ali
-name: Haya Ali
+name: "Хайя Али"
 nameEn: Haya Ali
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 49
 highestRank: 49
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 22
+dob: "26.04.2004"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Harrow"
+height: "172 см"
+weight: "61 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/haya-ali.webp
 ---
 
-Haya Ali (Haya Ali) — профессиональная сквошистка, представляющая Египет. Выступает на туре PSA World Tour. На текущий момент занимает 49 место в мировом рейтинге.
+Хайя Али (Haya Ali) — египетская спортсменка из города 6 октября под Каиром. Выступает на туре PSA World Tour, представляя сильнейшую женскую сквош-школу мира.
+
+Тренируется под руководством Юссефа Хишама.

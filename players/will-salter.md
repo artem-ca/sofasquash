@@ -1,6 +1,6 @@
 ---
 id: will-salter
-name: Will Salter
+name: "Уилл Солтер"
 nameEn: Will Salter
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 132
 highestRank: 132
 country: Англия
 countryCode: ENG
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 24
+dob: "28.04.2002"
+birthplace: "Великобритания"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Unsquashable"
+height: "187 см"
+weight: "84 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/will-salter.webp
 ---
 
-Will Salter (Will Salter) — профессиональный игрок в сквош, представляющий Англия. Выступает на туре PSA World Tour. На текущий момент занимает 132 место в мировом рейтинге.
+Уилл Солтер (Will Salter) — английский профессионал из Бирмингема. Набирает очки и опыт в мировом туре PSA, представляя богатейшую сквош-традицию Англии.
+
+Тренируется у Майлза Дженкинса.

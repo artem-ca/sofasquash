@@ -1,6 +1,6 @@
 ---
 id: mazen-hesham
-name: Mazen Hesham
+name: "Мазен Хешам"
 nameEn: Mazen Hesham
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 39
 highestRank: 39
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 32
+dob: "29.03.1994"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
-weight: —
+height: "186 см"
+weight: "77 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/mazen-hesham.webp
 ---
 
-Mazen Hesham (Mazen Hesham) — профессиональный игрок в сквош, представляющий Египет. Выступает на туре PSA World Tour. На текущий момент занимает 39 место в мировом рейтинге.
+Мазен Хешам (Mazen Hesham) — египетский профессионал из Каира, один из самых зрелищных игроков мирового тура. Славится нестандартной техникой и трюковыми ударами, за которые получил репутацию главного артиста PSA World Tour.
+
+На пике карьеры входил в первую десятку мирового рейтинга. Матчи с его участием — обязательный просмотр для тех, кто любит креативный сквош.

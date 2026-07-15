@@ -1,6 +1,6 @@
 ---
 id: "baptiste-masotti"
-name: "Baptiste Masotti"
+name: "Батист Масотти"
 nameEn: "Baptiste Masotti"
 gender: "male"
 status: "active"

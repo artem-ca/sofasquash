@@ -1,6 +1,6 @@
 ---
 id: ryunosuke-tsukue
-name: Рйуносуке Тсукуе
+name: "Рюносукэ Цукуэ"
 nameEn: Ryunosuke Tsukue
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 53
 highestRank: 53
 country: Япония
 countryCode: JPN
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 28
+dob: "13.08.1997"
+birthplace: "Япония"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Dunlop"
+height: "177 см"
+weight: "68 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/ryunosuke-tsukue.webp
 ---
 
-Рйуносуке Тсукуе (Ryunosuke Tsukue) — профессиональный игрок в сквош, представляющий Япония. Выступает на туре PSA World Tour. На текущий момент занимает 53 место в мировом рейтинге.
+Рюносукэ Цукуэ (Ryunosuke Tsukue) — один из ведущих японских игроков, профессионал из Тосимы (Токио). Лицо мужского сквоша Японии на международной арене и стабильный участник азиатских первенств.
+
+Выступает на туре PSA World Tour.

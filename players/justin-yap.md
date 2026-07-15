@@ -1,23 +1,25 @@
 ---
 id: justin-yap
-name: Justin Yap
+name: "Джастин Яп"
 nameEn: Justin Yap
 gender: male
 status: active
 rank: 716
 highestRank: 716
-country: Малайзия
-countryCode: MAS
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+country: "Сингапур"
+countryCode: "SGP"
+age: 22
+dob: "02.02.2004"
+birthplace: "Сингапур"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
+height: "169 см"
 weight: —
 plays: Правша
 titles: 0
 photo: null
 ---
 
-Justin Yap (Justin Yap) — профессиональный игрок в сквош, представляющий Малайзия. Выступает на туре PSA World Tour. На текущий момент занимает 716 место в мировом рейтинге.
+Джастин Яп (Justin Yap Chong Jin) — молодой сингапурский игрок. Представляет быстро развивающийся сквош Сингапура, который в последние годы всё активнее вкладывается в подготовку юниоров.
+
+Тренируется под руководством Гуршана Сингха.

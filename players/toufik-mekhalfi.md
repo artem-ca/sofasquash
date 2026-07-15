@@ -1,6 +1,6 @@
 ---
 id: toufik-mekhalfi
-name: Toufik Mekhalfi
+name: "Туфик Мехальфи"
 nameEn: Toufik Mekhalfi
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 44
 highestRank: 44
 country: Франция
 countryCode: FRA
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 24
+dob: "30.01.2002"
+birthplace: "Франция"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Tecnifibre"
+height: "171 см"
+weight: "61 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/toufik-mekhalfi.webp
 ---
 
-Toufik Mekhalfi (Toufik Mekhalfi) — профессиональный игрок в сквош, представляющий Франция. Выступает на туре PSA World Tour. На текущий момент занимает 44 место в мировом рейтинге.
+Туфик Мехальфи (Toufik Mekhalfi) — французский профессионал из Экс-ан-Прованса, игрок верхней части мирового рейтинга. Воспитанник французской системы подготовки.
+
+Тренируется у Ренана Лавиня — в прошлом игрока мировой элиты и тренера сборной Франции.

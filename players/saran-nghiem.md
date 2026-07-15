@@ -1,23 +1,25 @@
 ---
 id: saran-nghiem
-name: Saran Nghiem
+name: "Саран Нгием"
 nameEn: Saran Nghiem
 gender: female
 status: active
 rank: 55
 highestRank: 55
-country: Австралия
-countryCode: AUS
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+country: "Англия"
+countryCode: "ENG"
+age: 22
+dob: "25.12.2003"
+birthplace: "Великобритания"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Dunlop"
+height: "173 см"
+weight: "63 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/saran-nghiem.webp
 ---
 
-Saran Nghiem (Saran Nghiem) — профессиональная сквошистка, представляющая Австралия. Выступает на туре PSA World Tour. На текущий момент занимает 55 место в мировом рейтинге.
+Саран Нгием (Saran Nghiem) — одна из самых перспективных молодых английских спортсменок. Базируется в Траффорде под Манчестером, где тренируется у Джоша Тейлора.
+
+Быстро прогрессирует в женском туре PSA World Tour.

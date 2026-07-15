@@ -1,6 +1,6 @@
 ---
 id: menna-walid
-name: Menna Walid
+name: "Менна Валид"
 nameEn: Menna Walid
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 80
 highestRank: 80
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 22
+dob: "24.02.2004"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Head"
+height: "160 см"
+weight: "55 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/menna-walid.webp
 ---
 
-Menna Walid (Menna Walid) — профессиональная сквошистка, представляющая Египет. Выступает на туре PSA World Tour. На текущий момент занимает 80 место в мировом рейтинге.
+Менна Валид (Menna Walid) — египетская спортсменка из Александрии. Представляет александрийскую школу — вторую по значимости кузницу египетского сквоша после Каира.
+
+Выступает на профессиональном туре PSA World Tour.

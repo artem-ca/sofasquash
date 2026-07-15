@@ -8,16 +8,18 @@ rank: 119
 highestRank: 119
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 23
+dob: "23.09.2002"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Tecnifibre"
+height: "170 см"
+weight: "73 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/ahmed-said-sobhy.webp
 ---
 
-Ахмед Саид Собхи (Ahmed Said Sobhy) — профессиональный игрок в сквош, представляющий Египет. Выступает на туре PSA World Tour. На текущий момент занимает 119 место в мировом рейтинге.
+Ахмед Саид Собхи (Ahmed Said Sobhy) — египетский профессионал из Александрии, одного из главных центров подготовки игроков в стране. Пробивается в мировом туре через челленджеры, соревнуясь с бездонной египетской конкуренцией.
+
+Тренируется у Мохамеда Эль-Кейи и Саида Абдель Кадера.

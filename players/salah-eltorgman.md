@@ -1,23 +1,25 @@
 ---
 id: salah-eltorgman
-name: Salah Eltorgman
+name: "Салах Эльторгман"
 nameEn: Salah Eltorgman
 gender: male
 status: active
 rank: 168
 highestRank: 168
-country: Египет
-countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+country: "Канада"
+countryCode: "CAN"
+age: 23
+dob: "30.10.2002"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
-weight: —
+height: "193 см"
+weight: "78 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/salah-eltorgman.webp
 ---
 
-Salah Eltorgman (Salah Eltorgman) — профессиональный игрок в сквош, представляющий Египет. Выступает на туре PSA World Tour. На текущий момент занимает 168 место в мировом рейтинге.
+Салах Эльторгман (Salah Eltorgman) — канадский игрок египетского происхождения из Торонто, чемпион Канады. На юниорском уровне выигрывал Scottish Junior Open и доходил до финала US Junior Open.
+
+Выступает на профессиональном туре PSA World Tour.

@@ -1,6 +1,6 @@
 ---
 id: mohamed-nasser
-name: Mohamed Nasser
+name: "Мохамед Нассер"
 nameEn: Mohamed Nasser
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 70
 highestRank: 70
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 22
+dob: "04.11.2003"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Tecnifibre"
+height: "184 см"
+weight: "68 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/mohamed-nasser.webp
 ---
 
-Mohamed Nasser (Mohamed Nasser) — профессиональный игрок в сквош, представляющий Египет. Выступает на туре PSA World Tour. На текущий момент занимает 70 место в мировом рейтинге.
+Мохамед Нассер (Mohamed Nasser) — египетский профессионал из Каира. Пробивается в мировом туре сквозь жесточайшую внутреннюю конкуренцию египетского мужского сквоша.
+
+Тренируется у Нассера Абдельмонема.

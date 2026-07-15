@@ -1,6 +1,6 @@
 ---
 id: om-semwal
-name: Om Semwal
+name: "Ом Семвал"
 nameEn: Om Semwal
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 199
 highestRank: 199
 country: Индия
 countryCode: IND
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 22
+dob: "21.02.2004"
+birthplace: "Индия"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Head"
+height: "180 см"
+weight: "69 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/om-semwal.webp
 ---
 
-Om Semwal (Om Semwal) — профессиональный игрок в сквош, представляющий Индия. Выступает на туре PSA World Tour. На текущий момент занимает 199 место в мировом рейтинге.
+Ом Семвал (Om Semwal) — молодой индийский игрок из Мумбаи. Часть новой волны индийского сквоша, которая поднимается на фоне растущей популярности этого спорта в стране.
+
+Тренируется у Лакшмана Джоши и Джаведа Мохоммада.

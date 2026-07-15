@@ -1,6 +1,6 @@
 ---
 id: tanvi-khanna
-name: Tanvi Khanna
+name: "Танви Кханна"
 nameEn: Tanvi Khanna
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 74
 highestRank: 74
 country: Индия
 countryCode: IND
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 29
+dob: "23.07.1996"
+birthplace: "Индия"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
-weight: —
+height: "167 см"
+weight: "57 кг"
 plays: Правша
-titles: 0
-photo: null
+titles: 2
+photo: /images/players/tanvi-khanna.webp
 ---
 
-Tanvi Khanna (Tanvi Khanna) — профессиональная сквошистка, представляющая Индия. Выступает на туре PSA World Tour. На текущий момент занимает 74 место в мировом рейтинге.
+Танви Кханна (Tanvi Khanna) — индийская спортсменка из Нью-Дели, чемпионка Южноазиатских игр 2017 года в одиночном разряде. Выиграла два титула PSA Tour — оба в 2021 году на домашних турнирах серии HCL SRFI в Ченнаи и Нойде.
+
+Тренируется под руководством Дхрува Дхавана.

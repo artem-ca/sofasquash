@@ -1,6 +1,6 @@
 ---
 id: toby-tse
-name: Тобй Тсе
+name: "Тоби Це"
 nameEn: Toby Tse
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 69
 highestRank: 69
 country: Гонконг
 countryCode: HKG
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 21
+dob: "18.10.2004"
+birthplace: "Гонконг"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
-weight: —
+height: "173 см"
+weight: "60 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/toby-tse.webp
 ---
 
-Тобй Тсе (Toby Tse) — профессиональная сквошистка, представляющая Гонконг. Выступает на туре PSA World Tour. На текущий момент занимает 69 место в мировом рейтинге.
+Тоби Це (Toby Tse) — спортсменка из Гонконга. Представляет гонконгскую школу женского сквоша, стабильно входящую в число сильнейших в Азии.
+
+Вне корта увлекается путешествиями и музыкой.

@@ -1,6 +1,6 @@
 ---
 id: ruqayya-salem
-name: Ruqayya Salem
+name: "Рукайя Салем"
 nameEn: Ruqayya Salem
 gender: female
 status: active
@@ -8,16 +8,16 @@ rank: 57
 highestRank: 57
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 18
+dob: "12.06.2008"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Harrow"
+height: "166 см"
+weight: "60 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/ruqayya-salem.webp
 ---
 
-Ruqayya Salem (Ruqayya Salem) — профессиональная сквошистка, представляющая Египет. Выступает на туре PSA World Tour. На текущий момент занимает 57 место в мировом рейтинге.
+Рукайя Салем (Ruqayya Salem) — египетская спортсменка из Каира. Выступает на профессиональном туре PSA World Tour, представляя сильнейшую женскую сквош-школу мира.

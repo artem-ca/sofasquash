@@ -1,6 +1,6 @@
 ---
 id: lauren-baltayan
-name: Лаурен Балтайан
+name: "Лорен Балтаян"
 nameEn: Lauren Baltayan
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 45
 highestRank: 45
 country: Франция
 countryCode: FRA
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 19
+dob: "05.05.2007"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "tecnifibre"
+height: "152 см"
+weight: "48 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/lauren-baltayan.webp
 ---
 
-Лаурен Балтайан (Lauren Baltayan) — профессиональная сквошистка, представляющая Франция. Выступает на туре PSA World Tour. На текущий момент занимает 45 место в мировом рейтинге.
+Лорен Балтаян (Lauren Baltayan) — французская спортсменка, одна из самых заметных молодых представительниц женского сквоша Франции. Ради профессионального роста переехала тренироваться в Каир — мировую столицу сквоша, где работает с Ахмедом Эффатом.
+
+Выступает на туре PSA World Tour.

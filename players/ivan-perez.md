@@ -1,6 +1,6 @@
 ---
 id: ivan-perez
-name: Иван Перез
+name: "Иван Перес"
 nameEn: Ivan Perez
 gender: male
 status: active
@@ -9,15 +9,17 @@ highestRank: 52
 country: Испания
 countryCode: ESP
 age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+dob: "17.12.2000"
+birthplace: "Испания"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Unsquashable"
+height: "175 см"
+weight: "74 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/ivan-perez.webp
 ---
 
-Иван Перез (Ivan Perez) — профессиональный игрок в сквош, представляющий Испания. Выступает на туре PSA World Tour. На текущий момент занимает 52 место в мировом рейтинге.
+Иван Перес (Ivan Perez) — испанский профессионал из Барселоны. Представляет испанскую школу сквоша, известную по легендарному Борхе Голану, и входит в число сильнейших игроков страны.
+
+Тренируется под руководством Виктора Монтсеррата.

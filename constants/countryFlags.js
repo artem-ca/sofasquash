@@ -30,6 +30,8 @@ export const countryFlags = {
   ARG: '🇦🇷',
   ITA: '🇮🇹',
   ZAF: '🇿🇦',
+  IRL: '🇮🇪',
+  SGP: '🇸🇬',
 }
 
 export const countryNames = {
@@ -64,4 +66,6 @@ export const countryNames = {
   ARG: 'Аргентина',
   ITA: 'Италия',
   ZAF: 'ЮАР',
+  IRL: 'Ирландия',
+  SGP: 'Сингапур',
 }

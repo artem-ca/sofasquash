@@ -1,6 +1,6 @@
 ---
 id: madison-lyon
-name: Мадисон Лйон
+name: "Мэдисон Лайон"
 nameEn: Madison Lyon
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 81
 highestRank: 81
 country: Австралия
 countryCode: AUS
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 21
+dob: "08.06.2005"
+birthplace: "Австралия"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Karakal"
+height: "164 см"
+weight: "56 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/madison-lyon.webp
 ---
 
-Мадисон Лйон (Madison Lyon) — профессиональная сквошистка, представляющая Австралия. Выступает на туре PSA World Tour. На текущий момент занимает 81 место в мировом рейтинге.
+Мэдисон Лайон (Madison Lyon) — австралийская спортсменка из Квинсленда. Представляет страну с великой сквош-историей: Австралия дала миру Хизер Маккей и Сару Фиц-Джеральд, и новое поколение стремится вернуть её на вершину.
+
+Тренируется у Нейтана Тернбулла.

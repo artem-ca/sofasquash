@@ -1,6 +1,6 @@
 ---
 id: sam-osborne-wylde
-name: Sam Osborne-Wylde
+name: "Сэм Осборн-Уайлд"
 nameEn: Sam Osborne-Wylde
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 51
 highestRank: 51
 country: Англия
 countryCode: ENG
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 22
+dob: "16.01.2004"
+birthplace: "Англия"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Dunlop"
+height: "175 см"
+weight: "73 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/sam-osborne-wylde.webp
 ---
 
-Sam Osborne-Wylde (Sam Osborne-Wylde) — профессиональный игрок в сквош, представляющий Англия. Выступает на туре PSA World Tour. На текущий момент занимает 51 место в мировом рейтинге.
+Сэм Осборн-Уайлд (Sam Osborne-Wylde) — английский профессионал из Бирмингема, один из самых перспективных молодых игроков Англии. Уверенно поднимается по мировому рейтингу через челленджеры и крупные турниры PSA.
+
+Тренируется у Роба Оуэна.

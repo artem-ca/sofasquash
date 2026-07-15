@@ -1,6 +1,6 @@
 ---
 id: farida-walid
-name: Farida Walid
+name: "Фарида Валид"
 nameEn: Farida Walid
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 64
 highestRank: 64
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 18
+dob: "18.06.2008"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Tecnifibre"
+height: "163 см"
+weight: "61 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/farida-walid.webp
 ---
 
-Farida Walid (Farida Walid) — профессиональная сквошистка, представляющая Египет. Выступает на туре PSA World Tour. На текущий момент занимает 64 место в мировом рейтинге.
+Фарида Валид (Farida Walid) — египетская спортсменка из Гизы. Часть многочисленной плеяды молодых египтянок, которые доминируют в мировом женском сквоше.
+
+Тренируется под руководством Юссефа Хишама.

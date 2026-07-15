@@ -1,6 +1,6 @@
 ---
 id: habiba-hani
-name: Habiba Hani
+name: "Хабиба Хани"
 nameEn: Habiba Hani
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 50
 highestRank: 50
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 21
+dob: "29.04.2005"
+birthplace: "Александрия, Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "HEAD"
+height: "163 см"
+weight: "56 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/habiba-hani.webp
 ---
 
-Habiba Hani (Habiba Hani) — профессиональная сквошистка, представляющая Египет. Выступает на туре PSA World Tour. На текущий момент занимает 50 место в мировом рейтинге.
+Хабиба Хани (Habiba Hani) — египетская спортсменка из Александрии. Представляет александрийскую школу сквоша, воспитавшую не одно поколение сильных профессионалов.
+
+Тренируется у Ахмеда Эль-Адли.

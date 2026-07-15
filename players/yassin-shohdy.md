@@ -1,6 +1,6 @@
 ---
 id: yassin-shohdy
-name: Yassin Shohdy
+name: "Ясин Шохди"
 nameEn: Yassin Shohdy
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 69
 highestRank: 69
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 21
+dob: "10.01.2005"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Head"
+height: "172 см"
+weight: "67 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/yassin-shohdy.webp
 ---
 
-Yassin Shohdy (Yassin Shohdy) — профессиональный игрок в сквош, представляющий Египет. Выступает на туре PSA World Tour. На текущий момент занимает 69 место в мировом рейтинге.
+Ясин Шохди (Yassin Shohdy) — египетский игрок из Каира, в юниорские годы — первая ракетка Египта во всех возрастах от U13 до U19, что в египетских реалиях означает статус одного из лучших юниоров мира. Член национальной сборной Египта.
+
+Тренируется у Карима Шохди. Вне корта любит футбол, кино и PlayStation.

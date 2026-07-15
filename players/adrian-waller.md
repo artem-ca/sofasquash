@@ -8,16 +8,18 @@ rank: 58
 highestRank: 58
 country: Англия
 countryCode: ENG
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 36
+dob: "26.12.1989"
+birthplace: "Англия"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Black Knight"
+height: "192 см"
+weight: "90 кг"
 plays: Правша
-titles: 0
-photo: null
+titles: 11
+photo: /images/players/adrian-waller.webp
 ---
 
-Адриан Уоллер (Adrian Waller) — профессиональный игрок в сквош, представляющий Англия. Выступает на туре PSA World Tour. На текущий момент занимает 58 место в мировом рейтинге.
+Адриан Уоллер (Adrian Waller) — опытный английский профессионал из Лондона. На его счету 11 титулов PSA Tour, среди которых DPD Open (2017), Cleveland Skating Club Open (2021) и Canberra Open (2022).
+
+В составе сборной Англии становился командным чемпионом Европы, а на Играх Содружества 2022 года завоевал три серебряные медали. Работает с тренерами Адамом Фуллером и Полом Картером.

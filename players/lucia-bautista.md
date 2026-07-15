@@ -1,6 +1,6 @@
 ---
 id: lucia-bautista
-name: Lucia Bautista
+name: "Лусия Баутиста"
 nameEn: Lucia Bautista
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 78
 highestRank: 78
 country: Колумбия
 countryCode: COL
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 23
+dob: "06.12.2002"
+birthplace: "Колумбия"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Tecnifibre"
+height: "168 см"
+weight: "68 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/lucia-bautista.webp
 ---
 
-Lucia Bautista (Lucia Bautista) — профессиональная сквошистка, представляющая Колумбия. Выступает на туре PSA World Tour. На текущий момент занимает 78 место в мировом рейтинге.
+Лусия Баутиста (Lucia Bautista) — колумбийская спортсменка из Букараманги, чемпионка Южной Америки. Часть сильной колумбийской волны, которая вывела страну в лидеры латиноамериканского сквоша.
+
+Тренируется у Диего Бесерры. Вне корта увлекается танцами.

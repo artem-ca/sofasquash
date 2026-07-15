@@ -1,6 +1,6 @@
 ---
 id: nour-khafagy
-name: Nour Khafagy
+name: "Нур Хафаги"
 nameEn: Nour Khafagy
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 73
 highestRank: 73
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 20
+dob: "26.06.2006"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
-weight: —
+height: "166 см"
+weight: "56 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/nour-khafagy.webp
 ---
 
-Nour Khafagy (Nour Khafagy) — профессиональная сквошистка, представляющая Египет. Выступает на туре PSA World Tour. На текущий момент занимает 73 место в мировом рейтинге.
+Нур Хафаги (Nour Khafagy) — египетская спортсменка из Александрии. Воспитанница александрийской школы сквоша.
+
+Тренируется под руководством Юсефа Хамеда.

@@ -8,16 +8,18 @@ rank: 73
 highestRank: 73
 country: Аргентина
 countryCode: ARG
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 35
+dob: "11.02.1991"
+birthplace: "Аргентина"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Tecnifibre"
+height: "176 см"
+weight: "70 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/leandro-romiglio.webp
 ---
 
-Леандро Ромиглио (Leandro Romiglio) — профессиональный игрок в сквош, представляющий Аргентина. Выступает на туре PSA World Tour. На текущий момент занимает 73 место в мировом рейтинге.
+Леандро Ромильо (Leandro Romiglio) — один из лидеров аргентинского сквоша. Базируется в Праге, откуда удобнее выступать в плотном европейском календаре PSA.
+
+Представляет Аргентину на международных стартах, включая панамериканские соревнования.

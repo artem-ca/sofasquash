@@ -1,6 +1,6 @@
 ---
 id: rhys-evans
-name: Rhys Evans
+name: "Рис Эванс"
 nameEn: Rhys Evans
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 92
 highestRank: 92
 country: Уэльс
 countryCode: WAL
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 22
+dob: "23.02.2004"
+birthplace: "Уэльс"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
-weight: —
+height: "175 см"
+weight: "65 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/rhys-evans.webp
 ---
 
-Rhys Evans (Rhys Evans) — профессиональный игрок в сквош, представляющий Уэльс. Выступает на туре PSA World Tour. На текущий момент занимает 92 место в мировом рейтинге.
+Рис Эванс (Rhys Evans) — валлийский профессионал. Представляет Уэльс — страну с гордой сквош-историей, давшую миру экс-первую ракетку мира Дэвида Эванса.
+
+Выступает на туре PSA World Tour.

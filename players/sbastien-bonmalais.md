@@ -1,6 +1,6 @@
 ---
 id: sbastien-bonmalais
-name: Sébastien Bonmalais
+name: "Себастьен Бонмале"
 nameEn: Sébastien Bonmalais
 gender: male
 status: active
@@ -8,16 +8,18 @@ rank: 60
 highestRank: 60
 country: Франция
 countryCode: FRA
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 28
+dob: "06.02.1998"
+birthplace: "Франция"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Head"
+height: "178 см"
+weight: "68 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/sbastien-bonmalais.webp
 ---
 
-Sébastien Bonmalais (Sébastien Bonmalais) — профессиональный игрок в сквош, представляющий Франция. Выступает на туре PSA World Tour. На текущий момент занимает 60 место в мировом рейтинге.
+Себастьен Бонмале (Sébastien Bonmalais) — французский профессионал из Экс-ан-Прованса, вторая ракетка Франции. Бронзовый призёр индивидуального чемпионата Европы 2022 года и трёхкратный финалист командного первенства Европы в составе сборной.
+
+Тренируется у Жоана Лезо. Вне корта увлекается музыкой, видеоиграми и коллекционными карточными играми.

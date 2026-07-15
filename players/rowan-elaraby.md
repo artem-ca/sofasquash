@@ -1,6 +1,6 @@
 ---
 id: rowan-elaraby
-name: Рован Элараби
+name: "Рован Эль-Араби"
 nameEn: Rowan Elaraby
 gender: female
 status: active
@@ -9,15 +9,17 @@ highestRank: 47
 country: Египет
 countryCode: EGY
 age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+dob: "29.07.2000"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Dunlop"
+height: "164 см"
+weight: "60 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/rowan-elaraby.webp
 ---
 
-Рован Элараби (Rowan Elaraby) — профессиональная сквошистка, представляющая Египет. Выступает на туре PSA World Tour. На текущий момент занимает 47 место в мировом рейтинге.
+Рован Эль-Араби (Rowan Elaraby) — египетская спортсменка из Каира, одна из самых титулованных юниорок своего поколения. Стабильный игрок верхней части женского рейтинга PSA.
+
+В её тренерский штаб входят Ваэль Хенди и Энджи Хейраллах.

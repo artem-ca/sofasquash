@@ -1,6 +1,6 @@
 ---
 id: marta-dominguez
-name: Марта Домингуез
+name: "Марта Домингес"
 nameEn: Marta Dominguez
 gender: female
 status: active
@@ -8,16 +8,16 @@ rank: 43
 highestRank: 43
 country: Испания
 countryCode: ESP
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 24
+dob: "02.08.2001"
+birthplace: "Испания"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Tecnifibre"
+height: "173 см"
+weight: "62 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/marta-dominguez.webp
 ---
 
-Марта Домингуез (Marta Dominguez) — профессиональная сквошистка, представляющая Испания. Выступает на туре PSA World Tour. На текущий момент занимает 43 место в мировом рейтинге.
+Марта Домингес (Marta Dominguez) — испанская спортсменка из Виго, одна из лидеров женского сквоша Испании. Стабильно выступает на туре PSA World Tour и защищает цвета сборной на европейских командных первенствах.

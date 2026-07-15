@@ -1,6 +1,6 @@
 ---
 id: amina-el-rihany
-name: Amina El Rihany
+name: "Амина Эль-Рихани"
 nameEn: Amina El Rihany
 gender: female
 status: active
@@ -8,16 +8,18 @@ rank: 44
 highestRank: 44
 country: Египет
 countryCode: EGY
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+age: 23
+dob: "14.11.2002"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "No"
+height: "162 см"
+weight: "54 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/amina-el-rihany.webp
 ---
 
-Amina El Rihany (Amina El Rihany) — профессиональная сквошистка, представляющая Египет. Выступает на туре PSA World Tour. На текущий момент занимает 44 место в мировом рейтинге.
+Амина Эль-Рихани (Amina El Rihany) — египетская спортсменка из Гизы. Выступает на профессиональном туре PSA, пробиваясь сквозь плотнейшую внутреннюю конкуренцию египетского женского сквоша — самого сильного в мире.
+
+Тренируется у Хашема Самира.

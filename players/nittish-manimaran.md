@@ -1,23 +1,25 @@
 ---
 id: nittish-manimaran
-name: Nittish Manimaran
+name: "Ниттиш Манимаран"
 nameEn: Nittish Manimaran
 gender: male
 status: active
 rank: 631
 highestRank: 631
-country: Индия
-countryCode: IND
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+country: "Малайзия"
+countryCode: "MAS"
+age: 18
+dob: "23.04.2008"
+birthplace: "Малайзия"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
-weight: —
+height: "175 см"
+weight: "66 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/nittish-manimaran.webp
 ---
 
-Nittish Manimaran (Nittish Manimaran) — профессиональный игрок в сквош, представляющий Индия. Выступает на туре PSA World Tour. На текущий момент занимает 631 место в мировом рейтинге.
+Ниттиш Манимаран (Nittish Manimaran) — молодой малайзийский игрок из Пучонга. Развивается в системе малайзийского сквоша — одной из самых организованных в Азии.
+
+Тренируется у Аллана Пита Сойзы.

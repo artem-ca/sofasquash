@@ -1,23 +1,25 @@
 ---
 id: salman-khalil
-name: Salman Khalil
+name: "Салман Халиль"
 nameEn: Salman Khalil
 gender: male
 status: active
 rank: 56
 highestRank: 56
-country: Пакистан
-countryCode: PAK
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+country: "Египет"
+countryCode: "EGY"
+age: 21
+dob: "14.06.2005"
+birthplace: "Египет"
 experience: Профессиональный игрок PSA
-racket: Dunlop
-height: —
-weight: —
+racket: "Tecnifibre"
+height: "177 см"
+weight: "78 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/salman-khalil.webp
 ---
 
-Salman Khalil (Salman Khalil) — профессиональный игрок в сквош, представляющий Пакистан. Выступает на туре PSA World Tour. На текущий момент занимает 56 место в мировом рейтинге.
+Салман Халиль (Salman Khalil) — египетский профессионал, базирующийся в Каире. Выступает на туре PSA World Tour.
+
+Тренируется под руководством американского специалиста Гилли Лейна.

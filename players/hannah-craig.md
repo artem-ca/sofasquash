@@ -1,23 +1,25 @@
 ---
 id: hannah-craig
-name: Hannah Craig
+name: "Ханна Крейг"
 nameEn: Hannah Craig
 gender: female
 status: active
 rank: 60
 highestRank: 60
-country: США
-countryCode: USA
-age: 25
-dob: Неизвестно
-birthplace: Неизвестно
+country: "Ирландия"
+countryCode: "IRL"
+age: 27
+dob: "23.01.1999"
+birthplace: "Ирландия"
 experience: Профессиональный игрок PSA
 racket: Dunlop
-height: —
-weight: —
+height: "163 см"
+weight: "60 кг"
 plays: Правша
 titles: 0
-photo: null
+photo: /images/players/hannah-craig.webp
 ---
 
-Hannah Craig (Hannah Craig) — профессиональная сквошистка, представляющая США. Выступает на туре PSA World Tour. На текущий момент занимает 60 место в мировом рейтинге.
+Ханна Крейг (Hannah Craig) — ирландская спортсменка, одна из лидеров женского сквоша Ирландии. Базируется в Нью-Йорке, где тренируется под руководством Оливера Петта.
+
+Выступает на профессиональном туре PSA World Tour.
