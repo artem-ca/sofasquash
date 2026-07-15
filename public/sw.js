@@ -1,4 +1,4 @@
-const CACHE_NAME = 'squash-portal-v2'
+const CACHE_NAME = 'squash-portal-v4'
 const SHELL_ASSETS = [
   '/',
   '/encyclopedia',
@@ -10,11 +10,16 @@ const SHELL_ASSETS = [
   '/blog',
   '/manifest.json',
   '/icon.svg',
+  '/search-index.json',
 ]
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL_ASSETS)),
+    caches.open(CACHE_NAME).then((cache) =>
+      // Кешируем каждый ресурс отдельно: единичный 404 не должен срывать
+      // всю установку (иначе офлайн-кеш не создастся вовсе).
+      Promise.allSettled(SHELL_ASSETS.map((asset) => cache.add(asset))),
+    ),
   )
   self.skipWaiting()
 })
@@ -44,6 +49,10 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return
   if (!event.request.url.startsWith('http')) return
 
+  // Только свой origin: сторонние запросы (Яндекс.Метрика, шрифты) идут мимо
+  // кеша напрямую в сеть — иначе кеш бесконтрольно растёт чужими ответами.
+  if (new URL(event.request.url).origin !== self.location.origin) return
+
   // HTML: network-first — после деплоя пользователи быстрее получают свежий контент
   if (isHtmlNavigation(event.request)) {
     event.respondWith(
@@ -57,14 +66,17 @@ self.addEventListener('fetch', (event) => {
           }
           return networkResponse
         })
-        .catch(() => caches.match(event.request)),
+        // ignoreVary: сервер отдаёт `Vary: Accept-Encoding`, а браузер при
+        // навигации шлёт другой набор кодировок — без этого офлайн-фолбэк
+        // из кеша не находит страницу.
+        .catch(() => caches.match(event.request, { ignoreVary: true })),
     )
     return
   }
 
   // Статика: stale-while-revalidate
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
+    caches.match(event.request, { ignoreVary: true }).then((cachedResponse) => {
       const networkFetch = fetch(event.request)
         .then((networkResponse) => {
           if (networkResponse.status === 200) {
