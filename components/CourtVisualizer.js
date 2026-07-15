@@ -183,7 +183,11 @@ export default function CourtVisualizer() {
             y='243'
             width='298'
             height='17'
-            className='fill-slate-200 dark:fill-[#25252b]'
+            className={`transition-colors duration-200 ${
+              activeId === 'tin'
+                ? 'fill-amber-400/40 dark:fill-[#4a3216]'
+                : 'fill-slate-200 dark:fill-[#25252b]'
+            }`}
           />
           <line
             x1='151'
