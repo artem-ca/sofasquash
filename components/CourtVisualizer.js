@@ -48,7 +48,7 @@ export default function CourtVisualizer() {
             points='20,20 150,80 150,260 20,380'
             className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round ${
               activeId === 'leftWall'
-                ? 'fill-amber-500/12 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
+                ? 'fill-amber-400/25 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
                 : 'fill-slate-50 dark:fill-[#111113] stroke-slate-200 dark:stroke-[#222227]'
             }`}
             onMouseEnter={() => setActiveId('leftWall')}
@@ -60,7 +60,7 @@ export default function CourtVisualizer() {
             points='580,20 450,80 450,260 580,380'
             className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round ${
               activeId === 'rightWall'
-                ? 'fill-amber-500/12 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
+                ? 'fill-amber-400/25 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
                 : 'fill-slate-50 dark:fill-[#111113] stroke-slate-200 dark:stroke-[#222227]'
             }`}
             onMouseEnter={() => setActiveId('rightWall')}
@@ -75,7 +75,7 @@ export default function CourtVisualizer() {
             height='180'
             className={`cursor-default transition-colors duration-200 stroke-2 ${
               activeId === 'frontWall'
-                ? 'fill-amber-500/12 dark:fill-[#352418] stroke-slate-300 dark:stroke-[#2d2d35]'
+                ? 'fill-amber-400/25 dark:fill-[#352418] stroke-slate-300 dark:stroke-[#2d2d35]'
                 : 'fill-slate-100 dark:fill-[#16161a] stroke-slate-300 dark:stroke-[#2d2d35]'
             }`}
             onMouseEnter={() => setActiveId('frontWall')}
@@ -87,7 +87,7 @@ export default function CourtVisualizer() {
             points='150,260 450,260 580,380 20,380'
             className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round ${
               activeId === 'floor'
-                ? 'fill-amber-500/12 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
+                ? 'fill-amber-400/25 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
                 : 'fill-slate-100 dark:fill-[#0a0a0c] stroke-slate-200 dark:stroke-[#222227]'
             }`}
             onMouseEnter={() => setActiveId('floor')}
@@ -113,7 +113,7 @@ export default function CourtVisualizer() {
             clipPath='url(#floor-clip)'
             className={`cursor-pointer transition-all ${
               activeId === 'box'
-                ? 'fill-amber-500/12 dark:fill-[#352418]'
+                ? 'fill-amber-400/25 dark:fill-[#352418]'
                 : 'fill-transparent'
             }`}
             onMouseEnter={() => setActiveId('box')}
@@ -137,7 +137,7 @@ export default function CourtVisualizer() {
             clipPath='url(#floor-clip)'
             className={`cursor-pointer transition-all ${
               activeId === 'box'
-                ? 'fill-amber-500/12 dark:fill-[#352418]'
+                ? 'fill-amber-400/25 dark:fill-[#352418]'
                 : 'fill-transparent'
             }`}
             onMouseEnter={() => setActiveId('box')}
