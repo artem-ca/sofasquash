@@ -4,13 +4,13 @@
 const variants = {
   // Крупное поле с янтарным фокусом (глоссарий)
   amber:
-    'w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 transition-all bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100',
+    'w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100',
   // То же, но с приглушённым фоном — для поля внутри белой карточки (ракетки)
   'amber-muted':
-    'w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 transition-all bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100',
+    'w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100',
   // Компактное нейтральное поле (блог, игроки)
   neutral:
-    'w-full px-3 py-2.5 rounded-md border text-xs focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600 transition-all bg-neutral-50/50 dark:bg-neutral-900/30 border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100',
+    'w-full px-3 py-2.5 rounded-md border text-xs focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600 focus:ring-2 focus:ring-neutral-400/20 dark:focus:ring-neutral-600/20 transition-all bg-neutral-50/50 dark:bg-neutral-900/30 border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100',
 }
 
 export default function SearchInput({
