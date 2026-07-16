@@ -1,4 +1,5 @@
-const CACHE_NAME = 'squash-portal-v4'
+const CACHE_NAME = 'squash-portal-v5'
+const OFFLINE_URL = '/offline'
 const SHELL_ASSETS = [
   '/',
   '/encyclopedia',
@@ -11,6 +12,7 @@ const SHELL_ASSETS = [
   '/manifest.json',
   '/icon.svg',
   '/search-index.json',
+  OFFLINE_URL,
 ]
 
 self.addEventListener('install', (event) => {
@@ -68,8 +70,14 @@ self.addEventListener('fetch', (event) => {
         })
         // ignoreVary: сервер отдаёт `Vary: Accept-Encoding`, а браузер при
         // навигации шлёт другой набор кодировок — без этого офлайн-фолбэк
-        // из кеша не находит страницу.
-        .catch(() => caches.match(event.request, { ignoreVary: true })),
+        // из кеша не находит страницу. Если и в кеше пусто (страницу ни разу
+        // не открывали онлайн), показываем статичный /offline вместо ошибки
+        // браузера.
+        .catch(() =>
+          caches
+            .match(event.request, { ignoreVary: true })
+            .then((cached) => cached || caches.match(OFFLINE_URL)),
+        ),
     )
     return
   }
