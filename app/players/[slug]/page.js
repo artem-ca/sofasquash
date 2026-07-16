@@ -4,7 +4,12 @@ import path from 'path'
 import Image from 'next/image'
 import Link from 'next/link'
 import { countryFlags } from '@/constants/countryFlags'
-import { SITE_URL, buildPageMetadata } from '@/constants/site'
+import {
+  SITE_URL,
+  buildPageMetadata,
+  buildBreadcrumbJsonLd,
+  jsonLdScript,
+} from '@/constants/site'
 import { getContentSlugs, getContentEntry, markdownToHtml } from '@/lib/content'
 
 // Персональная OG-карточка (photo + имя + статус), если сгенерирована
@@ -74,6 +79,28 @@ export default async function PlayerPage({ params }) {
   // Безопасный парсинг Markdown биографии в HTML
   const htmlContent = markdownToHtml(content)
 
+  const profileJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    mainEntity: {
+      '@type': 'Person',
+      name: data.name,
+      alternateName: data.nameEn,
+      nationality: data.country,
+      jobTitle: data.custom
+        ? 'Тренер и игрок в сквош'
+        : 'Профессиональный игрок в сквош',
+      url: `${SITE_URL}/players/${slug}`,
+      ...(data.photo ? { image: `${SITE_URL}${data.photo}` } : {}),
+    },
+  }
+
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: 'Главная', path: '' },
+    { name: 'Игроки', path: '/players' },
+    { name: data.name, path: `/players/${slug}` },
+  ])
+
   const flag = countryFlags[data.countryCode] || ''
   const initials = data.name
     .split(' ')
@@ -83,6 +110,14 @@ export default async function PlayerPage({ params }) {
 
   return (
     <div className='min-h-[calc(100vh-4rem)] bg-white dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 transition-colors duration-200'>
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(profileJsonLd) }}
+      />
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd) }}
+      />
       <main className='px-4 py-10 lg:px-12 lg:py-16 w-full max-w-5xl mx-auto'>
         {/* Кнопка назад */}
         <div className='mb-8'>

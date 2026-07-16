@@ -1,7 +1,13 @@
 // app/blog/[slug]/page.js
 import Link from 'next/link'
 import { formatDate } from '@/utils/date'
-import { buildPageMetadata } from '@/constants/site'
+import {
+  SITE_URL,
+  DEFAULT_OG_IMAGE,
+  buildPageMetadata,
+  buildBreadcrumbJsonLd,
+  jsonLdScript,
+} from '@/constants/site'
 import { getContentSlugs, getContentEntry, markdownToHtml } from '@/lib/content'
 
 // Генерация статических путей к постам
@@ -48,8 +54,48 @@ export default async function PostPage({ params }) {
   // Безопасный парсинг Markdown в HTML с санитайзингом от XSS
   const htmlContent = markdownToHtml(content)
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: data.title,
+    description: data.summary || 'Обучающие материалы по сквошу',
+    image: [DEFAULT_OG_IMAGE.url],
+    datePublished: data.date,
+    dateModified: data.updated || data.date,
+    author: {
+      '@type': 'Person',
+      name: data.author || 'Squash Portal',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Squash Portal',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/icon-512.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/blog/${slug}`,
+    },
+  }
+
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: 'Главная', path: '' },
+    { name: 'Блог', path: '/blog' },
+    { name: data.title, path: `/blog/${slug}` },
+  ])
+
   return (
     <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(articleJsonLd) }}
+      />
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd) }}
+      />
       <main className='flex-1 w-full max-w-4xl'>
         <header className='mb-8 pb-6 border-b border-slate-200 dark:border-neutral-800'>
           {/* Верхняя панель: кнопка назад слева, метаданные справа в одну линию */}

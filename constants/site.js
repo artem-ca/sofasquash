@@ -36,3 +36,24 @@ export function buildPageMetadata({
     },
   }
 }
+
+// Хлебные крошки (Schema.org BreadcrumbList) для страниц статей и профилей.
+// items: [{ name, path }], path — относительный ('/blog') или '' для главной.
+export function buildBreadcrumbJsonLd(items) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: item.path ? `${SITE_URL}${item.path}` : SITE_URL,
+    })),
+  }
+}
+
+// Безопасная сериализация JSON-LD для dangerouslySetInnerHTML: экранируем
+// </script>, чтобы вложенный пользовательский текст не мог разорвать тег.
+export function jsonLdScript(data) {
+  return JSON.stringify(data).replace(/</g, '\\u003c')
+}
