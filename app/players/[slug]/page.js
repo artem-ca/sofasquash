@@ -1,9 +1,25 @@
 // app/players/[slug]/page.js
+import fs from 'fs'
+import path from 'path'
 import Image from 'next/image'
 import Link from 'next/link'
 import { countryFlags } from '@/constants/countryFlags'
-import { buildPageMetadata } from '@/constants/site'
+import { SITE_URL, buildPageMetadata } from '@/constants/site'
 import { getContentSlugs, getContentEntry, markdownToHtml } from '@/lib/content'
+
+// Персональная OG-карточка (photo + имя + статус), если сгенерирована
+// scripts/generate-player-og-images.js — иначе используется общая og.png
+function playerOgImage(slug, name) {
+  const file = path.join(process.cwd(), 'public', 'og', 'players', `${slug}.jpg`)
+  if (!fs.existsSync(file)) return undefined
+
+  return {
+    url: `${SITE_URL}/og/players/${slug}.jpg`,
+    width: 1200,
+    height: 630,
+    alt: `${name} — профиль игрока в сквош`,
+  }
+}
 
 // Генерация статических путей к страницам игроков
 export async function generateStaticParams() {
@@ -28,10 +44,13 @@ export async function generateMetadata({ params }) {
       ? `Текущий ранг PSA: ${data.rank}.`
       : 'Легенда мирового сквоша.'
 
+  const ogImage = playerOgImage(slug, data.name)
+
   return buildPageMetadata({
     title: `${data.name} (${data.nameEn}) — Профиль игрока в сквош`,
     description: `Биография, статистика, ракетка и достижения игрока в сквош: ${data.name}. ${statusLine}`,
     path: `/players/${slug}`,
+    ...(ogImage ? { image: ogImage } : {}),
   })
 }
 

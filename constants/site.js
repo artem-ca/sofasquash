@@ -12,6 +12,7 @@ export function buildPageMetadata({
   description,
   path = '',
   type = 'website',
+  image = DEFAULT_OG_IMAGE,
 }) {
   const url = path ? `${SITE_URL}${path}` : SITE_URL
 
@@ -25,13 +26,13 @@ export function buildPageMetadata({
       siteName: 'Squash Portal',
       locale: 'ru_RU',
       type,
-      images: [DEFAULT_OG_IMAGE],
+      images: [image],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [DEFAULT_OG_IMAGE.url],
+      images: [image.url],
     },
   }
 }
