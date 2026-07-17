@@ -111,3 +111,36 @@ export const racquetBrands = {
 export const brandBySlug = Object.fromEntries(
   Object.entries(racquetBrands).map(([name, info]) => [info.slug, name]),
 )
+
+// Варианты написания, не совпадающие с ключом racquetBrands напрямую —
+// опечатки и альтернативные названия, встречающиеся в players/*.md.
+const RACKET_BRAND_ALIASES = {
+  technifibre: 'Tecnifibre',
+  'eye rackets': 'Eye',
+}
+
+// Определяет бренд по свободной строке из поля `racket` игрока
+// (например, "Tecnifibre Carboflex 120 X-Top" или просто "HEAD").
+// Возвращает точное название бренда (ключ racquetBrands) или null,
+// если бренда нет в каталоге ракеток — тогда ссылку ставить не на что.
+export function matchRacketBrand(racketRaw) {
+  if (!racketRaw) return null
+  const racket = racketRaw.trim()
+  const lower = racket.toLowerCase()
+
+  for (const [alias, brand] of Object.entries(RACKET_BRAND_ALIASES)) {
+    if (lower.startsWith(alias)) return brand
+  }
+
+  for (const brandName of Object.keys(racquetBrands)) {
+    if (lower.startsWith(brandName.toLowerCase())) return brandName
+  }
+
+  // Бренд может быть не в начале строки, напр. "Huntsman / Unsquashable (ретро)"
+  for (const brandName of Object.keys(racquetBrands)) {
+    const re = new RegExp(`\\b${brandName}\\b`, 'i')
+    if (re.test(racket)) return brandName
+  }
+
+  return null
+}

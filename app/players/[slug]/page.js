@@ -4,6 +4,7 @@ import path from 'path'
 import Image from 'next/image'
 import Link from 'next/link'
 import { countryFlags } from '@/constants/countryFlags'
+import { racquetBrands, matchRacketBrand } from '@/data/racquetBrands'
 import {
   SITE_URL,
   buildPageMetadata,
@@ -102,6 +103,7 @@ export default async function PlayerPage({ params }) {
   ])
 
   const flag = countryFlags[data.countryCode] || ''
+  const racketBrand = matchRacketBrand(data.racket)
   const initials = data.name
     .split(' ')
     .map((n) => n[0])
@@ -219,7 +221,18 @@ export default async function PlayerPage({ params }) {
                 </tr>
                 <tr className='border-b border-neutral-100 dark:border-neutral-900/60'>
                   <td className='px-4 py-2.5 font-bold text-neutral-400 dark:text-neutral-500'>Ракетка</td>
-                  <td className='px-4 py-2.5 font-semibold text-neutral-800 dark:text-neutral-200'>{data.racket}</td>
+                  <td className='px-4 py-2.5 font-semibold text-neutral-800 dark:text-neutral-200'>
+                    {racketBrand ? (
+                      <Link
+                        href={`/racquets/${racquetBrands[racketBrand].slug}`}
+                        className='hover:text-amber-600 dark:hover:text-amber-400 hover:underline transition-colors'
+                      >
+                        {data.racket}
+                      </Link>
+                    ) : (
+                      data.racket
+                    )}
+                  </td>
                 </tr>
                 <tr className='border-b border-neutral-100 dark:border-neutral-900/60'>
                   <td className='px-4 py-2.5 font-bold text-neutral-400 dark:text-neutral-500'>Опыт</td>
