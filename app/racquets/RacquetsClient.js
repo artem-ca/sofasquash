@@ -6,7 +6,9 @@ import { racquets } from '../../data/racquets'
 import { racquetBrands } from '@/data/racquetBrands'
 import RacquetCard from '@/components/RacquetCard'
 import RacquetDetailModal from '@/components/RacquetDetailModal'
-import RacquetComparison from '@/components/RacquetComparison'
+import RacquetComparison, {
+  useRacquetComparison,
+} from '@/components/RacquetComparison'
 import PageHeader from '@/components/ui/PageHeader'
 import SearchInput from '@/components/ui/SearchInput'
 import { SITE_URL } from '@/constants/site'
@@ -32,17 +34,18 @@ export default function RacquetsPage() {
   const [selectedAgeGroup, setSelectedAgeGroup] = useState('all')
   const [selectedYear, setSelectedYear] = useState('all')
 
-  const [comparisonList, setComparisonList] = useState([])
-  const [warningMessage, setWarningMessage] = useState('')
   const [selectedRacquet, setSelectedRacquet] = useState(null)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
-  useEffect(() => {
-    if (warningMessage) {
-      const timer = setTimeout(() => setWarningMessage(''), 3000)
-      return () => clearTimeout(timer)
-    }
-  }, [warningMessage])
+  const {
+    comparisonList,
+    isModalOpen: isCompareModalOpen,
+    openModal: openCompareModal,
+    closeModal: closeCompareModal,
+    toggle: toggleComparison,
+    clear: clearComparison,
+    warningMessage,
+  } = useRacquetComparison()
 
   // Сбрасываем пагинацию на первую страницу при любом изменении фильтров
   useEffect(() => {
@@ -72,20 +75,6 @@ export default function RacquetsPage() {
     const q = new URLSearchParams(window.location.search).get('q')
     if (q) setSearchTerm(q)
   }, [])
-
-  const toggleComparison = (racquet) => {
-    const exists = comparisonList.find((item) => item.id === racquet.id)
-    if (exists) {
-      setComparisonList(comparisonList.filter((item) => item.id !== racquet.id))
-      setWarningMessage('')
-    } else {
-      if (comparisonList.length >= 5) {
-        setWarningMessage('Максимум 5 ракеток для сравнения!')
-        return
-      }
-      setComparisonList([...comparisonList, racquet])
-    }
-  }
 
   const filteredRacquets = racquets.filter((racquet) => {
     const matchesSearch =
@@ -365,7 +354,10 @@ export default function RacquetsPage() {
 
         <RacquetComparison
           comparisonList={comparisonList}
-          onClear={() => setComparisonList([])}
+          isModalOpen={isCompareModalOpen}
+          onOpen={openCompareModal}
+          onClose={closeCompareModal}
+          onClear={clearComparison}
         />
       </main>
     </div>

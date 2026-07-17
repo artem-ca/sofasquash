@@ -1,37 +1,27 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import RacquetCard from '@/components/RacquetCard'
 import RacquetDetailModal from '@/components/RacquetDetailModal'
-import RacquetComparison from '@/components/RacquetComparison'
+import RacquetComparison, {
+  useRacquetComparison,
+} from '@/components/RacquetComparison'
 
 // Интерактивная сетка ракеток одного бренда: карточки + детальная модалка +
-// сравнение (до 5 моделей). Фильтров нет — на странице бренда только его модели.
+// сравнение (до 5 моделей, шарится через ?compare= так же, как в каталоге).
+// Фильтров нет — на странице бренда только его модели.
 export default function BrandRacquetsClient({ racquets }) {
-  const [comparisonList, setComparisonList] = useState([])
-  const [warningMessage, setWarningMessage] = useState('')
   const [selectedRacquet, setSelectedRacquet] = useState(null)
 
-  useEffect(() => {
-    if (warningMessage) {
-      const timer = setTimeout(() => setWarningMessage(''), 3000)
-      return () => clearTimeout(timer)
-    }
-  }, [warningMessage])
-
-  const toggleComparison = (racquet) => {
-    const exists = comparisonList.find((item) => item.id === racquet.id)
-    if (exists) {
-      setComparisonList(comparisonList.filter((item) => item.id !== racquet.id))
-      setWarningMessage('')
-    } else {
-      if (comparisonList.length >= 5) {
-        setWarningMessage('Максимум 5 ракеток для сравнения!')
-        return
-      }
-      setComparisonList([...comparisonList, racquet])
-    }
-  }
+  const {
+    comparisonList,
+    isModalOpen,
+    openModal,
+    closeModal,
+    toggle: toggleComparison,
+    clear,
+    warningMessage,
+  } = useRacquetComparison()
 
   return (
     <>
@@ -65,7 +55,10 @@ export default function BrandRacquetsClient({ racquets }) {
 
       <RacquetComparison
         comparisonList={comparisonList}
-        onClear={() => setComparisonList([])}
+        isModalOpen={isModalOpen}
+        onOpen={openModal}
+        onClose={closeModal}
+        onClear={clear}
       />
     </>
   )

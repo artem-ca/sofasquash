@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { racquets as allRacquets } from '@/data/racquets'
 
 // Плавающая панель + модальная таблица сравнения ракеток.
 // Используется и в общем каталоге (/racquets), и на страницах брендов.
@@ -17,8 +18,89 @@ const COMPARE_ROWS = [
   { title: 'Амбассадор', val: (r) => r.player, accent: true },
 ]
 
-export default function RacquetComparison({ comparisonList, onClear }) {
+// Управляет списком сравнения + шарингом через URL (?compare=id1,id2,...).
+// Общий для /racquets и /racquets/[brand] — id всегда ищутся по полному
+// каталогу, поэтому ссылка со сравнением работает одинаково с любой страницы.
+export function useRacquetComparison() {
+  const [comparisonList, setComparisonList] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [warningMessage, setWarningMessage] = useState('')
+
+  // Восстанавливаем список из ?compare= при загрузке и сразу открываем
+  // таблицу, если моделей ≥2 — так поделённая ссылка ведёт прямо к сравнению
+  useEffect(() => {
+    const ids = new URLSearchParams(window.location.search).get('compare')
+    if (!ids) return
+    const found = ids
+      .split(',')
+      .map((id) => allRacquets.find((r) => r.id === id))
+      .filter(Boolean)
+      .slice(0, 5)
+    if (found.length === 0) return
+    setComparisonList(found)
+    if (found.length >= 2) setIsModalOpen(true)
+    // Читаем URL один раз при монтировании; allRacquets — стабильный
+    // модульный импорт, а не пропс/стейт, поэтому в зависимостях не нужен
+  }, [])
+
+  // Синхронизируем список обратно в URL, чтобы текущее сравнение было можно
+  // скопировать из адресной строки и переслать
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (comparisonList.length > 0) {
+      url.searchParams.set('compare', comparisonList.map((r) => r.id).join(','))
+    } else {
+      url.searchParams.delete('compare')
+    }
+    window.history.replaceState({}, '', url)
+  }, [comparisonList])
+
+  useEffect(() => {
+    if (!warningMessage) return
+    const timer = setTimeout(() => setWarningMessage(''), 3000)
+    return () => clearTimeout(timer)
+  }, [warningMessage])
+
+  const toggle = useCallback(
+    (racquet) => {
+      const exists = comparisonList.find((item) => item.id === racquet.id)
+      if (exists) {
+        setComparisonList(comparisonList.filter((item) => item.id !== racquet.id))
+        setWarningMessage('')
+      } else {
+        if (comparisonList.length >= 5) {
+          setWarningMessage('Максимум 5 ракеток для сравнения!')
+          return
+        }
+        setComparisonList([...comparisonList, racquet])
+      }
+    },
+    [comparisonList],
+  )
+
+  const clear = useCallback(() => {
+    setComparisonList([])
+    setIsModalOpen(false)
+  }, [])
+
+  return {
+    comparisonList,
+    isModalOpen,
+    openModal: () => setIsModalOpen(true),
+    closeModal: () => setIsModalOpen(false),
+    toggle,
+    clear,
+    warningMessage,
+  }
+}
+
+export default function RacquetComparison({
+  comparisonList,
+  isModalOpen,
+  onOpen,
+  onClose,
+  onClear,
+}) {
   const dialogRef = useRef(null)
 
   // Фокус-менеджмент модалки сравнения: переносим фокус внутрь при открытии,
@@ -30,14 +112,14 @@ export default function RacquetComparison({ comparisonList, onClear }) {
     dialogRef.current?.focus()
 
     const handleEscape = (e) => {
-      if (e.key === 'Escape') setIsModalOpen(false)
+      if (e.key === 'Escape') onClose()
     }
     document.addEventListener('keydown', handleEscape)
     return () => {
       document.removeEventListener('keydown', handleEscape)
       if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus()
     }
-  }, [isModalOpen])
+  }, [isModalOpen, onClose])
 
   if (comparisonList.length === 0) return null
 
@@ -54,7 +136,7 @@ export default function RacquetComparison({ comparisonList, onClear }) {
           </div>
         </div>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={onOpen}
           className='px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow-md cursor-pointer active:scale-95 transition-all'
         >
           Сравнить
@@ -73,7 +155,7 @@ export default function RacquetComparison({ comparisonList, onClear }) {
             className='w-full max-w-2xl p-6 rounded-2xl border shadow-2xl relative bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100 focus:outline-none'
           >
             <button
-              onClick={() => setIsModalOpen(false)}
+              onClick={onClose}
               aria-label='Закрыть окно сравнения'
               className='absolute top-4 right-4 text-slate-400 hover:text-slate-200 font-bold cursor-pointer text-xl'
             >
@@ -129,16 +211,13 @@ export default function RacquetComparison({ comparisonList, onClear }) {
 
             <div className='flex gap-3 justify-end mt-6'>
               <button
-                onClick={() => {
-                  onClear()
-                  setIsModalOpen(false)
-                }}
+                onClick={onClear}
                 className='px-5 py-2.5 rounded-xl border border-red-500/20 text-red-400 hover:bg-red-500/5 font-bold text-xs cursor-pointer transition-all'
               >
                 Очистить список
               </button>
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={onClose}
                 className='px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs cursor-pointer transition-all'
               >
                 Закрыть
