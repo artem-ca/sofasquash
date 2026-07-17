@@ -14,6 +14,9 @@ import { SITE_URL } from '@/constants/site'
 // Генерируем уникальный упорядоченный список брендов напрямую из базы данных
 const uniqueBrands = [...new Set(racquets.map((r) => r.brand))].sort()
 
+// Сколько карточек показываем за раз (делится и на grid-cols-2, и на grid-cols-4)
+const PAGE_SIZE = 48
+
 export default function RacquetsPage() {
   // Динамический подсчет количества ракеток по каждому бренду
   const brandCounts = racquets.reduce((acc, r) => {
@@ -32,6 +35,7 @@ export default function RacquetsPage() {
   const [comparisonList, setComparisonList] = useState([])
   const [warningMessage, setWarningMessage] = useState('')
   const [selectedRacquet, setSelectedRacquet] = useState(null)
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
   useEffect(() => {
     if (warningMessage) {
@@ -39,6 +43,19 @@ export default function RacquetsPage() {
       return () => clearTimeout(timer)
     }
   }, [warningMessage])
+
+  // Сбрасываем пагинацию на первую страницу при любом изменении фильтров
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE)
+  }, [
+    searchTerm,
+    selectedBrand,
+    selectedWeight,
+    selectedShape,
+    selectedBalance,
+    selectedAgeGroup,
+    selectedYear,
+  ])
 
   const resetFilters = () => {
     setSearchTerm('')
@@ -253,7 +270,8 @@ export default function RacquetsPage() {
           </section>
 
           <div className='mt-4 text-xs font-semibold text-slate-500 dark:text-slate-400'>
-            Найдено моделей: {filteredRacquets.length}
+            Показано {Math.min(visibleCount, filteredRacquets.length)} из{' '}
+            {filteredRacquets.length}
           </div>
 
           {/* Ссылки на страницы брендов (обзор + характеристики каждого) */}
@@ -286,17 +304,35 @@ export default function RacquetsPage() {
         )}
 
         {filteredRacquets.length > 0 ? (
-          <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 w-full'>
-            {filteredRacquets.map((racquet) => (
-              <RacquetCard
-                key={racquet.id}
-                racquet={racquet}
-                isCompared={
-                  !!comparisonList.find((item) => item.id === racquet.id)
-                }
-                onClick={() => setSelectedRacquet(racquet)}
-              />
-            ))}
+          <div className='mb-16 w-full'>
+            <div className='grid grid-cols-2 md:grid-cols-4 gap-6 w-full'>
+              {filteredRacquets.slice(0, visibleCount).map((racquet) => (
+                <RacquetCard
+                  key={racquet.id}
+                  racquet={racquet}
+                  isCompared={
+                    !!comparisonList.find((item) => item.id === racquet.id)
+                  }
+                  onClick={() => setSelectedRacquet(racquet)}
+                />
+              ))}
+            </div>
+
+            {visibleCount < filteredRacquets.length && (
+              <div className='flex justify-center mt-8'>
+                <button
+                  type='button'
+                  onClick={() =>
+                    setVisibleCount((count) => count + PAGE_SIZE)
+                  }
+                  className='px-6 py-3 rounded-xl border font-bold text-xs uppercase tracking-wider cursor-pointer transition-all border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/30 text-slate-700 dark:text-slate-300 hover:border-amber-500/50 hover:text-amber-600 dark:hover:text-amber-400'
+                >
+                  Показать ещё (
+                  {Math.min(PAGE_SIZE, filteredRacquets.length - visibleCount)}
+                  )
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <div className='text-center py-16 border border-dashed rounded-2xl border-slate-200 dark:border-neutral-800 bg-slate-50/50 dark:bg-neutral-900/10 mb-16'>
