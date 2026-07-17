@@ -187,34 +187,35 @@ export default function PlayersClient({ initialPlayers = [] }) {
               </div>
             </div>
 
-            {/* Фильтры скрыты */}
-            {/*
-          <div className='h-px bg-neutral-100 dark:bg-neutral-900'></div>
-          <div className='grid grid-cols-2 gap-3 max-w-md'>
-            <select
-              value={selectedCountry}
-              onChange={(e) => setSelectedCountry(e.target.value)}
-              className='px-2.5 py-2 rounded-md border text-xs font-medium cursor-pointer bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200 focus:outline-none'
-            >
-              <option value='all'>Все страны</option>
-              {uniqueCountries.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
-            </select>
+            <div className='h-px bg-neutral-100 dark:bg-neutral-900'></div>
+            <div className='grid grid-cols-2 gap-3 max-w-md'>
+              <select
+                value={selectedCountry}
+                onChange={(e) => setSelectedCountry(e.target.value)}
+                aria-label='Фильтр по стране'
+                className='px-2.5 py-2 rounded-md border text-xs font-medium cursor-pointer bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+              >
+                <option value='all'>Все страны</option>
+                {uniqueCountries.map((country) => (
+                  <option key={country} value={country}>
+                    {country}
+                  </option>
+                ))}
+              </select>
 
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className='px-2.5 py-2 rounded-md border text-xs font-medium cursor-pointer bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200 focus:outline-none'
-            >
-              {activeTab !== 'retired' && <option value='rank'>По рейтингу PSA</option>}
-              <option value='titles'>По титулам</option>
-              <option value='name'>По алфавиту</option>
-            </select>
-          </div>
-          */}
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                aria-label='Сортировка игроков'
+                className='px-2.5 py-2 rounded-md border text-xs font-medium cursor-pointer bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+              >
+                {activeTab !== 'retired' && (
+                  <option value='rank'>По рейтингу PSA</option>
+                )}
+                <option value='titles'>По титулам</option>
+                <option value='name'>По алфавиту</option>
+              </select>
+            </div>
           </section>
         </div>
 
