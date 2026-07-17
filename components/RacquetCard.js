@@ -13,9 +13,11 @@ export default function RacquetCard({
   const hasImages = racquet.images && racquet.images.length > 0
 
   return (
-    <div
+    <button
+      type='button'
       onClick={onClick}
-      className='p-4 rounded-3xl transition-all duration-300 flex flex-col items-center justify-between text-center cursor-pointer group relative bg-white dark:bg-neutral-950/20 border border-transparent hover:border-slate-100 dark:hover:border-neutral-900'
+      aria-label={`Подробнее: ${racquet.brand} ${racquet.model}`}
+      className='w-full p-4 rounded-3xl transition-all duration-300 flex flex-col items-center justify-between text-center cursor-pointer group relative bg-white dark:bg-neutral-950/20 border border-transparent hover:border-slate-100 dark:hover:border-neutral-900'
     >
       {/* Индикатор сравнения */}
       {isCompared && (
@@ -58,6 +60,6 @@ export default function RacquetCard({
           {racquet.weight} г • {racquet.balanceText}
         </span>
       </div>
-    </div>
+    </button>
   )
 }

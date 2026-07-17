@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import RacquetVectorIcon from './RacquetVectorIcon'
 
@@ -13,12 +13,23 @@ export default function RacquetDetailModal({
   const [activeImageIdx, setActiveImageIdx] = useState(0)
   const [imgError, setImgError] = useState(false)
   const hasImages = racquet.images && racquet.images.length > 0
+  const dialogRef = useRef(null)
 
   // Блокировка прокрутки фона страницы при открытии модального окна
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     return () => {
       document.body.style.overflow = ''
+    }
+  }, [])
+
+  // Фокус-менеджмент: переносим фокус внутрь модалки при открытии
+  // и возвращаем на элемент, с которого её открыли, при закрытии
+  useEffect(() => {
+    const previouslyFocused = document.activeElement
+    dialogRef.current?.focus()
+    return () => {
+      if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus()
     }
   }, [])
 
@@ -51,7 +62,14 @@ export default function RacquetDetailModal({
 
   return (
     <div className='fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-fade-in'>
-      <div className='w-full max-w-2xl p-6 rounded-2xl border shadow-2xl relative bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'>
+      <div
+        ref={dialogRef}
+        tabIndex={-1}
+        role='dialog'
+        aria-modal='true'
+        aria-label={`${racquet.brand} ${racquet.model}`}
+        className='w-full max-w-2xl p-6 rounded-2xl border shadow-2xl relative bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100 focus:outline-none'
+      >
         <button
           onClick={onClose}
           aria-label='Закрыть детальное окно'

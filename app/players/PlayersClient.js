@@ -3,10 +3,12 @@
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { countryFlags } from '@/constants/countryFlags'
 import SearchInput from '@/components/ui/SearchInput'
 
 export default function PlayersClient({ initialPlayers = [] }) {
+  const router = useRouter()
   const [searchTerm, setSearchTerm] = useState('')
   const [activeTab, setActiveTab] = useState('all') // 'all' | 'male' | 'female' | 'retired'
   const [selectedCountry, setSelectedCountry] = useState('all')
@@ -241,83 +243,55 @@ export default function PlayersClient({ initialPlayers = [] }) {
                       return (
                         <tr
                           key={player.id}
+                          onClick={() => router.push(`/players/${player.id}`)}
                           className='hover:bg-neutral-50/80 dark:hover:bg-neutral-900/20 cursor-pointer transition-colors group'
                         >
                           {/* Ранг */}
                           <td className='p-3.5 pl-4 text-center font-semibold text-neutral-500 dark:text-neutral-400'>
-                            <Link
-                              href={`/players/${player.id}`}
-                              className='block w-full h-full'
-                            >
-                              {isLegend ? (
-                                <span
-                                  className='text-amber-500'
-                                  title='Легенда'
-                                >
-                                  👑
-                                </span>
-                              ) : player.custom ? (
-                                <span
-                                  className='text-neutral-400 dark:text-neutral-500'
-                                  title='Клубный игрок'
-                                >
-                                  —
-                                </span>
-                              ) : (
-                                `#${player.rank}`
-                              )}
-                            </Link>
+                            {isLegend ? (
+                              <span className='text-amber-500' title='Легенда'>
+                                👑
+                              </span>
+                            ) : player.custom ? (
+                              <span
+                                className='text-neutral-400 dark:text-neutral-500'
+                                title='Клубный игрок'
+                              >
+                                —
+                              </span>
+                            ) : (
+                              `#${player.rank}`
+                            )}
                           </td>
-                          {/* Имя */}
+                          {/* Имя — единственная настоящая ссылка в строке;
+                              остальные ячейки кликабельны через onClick на <tr> */}
                           <td className='p-3.5'>
                             <Link
                               href={`/players/${player.id}`}
-                              className='block w-full h-full'
+                              className='font-semibold text-neutral-900 dark:text-neutral-100 group-hover:text-amber-600 dark:group-hover:text-amber-500 transition-colors'
                             >
-                              <div className='font-semibold text-neutral-900 dark:text-neutral-100 group-hover:text-amber-600 dark:group-hover:text-amber-500 transition-colors'>
-                                {player.name}
-                              </div>
-                              <div className='text-[10px] text-neutral-400 dark:text-neutral-500 mt-0.5'>
-                                {player.nameEn}
-                              </div>
+                              {player.name}
                             </Link>
+                            <div className='text-[10px] text-neutral-400 dark:text-neutral-500 mt-0.5'>
+                              {player.nameEn}
+                            </div>
                           </td>
                           {/* Страна */}
                           <td className='p-3.5 text-neutral-600 dark:text-neutral-300 font-medium'>
-                            <Link
-                              href={`/players/${player.id}`}
-                              className='block w-full h-full'
-                            >
-                              <span className='mr-1.5'>{flag}</span>
-                              {player.country}
-                            </Link>
+                            <span className='mr-1.5'>{flag}</span>
+                            {player.country}
                           </td>
                           {/* Возраст */}
                           <td className='p-3.5 text-center text-neutral-600 dark:text-neutral-400'>
-                            <Link
-                              href={`/players/${player.id}`}
-                              className='block w-full h-full'
-                            >
-                              {player.age}
-                            </Link>
+                            {player.age}
                           </td>
                           {/* Ракетка */}
                           <td className='p-3.5 hidden md:table-cell text-neutral-500 dark:text-neutral-400 font-medium truncate max-w-[180px]'>
-                            <Link
-                              href={`/players/${player.id}`}
-                              className='block w-full h-full'
-                            >
-                              {player.racket}
-                            </Link>
+                            {player.racket}
                           </td>
                           {/* Титулы */}
                           <td className='p-3.5 text-center font-semibold text-neutral-700 dark:text-neutral-300'>
-                            <Link
-                              href={`/players/${player.id}`}
-                              className='block w-full h-full'
-                            >
-                              {player.titles}
-                            </Link>
+                            {player.titles}
                           </td>
                         </tr>
                       )

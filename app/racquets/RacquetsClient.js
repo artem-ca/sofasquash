@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { racquets } from '../../data/racquets'
 import RacquetCard from '@/components/RacquetCard'
 import RacquetDetailModal from '@/components/RacquetDetailModal'
@@ -30,6 +30,7 @@ export default function RacquetsPage() {
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false)
   const [warningMessage, setWarningMessage] = useState('')
   const [selectedRacquet, setSelectedRacquet] = useState(null)
+  const compareModalRef = useRef(null)
 
   useEffect(() => {
     if (warningMessage) {
@@ -37,6 +38,34 @@ export default function RacquetsPage() {
       return () => clearTimeout(timer)
     }
   }, [warningMessage])
+
+  // Фокус-менеджмент модалки сравнения: переносим фокус внутрь при открытии,
+  // возвращаем на элемент, с которого открыли, при закрытии, и закрываем по Escape
+  useEffect(() => {
+    if (!isCompareModalOpen) return
+
+    const previouslyFocused = document.activeElement
+    compareModalRef.current?.focus()
+
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') setIsCompareModalOpen(false)
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus()
+    }
+  }, [isCompareModalOpen])
+
+  const resetFilters = () => {
+    setSearchTerm('')
+    setSelectedBrand('all')
+    setSelectedWeight('all')
+    setSelectedShape('all')
+    setSelectedBalance('all')
+    setSelectedAgeGroup('all')
+    setSelectedYear('all')
+  }
 
   // Предзаполняем поиск из ?q= — так глобальный поиск открывает нужную ракетку
   useEffect(() => {
@@ -239,26 +268,51 @@ export default function RacquetsPage() {
               )}
             </div>
           </section>
+
+          <div className='mt-4 text-xs font-semibold text-slate-500 dark:text-slate-400'>
+            Найдено моделей: {filteredRacquets.length}
+          </div>
         </div>
 
         {warningMessage && (
-          <div className='p-4 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 text-xs font-bold mb-6 text-center animate-bounce'>
+          <div
+            role='status'
+            className='p-4 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 text-xs font-bold mb-6 text-center animate-fade-in'
+          >
             {warningMessage}
           </div>
         )}
 
-        <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 w-full'>
-          {filteredRacquets.map((racquet) => (
-            <RacquetCard
-              key={racquet.id}
-              racquet={racquet}
-              isCompared={
-                !!comparisonList.find((item) => item.id === racquet.id)
-              }
-              onClick={() => setSelectedRacquet(racquet)}
-            />
-          ))}
-        </div>
+        {filteredRacquets.length > 0 ? (
+          <div className='grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 w-full'>
+            {filteredRacquets.map((racquet) => (
+              <RacquetCard
+                key={racquet.id}
+                racquet={racquet}
+                isCompared={
+                  !!comparisonList.find((item) => item.id === racquet.id)
+                }
+                onClick={() => setSelectedRacquet(racquet)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className='text-center py-16 border border-dashed rounded-2xl border-slate-200 dark:border-neutral-800 bg-slate-50/50 dark:bg-neutral-900/10 mb-16'>
+            <h3 className='text-sm font-bold text-slate-700 dark:text-slate-300'>
+              Ракетки не найдены
+            </h3>
+            <p className='text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-xs mx-auto'>
+              Попробуйте изменить параметры фильтрации или поисковый запрос.
+            </p>
+            <button
+              type='button'
+              onClick={resetFilters}
+              className='mt-4 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs cursor-pointer transition-all'
+            >
+              Сбросить фильтры
+            </button>
+          </div>
+        )}
 
         {comparisonList.length > 0 && (
           <div className='fixed bottom-6 left-1/2 -translate-x-1/2 z-40 p-4 rounded-2xl border flex items-center justify-between gap-6 shadow-xl max-w-lg w-[90%] backdrop-blur-md animate-fade-in bg-white/95 dark:bg-neutral-900/90 border-slate-200 dark:border-neutral-800 text-slate-800 dark:text-slate-200'>
@@ -292,9 +346,17 @@ export default function RacquetsPage() {
 
         {isCompareModalOpen && (
           <div className='fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto'>
-            <div className='w-full max-w-2xl p-6 rounded-2xl border shadow-2xl relative bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100'>
+            <div
+              ref={compareModalRef}
+              tabIndex={-1}
+              role='dialog'
+              aria-modal='true'
+              aria-label='Таблица сравнения ракеток'
+              className='w-full max-w-2xl p-6 rounded-2xl border shadow-2xl relative bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-slate-100 focus:outline-none'
+            >
               <button
                 onClick={() => setIsCompareModalOpen(false)}
+                aria-label='Закрыть окно сравнения'
                 className='absolute top-4 right-4 text-slate-400 hover:text-slate-200 font-bold cursor-pointer text-xl'
               >
                 ✕
