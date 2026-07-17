@@ -141,7 +141,10 @@ export default function EncyclopediaPage() {
           className='w-11 h-11 text-slate-900 dark:text-slate-100'
           aria-hidden='true'
         >
-          <path d='M12 3v17.25m0-17.25c-1.472 0-2.882.265-4.185.75M12 3c1.472 0 2.882.265 4.185.75M18.75 20.25a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3ZM3 20.25a3 3 0 0 1 3-3h-6a3 3 0 0 1 3 3Zm0 0h6.75M18.75 20.25H12m5.25-16.5-3 8.25m-3-8.25 3 8.25m0 0h-6M6 12l-3-8.25m0 0-1.5 4.5A3.375 3.375 0 0 0 6 12m-3-8.25L1.5 8.25A3.375 3.375 0 0 0 6 12m12.75-8.25L21 8.25a3.375 3.375 0 0 1-4.5 3.75m4.5-3.75-1.5-4.5m1.5 4.5a3.375 3.375 0 0 1-4.5 3.75' />
+          <path d='M12 5v14M4 7h16M8 19h8M5 7 4 12M19 7l1 5' />
+          <circle cx='4' cy='14.3' r='2.3' />
+          <circle cx='20' cy='14.3' r='2.3' />
+          <circle cx='12' cy='7' r='1' fill='currentColor' stroke='none' />
         </svg>
       ),
       title: 'Правила',
