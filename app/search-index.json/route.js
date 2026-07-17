@@ -2,7 +2,7 @@
 // Собирает единый поисковый индекс сайта в статический JSON во время сборки.
 // При output:'export' Next рендерит GET-обработчик в файл out/search-index.json.
 // Пересобирается автоматически на каждом build — ничего вручную обновлять не нужно.
-import { getContentEntries } from '@/lib/content'
+import { getContentEntries, getContentSlugs, getContentEntry } from '@/lib/content'
 import { racquets } from '@/data/racquets'
 import { glossaryTerms } from '@/data/glossary'
 import { ruleChapters } from '@/data/rules'
@@ -14,6 +14,17 @@ const clip = (str, n) => {
   const s = (str || '').trim()
   return s.length > n ? s.slice(0, n) : s
 }
+
+// Markdown/HTML статьи блога → простой текст для полнотекстового поиска:
+// убираем теги и базовую разметку, синтаксис markdown точности не требует
+const stripMarkup = (raw) =>
+  (raw || '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/[#*_`>]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
 
 export function GET() {
   const docs = []
@@ -59,19 +70,27 @@ export function GET() {
     })
   }
 
-  // Статьи блога (реальные страницы)
-  for (const { slug, data } of getContentEntries('posts')) {
+  // Статьи блога (реальные страницы) — индексируем полный текст статьи,
+  // а не только summary, иначе поиск не находит совпадения внутри текста
+  for (const slug of getContentSlugs('posts')) {
+    const entry = getContentEntry('posts', slug)
+    if (!entry) continue
+    const { data, content } = entry
     docs.push({
       id: `post:${slug}`,
       type: 'post',
       title: data.title || slug,
       subtitle: Array.isArray(data.topics) ? data.topics.join(', ') : '',
       url: `/blog/${slug}`,
-      text: clip(data.summary, 200),
+      text: clip(
+        [data.summary, stripMarkup(content)].filter(Boolean).join(' '),
+        6000,
+      ),
     })
   }
 
-  // Главы правил (deep-link к секции)
+  // Главы правил (deep-link к секции) — полный текст пунктов + врезка,
+  // keywords добавляют жаргон/синонимы, которых нет дословно в тексте
   for (const c of ruleChapters) {
     docs.push({
       id: `rule:${c.id}`,
@@ -79,7 +98,9 @@ export function GET() {
       title: c.label,
       subtitle: 'Правила сквоша',
       url: `/rules#${c.id}`,
-      text: c.keywords || '',
+      text: [c.rules.join(' '), c.takeaway?.text, c.keywords]
+        .filter(Boolean)
+        .join(' '),
     })
   }
 
