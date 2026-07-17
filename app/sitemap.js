@@ -1,7 +1,17 @@
 import { getContentEntries } from '@/lib/content'
 import { SITE_URL } from '@/constants/site'
+import { racquetBrands } from '@/data/racquetBrands'
 
 export const dynamic = 'force-static'
+
+function getBrandEntries() {
+  return Object.values(racquetBrands).map((info) => ({
+    url: `${SITE_URL}/racquets/${info.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+}
 
 function getBlogEntries() {
   return getContentEntries('posts').map(({ slug, data }) => {
@@ -77,5 +87,10 @@ export default function sitemap() {
     },
   ]
 
-  return [...staticPages, ...getBlogEntries(), ...getPlayerEntries()]
+  return [
+    ...staticPages,
+    ...getBrandEntries(),
+    ...getBlogEntries(),
+    ...getPlayerEntries(),
+  ]
 }
