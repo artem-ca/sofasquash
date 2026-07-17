@@ -93,7 +93,7 @@ export default function GlossaryPage() {
             <button
               key={letChar}
               onClick={() => setActiveLetter(letChar)}
-              className={`w-8 h-8 rounded-lg text-xs font-bold flex items-center justify-center transition-all cursor-pointer border ${
+              className={`w-10 h-10 rounded-lg text-xs font-bold flex items-center justify-center transition-all cursor-pointer border ${
                 activeLetter === letChar
                   ? 'bg-amber-500 border-amber-500 text-slate-950 font-extrabold'
                   : 'border-slate-100 dark:border-neutral-900 bg-white dark:bg-neutral-900/10 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-neutral-800'
@@ -132,12 +132,21 @@ export default function GlossaryPage() {
                       <span className='text-[10px] font-bold uppercase tracking-wider border px-2 py-0.5 rounded-md border-slate-200 dark:border-neutral-800 text-slate-400 dark:text-slate-500'>
                         {item.category}
                       </span>
-                      <span
+                      <svg
                         aria-hidden='true'
-                        className={`text-xs transition-transform duration-300 ${isExpanded ? 'rotate-180 text-amber-500' : 'text-slate-500'}`}
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 24 24'
+                        fill='none'
+                        stroke='currentColor'
+                        strokeWidth='2.5'
+                        className={`w-3 h-3 transition-transform duration-300 ${isExpanded ? 'rotate-180 text-amber-500' : 'text-slate-500'}`}
                       >
-                        ▼
-                      </span>
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='m19.5 8.25-7.5 7.5-7.5-7.5'
+                        />
+                      </svg>
                     </div>
                   </button>
 

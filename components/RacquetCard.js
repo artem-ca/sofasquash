@@ -22,10 +22,23 @@ export default function RacquetCard({
       {/* Индикатор сравнения */}
       {isCompared && (
         <span
-          className='absolute top-3 right-3 text-[10px] bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded-md font-bold select-none z-10'
+          className='absolute top-3 right-3 inline-flex items-center gap-1 text-[10px] bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded-md font-bold select-none z-10'
           title='Добавлено к сравнению'
         >
-          ⚖️ Сравнение
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2.5'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className='w-3 h-3'
+            aria-hidden='true'
+          >
+            <path d='M20 6 9 17l-5-5' />
+          </svg>
+          Сравнение
         </span>
       )}
 

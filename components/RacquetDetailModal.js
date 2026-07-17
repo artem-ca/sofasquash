@@ -73,9 +73,19 @@ export default function RacquetDetailModal({
         <button
           onClick={onClose}
           aria-label='Закрыть детальное окно'
-          className='absolute top-4 right-4 text-slate-400 hover:text-amber-500 font-bold cursor-pointer text-xl'
+          className='absolute top-4 right-4 text-slate-400 hover:text-amber-500 font-bold cursor-pointer'
         >
-          ✕
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2'
+            strokeLinecap='round'
+            className='w-5 h-5'
+          >
+            <path d='M6 6l12 12M18 6L6 18' />
+          </svg>
         </button>
 
         <div className='grid md:grid-cols-2 gap-6 mt-4'>
@@ -95,16 +105,38 @@ export default function RacquetDetailModal({
                     <button
                       onClick={handlePrevImage}
                       aria-label='Предыдущее изображение'
-                      className='absolute left-2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center font-bold text-xs cursor-pointer'
+                      className='absolute left-2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center cursor-pointer'
                     >
-                      ◀
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 24 24'
+                        fill='none'
+                        stroke='currentColor'
+                        strokeWidth='2.5'
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        className='w-3.5 h-3.5'
+                      >
+                        <path d='m15 18-6-6 6-6' />
+                      </svg>
                     </button>
                     <button
                       onClick={handleNextImage}
                       aria-label='Следующее изображение'
-                      className='absolute right-2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center font-bold text-xs cursor-pointer'
+                      className='absolute right-2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center cursor-pointer'
                     >
-                      ▶
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 24 24'
+                        fill='none'
+                        stroke='currentColor'
+                        strokeWidth='2.5'
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        className='w-3.5 h-3.5'
+                      >
+                        <path d='m9 6 6 6-6 6' />
+                      </svg>
                     </button>
                     <div className='absolute bottom-2 px-2 py-0.5 rounded-md bg-black/60 text-[10px] text-slate-300 font-bold'>
                       {activeImageIdx + 1} / {racquet.images.length}
@@ -174,9 +206,37 @@ export default function RacquetDetailModal({
                     : 'bg-amber-500 hover:bg-amber-600 text-slate-950'
                 }`}
               >
-                {isCompared
-                  ? 'Убрать из сравнения ❌'
-                  : 'Добавить к сравнению ⚖️'}
+                {isCompared ? (
+                  <>
+                    Убрать из сравнения
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeWidth='2.5'
+                      strokeLinecap='round'
+                      className='w-3.5 h-3.5'
+                    >
+                      <path d='M6 6l12 12M18 6L6 18' />
+                    </svg>
+                  </>
+                ) : (
+                  <>
+                    Добавить к сравнению
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeWidth='2.5'
+                      strokeLinecap='round'
+                      className='w-3.5 h-3.5'
+                    >
+                      <path d='M12 5v14M5 12h14' />
+                    </svg>
+                  </>
+                )}
               </button>
               <button
                 onClick={onClose}

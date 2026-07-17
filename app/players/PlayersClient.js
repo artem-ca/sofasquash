@@ -249,9 +249,16 @@ export default function PlayersClient({ initialPlayers = [] }) {
                           {/* Ранг */}
                           <td className='p-3.5 pl-4 text-center font-semibold text-neutral-500 dark:text-neutral-400'>
                             {isLegend ? (
-                              <span className='text-amber-500' title='Легенда'>
-                                👑
-                              </span>
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                viewBox='0 0 24 24'
+                                fill='currentColor'
+                                className='w-4 h-4 mx-auto text-amber-500'
+                                aria-label='Легенда'
+                              >
+                                <title>Легенда</title>
+                                <path d='M3 8.5 6.5 11l3.4-5L12 9.5 14.1 6l3.4 5L21 8.5 19.5 18h-15L3 8.5Z' />
+                              </svg>
                             ) : player.custom ? (
                               <span
                                 className='text-neutral-400 dark:text-neutral-500'
@@ -344,15 +351,15 @@ export default function PlayersClient({ initialPlayers = [] }) {
                     {/* Верхние бейджи поверх фото */}
                     <div className='absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-20'>
                       {isLegend ? (
-                        <span className='text-[8px] bg-amber-500/90 text-neutral-950 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider shadow-sm'>
+                        <span className='text-[10px] bg-amber-500/90 text-neutral-950 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider shadow-sm'>
                           Легенда
                         </span>
                       ) : player.custom ? (
-                        <span className='text-[8px] bg-neutral-900/80 dark:bg-neutral-950/80 text-white dark:text-neutral-200 backdrop-blur-xs px-1.5 py-0.5 rounded font-bold uppercase tracking-wider border border-white/10 shadow-sm'>
+                        <span className='text-[10px] bg-neutral-900/80 dark:bg-neutral-950/80 text-white dark:text-neutral-200 backdrop-blur-xs px-1.5 py-0.5 rounded font-bold uppercase tracking-wider border border-white/10 shadow-sm'>
                           Клубный
                         </span>
                       ) : (
-                        <span className='text-[8px] bg-neutral-900/80 dark:bg-neutral-950/80 text-white dark:text-neutral-200 backdrop-blur-xs px-1.5 py-0.5 rounded font-bold uppercase tracking-wider border border-white/10 shadow-sm'>
+                        <span className='text-[10px] bg-neutral-900/80 dark:bg-neutral-950/80 text-white dark:text-neutral-200 backdrop-blur-xs px-1.5 py-0.5 rounded font-bold uppercase tracking-wider border border-white/10 shadow-sm'>
                           PSA #{player.rank}
                         </span>
                       )}
@@ -369,7 +376,7 @@ export default function PlayersClient({ initialPlayers = [] }) {
                       <h3 className='font-bold text-xs sm:text-sm tracking-tight line-clamp-1 group-hover:text-amber-400 transition-colors'>
                         {player.nameEn || player.name}
                       </h3>
-                      <p className='text-[9px] text-neutral-300 dark:text-neutral-400 mt-0.5 font-medium'>
+                      <p className='text-[11px] text-neutral-300 dark:text-neutral-400 mt-0.5 font-medium'>
                         {player.country} • {player.age} лет
                       </p>
                     </div>
@@ -380,7 +387,19 @@ export default function PlayersClient({ initialPlayers = [] }) {
           )
         ) : (
           <div className='text-center py-16 border border-dashed border-neutral-200 dark:border-neutral-900 rounded-lg bg-neutral-50/30 dark:bg-neutral-900/5 mb-16'>
-            <span className='text-2xl block mb-2'>🔍</span>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              className='w-6 h-6 mx-auto mb-2 text-neutral-400 dark:text-neutral-600'
+              aria-hidden='true'
+            >
+              <circle cx='11' cy='11' r='7' />
+              <path d='m21 21-4.3-4.3' />
+            </svg>
             <h3 className='text-sm font-bold text-neutral-700 dark:text-neutral-300'>
               Игроки не найдены
             </h3>

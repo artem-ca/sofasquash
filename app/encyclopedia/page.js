@@ -90,21 +90,60 @@ export default function EncyclopediaPage() {
     },
     {
       href: '/players',
-      emoji: '🏆',
+      icon: (
+        <svg
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          strokeWidth='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          className='w-11 h-11 text-slate-900 dark:text-slate-100'
+          aria-hidden='true'
+        >
+          <path d='M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0' />
+        </svg>
+      ),
       title: 'Игроки',
       stat: `${playersCount} профилей`,
       desc: 'Обширная база данных игроков: профессионалы PSA World Tour, легенды сквоша и клубные игроки. Рейтинги, подробные характеристики, экипировка и биографии.',
     },
     {
       href: '/glossary',
-      emoji: '📖',
+      icon: (
+        <svg
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          strokeWidth='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          className='w-11 h-11 text-slate-900 dark:text-slate-100'
+          aria-hidden='true'
+        >
+          <path d='M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25' />
+        </svg>
+      ),
       title: 'Глоссарий',
       stat: `${glossaryCount} терминов`,
       desc: 'Словарь сквош-сленга, названий ударов, судейской терминологии и разметки корта — в алфавитном порядке и с советами тренера.',
     },
     {
       href: '/rules',
-      emoji: '⚖️',
+      icon: (
+        <svg
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          strokeWidth='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          className='w-11 h-11 text-slate-900 dark:text-slate-100'
+          aria-hidden='true'
+        >
+          <path d='M12 3v17.25m0-17.25c-1.472 0-2.882.265-4.185.75M12 3c1.472 0 2.882.265 4.185.75M18.75 20.25a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3ZM3 20.25a3 3 0 0 1 3-3h-6a3 3 0 0 1 3 3Zm0 0h6.75M18.75 20.25H12m5.25-16.5-3 8.25m-3-8.25 3 8.25m0 0h-6M6 12l-3-8.25m0 0-1.5 4.5A3.375 3.375 0 0 0 6 12m-3-8.25L1.5 8.25A3.375 3.375 0 0 0 6 12m12.75-8.25L21 8.25a3.375 3.375 0 0 1-4.5 3.75m4.5-3.75-1.5-4.5m1.5 4.5a3.375 3.375 0 0 1-4.5 3.75' />
+        </svg>
+      ),
       title: 'Правила',
       stat: `${rulesCount} глав`,
       desc: 'Официальные правила сквоша, разобранные по главам: подача, розыгрыш, помехи, апелляции, поведение и судейство.',
@@ -173,13 +212,7 @@ export default function EncyclopediaPage() {
                dark:hover:shadow-amber-500/5 hover:-translate-y-1'
               >
                 <div className='flex items-center justify-between mb-5'>
-                  {section.icon ? (
-                    section.icon
-                  ) : (
-                    <span className='text-4xl select-none'>
-                      {section.emoji}
-                    </span>
-                  )}
+                  {section.icon}
                   <span
                     className='text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-50 
                   dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20'
@@ -238,7 +271,21 @@ export default function EncyclopediaPage() {
               className='inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-amber-500 hover:bg-amber-600
                text-slate-950 font-bold text-sm shadow-lg transition-all active:scale-95'
             >
-              Читать блог →
+              Читать блог
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='2.5'
+                stroke='currentColor'
+                className='w-4 h-4'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3'
+                />
+              </svg>
             </Link>
             <Link
               href='/tactics'
