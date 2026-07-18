@@ -11,8 +11,44 @@ import {
   buildBreadcrumbJsonLd,
   jsonLdScript,
 } from '@/constants/site'
-import { getContentSlugs, getContentEntry, markdownToHtml } from '@/lib/content'
+import {
+  getContentSlugs,
+  getContentEntry,
+  getContentEntries,
+  markdownToHtml,
+} from '@/lib/content'
 import Breadcrumbs from '@/components/ui/Breadcrumbs'
+
+// Похожие игроки: сперва та же страна, при нехватке — соседи по рейтингу PSA.
+// Игроки без ранга (клубные/custom) сравниваются только по стране.
+function findRelatedPlayers(currentSlug, currentData) {
+  const others = getContentEntries('players').filter((p) => p.slug !== currentSlug)
+  const byRankProximity = (a, b) => {
+    const ra = a.data.rank
+    const rb = b.data.rank
+    if (ra == null && rb == null) return 0
+    if (ra == null) return 1
+    if (rb == null) return -1
+    return Math.abs(ra - currentData.rank) - Math.abs(rb - currentData.rank)
+  }
+
+  const sameCountry = others
+    .filter((p) => p.data.countryCode === currentData.countryCode)
+    .sort(byRankProximity)
+
+  const picks = sameCountry.slice(0, 4)
+
+  if (picks.length < 4 && currentData.rank != null && !currentData.custom) {
+    const pickedSlugs = new Set(picks.map((p) => p.slug))
+    const byRank = others
+      .filter((p) => !pickedSlugs.has(p.slug) && p.data.rank != null && !p.data.custom)
+      .sort(byRankProximity)
+
+    picks.push(...byRank.slice(0, 4 - picks.length))
+  }
+
+  return picks
+}
 
 // Персональная OG-карточка (photo + имя + статус), если сгенерирована
 // scripts/generate-player-og-images.js — иначе используется общая og.png
@@ -103,6 +139,8 @@ export default async function PlayerPage({ params }) {
     { name: data.name, path: `/players/${slug}` },
   ]
   const breadcrumbJsonLd = buildBreadcrumbJsonLd(breadcrumbItems)
+
+  const relatedPlayers = findRelatedPlayers(slug, data)
 
   const flag = countryFlags[data.countryCode] || ''
   const racketBrand = matchRacketBrand(data.racket)
@@ -275,6 +313,73 @@ export default async function PlayerPage({ params }) {
             </table>
           </div>
         </div>
+
+        {relatedPlayers.length > 0 && (
+          <section className='mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-900'>
+            <h2 className='text-xs font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-4'>
+              Похожие игроки
+            </h2>
+            <div className='grid grid-cols-2 sm:grid-cols-4 gap-4'>
+              {relatedPlayers.map((player) => {
+                const relatedFlag = countryFlags[player.data.countryCode] || ''
+                const relatedInitials = player.data.name
+                  .split(' ')
+                  .map((n) => n[0])
+                  .join('')
+                  .substring(0, 2)
+
+                return (
+                  <Link
+                    key={player.slug}
+                    href={`/players/${player.slug}`}
+                    className='rounded-lg transition-all duration-200 flex flex-col justify-between cursor-pointer bg-neutral-50 dark:bg-neutral-900/10 border border-neutral-200 dark:border-neutral-900 hover:border-neutral-400 dark:hover:border-neutral-700 hover:shadow-xs overflow-hidden group aspect-[2/3] relative'
+                  >
+                    <div className='absolute inset-0 w-full h-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-900/40 transition-transform duration-300 group-hover:scale-105'>
+                      {player.data.photo ? (
+                        <Image
+                          src={player.data.photo}
+                          alt={player.data.name}
+                          fill
+                          sizes='(max-width: 640px) 50vw, 20vw'
+                          className='object-cover'
+                        />
+                      ) : (
+                        <div className='flex flex-col items-center justify-center text-center opacity-60 dark:opacity-40'>
+                          <span className='text-3xl font-bold text-neutral-400 dark:text-neutral-600 uppercase tracking-wider'>
+                            {relatedInitials}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className='absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-transparent z-10'></div>
+
+                    <div className='absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-20'>
+                      <span className='text-[10px] bg-neutral-900/80 dark:bg-neutral-950/80 text-white dark:text-neutral-200 backdrop-blur-xs px-1.5 py-0.5 rounded font-bold uppercase tracking-wider border border-white/10 shadow-sm'>
+                        {player.data.custom ? 'Клубный' : player.data.rank ? `PSA #${player.data.rank}` : 'Легенда'}
+                      </span>
+                      <span
+                        className='text-sm bg-neutral-900/40 dark:bg-neutral-950/40 backdrop-blur-xs w-6 h-6 rounded-full flex items-center justify-center shadow-sm'
+                        title={player.data.country}
+                      >
+                        {relatedFlag}
+                      </span>
+                    </div>
+
+                    <div className='absolute bottom-3 left-3 right-3 z-20 text-white'>
+                      <h3 className='font-bold text-xs sm:text-sm tracking-tight line-clamp-1 group-hover:text-amber-400 transition-colors'>
+                        {player.data.nameEn || player.data.name}
+                      </h3>
+                      <p className='text-[11px] text-neutral-300 dark:text-neutral-400 mt-0.5 font-medium'>
+                        {player.data.country}
+                      </p>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </section>
+        )}
       </main>
     </div>
   )
