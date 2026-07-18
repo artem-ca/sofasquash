@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@/components/ThemeContext'
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
 import { SITE_URL, DEFAULT_OG_IMAGE } from '@/constants/site'
 import './globals.css'
@@ -91,6 +92,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <ServiceWorkerRegister />
           <main>{children}</main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
