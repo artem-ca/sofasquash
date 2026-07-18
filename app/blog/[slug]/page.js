@@ -9,6 +9,7 @@ import {
   jsonLdScript,
 } from '@/constants/site'
 import { getContentSlugs, getContentEntry, markdownToHtml } from '@/lib/content'
+import Breadcrumbs from '@/components/ui/Breadcrumbs'
 
 // Генерация статических путей к постам
 export async function generateStaticParams() {
@@ -80,11 +81,12 @@ export default async function PostPage({ params }) {
     },
   }
 
-  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  const breadcrumbItems = [
     { name: 'Главная', path: '' },
     { name: 'Блог', path: '/blog' },
     { name: data.title, path: `/blog/${slug}` },
-  ])
+  ]
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd(breadcrumbItems)
 
   return (
     <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
@@ -97,6 +99,7 @@ export default async function PostPage({ params }) {
         dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd) }}
       />
       <main className='flex-1 w-full max-w-4xl'>
+        <Breadcrumbs items={breadcrumbItems} />
         <header className='mb-8 pb-6 border-b border-slate-200 dark:border-neutral-800'>
           {/* Верхняя панель: кнопка назад слева, метаданные справа в одну линию */}
           <div className='flex items-center justify-between gap-4 mb-4'>

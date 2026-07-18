@@ -9,6 +9,7 @@ import {
   jsonLdScript,
 } from '@/constants/site'
 import BrandRacquetsClient from './BrandRacquetsClient'
+import Breadcrumbs from '@/components/ui/Breadcrumbs'
 
 // Ракетки бренда, новые — выше
 function brandRacquets(brandName) {
@@ -85,11 +86,12 @@ export default async function BrandPage({ params }) {
     })),
   }
 
-  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  const breadcrumbItems = [
     { name: 'Главная', path: '' },
     { name: 'Ракетки', path: '/racquets' },
     { name: brandName, path: `/racquets/${info.slug}` },
-  ])
+  ]
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd(breadcrumbItems)
 
   return (
     <div className='min-h-[calc(100vh-4rem)] font-sans antialiased selection:bg-amber-500/30'>
@@ -103,6 +105,7 @@ export default async function BrandPage({ params }) {
       />
 
       <main className='px-6 py-12 lg:px-16 lg:py-16 w-full max-w-6xl mx-auto'>
+        <Breadcrumbs items={breadcrumbItems} />
         {/* Кнопка назад */}
         <div className='mb-8'>
           <Link

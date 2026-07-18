@@ -12,6 +12,7 @@ import {
   jsonLdScript,
 } from '@/constants/site'
 import { getContentSlugs, getContentEntry, markdownToHtml } from '@/lib/content'
+import Breadcrumbs from '@/components/ui/Breadcrumbs'
 
 // Персональная OG-карточка (photo + имя + статус), если сгенерирована
 // scripts/generate-player-og-images.js — иначе используется общая og.png
@@ -96,11 +97,12 @@ export default async function PlayerPage({ params }) {
     },
   }
 
-  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  const breadcrumbItems = [
     { name: 'Главная', path: '' },
     { name: 'Игроки', path: '/players' },
     { name: data.name, path: `/players/${slug}` },
-  ])
+  ]
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd(breadcrumbItems)
 
   const flag = countryFlags[data.countryCode] || ''
   const racketBrand = matchRacketBrand(data.racket)
@@ -121,6 +123,7 @@ export default async function PlayerPage({ params }) {
         dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd) }}
       />
       <main className='px-4 py-10 lg:px-12 lg:py-16 w-full max-w-5xl mx-auto'>
+        <Breadcrumbs items={breadcrumbItems} />
         {/* Кнопка назад */}
         <div className='mb-8'>
           <Link
