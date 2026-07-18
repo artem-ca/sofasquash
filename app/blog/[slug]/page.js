@@ -8,8 +8,33 @@ import {
   buildBreadcrumbJsonLd,
   jsonLdScript,
 } from '@/constants/site'
-import { getContentSlugs, getContentEntry, markdownToHtml } from '@/lib/content'
+import {
+  getContentSlugs,
+  getContentEntry,
+  getContentEntries,
+  markdownToHtml,
+} from '@/lib/content'
 import Breadcrumbs from '@/components/ui/Breadcrumbs'
+
+// Подбор похожих статей: по числу общих тем, затем по дате свежести
+function findRelatedPosts(currentSlug, currentTopics) {
+  const topics = currentTopics || []
+
+  return getContentEntries('posts')
+    .filter((post) => post.slug !== currentSlug)
+    .map((post) => ({
+      ...post,
+      sharedTopics: (post.data.topics || []).filter((t) => topics.includes(t))
+        .length,
+    }))
+    .filter((post) => post.sharedTopics > 0)
+    .sort(
+      (a, b) =>
+        b.sharedTopics - a.sharedTopics ||
+        new Date(b.data.date) - new Date(a.data.date),
+    )
+    .slice(0, 3)
+}
 
 // Генерация статических путей к постам
 export async function generateStaticParams() {
@@ -88,6 +113,8 @@ export default async function PostPage({ params }) {
   ]
   const breadcrumbJsonLd = buildBreadcrumbJsonLd(breadcrumbItems)
 
+  const relatedPosts = findRelatedPosts(slug, data.topics)
+
   return (
     <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center px-6 py-12 lg:py-20 bg-slate-50 dark:bg-neutral-950 text-slate-900 dark:text-slate-100'>
       <script
@@ -140,7 +167,33 @@ export default async function PostPage({ params }) {
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
 
-        <div className='mt-12 pt-6 border-t border-slate-200 dark:border-neutral-800'>
+        {relatedPosts.length > 0 && (
+          <section className='mt-12 pt-8 border-t border-slate-200 dark:border-neutral-800'>
+            <h2 className='text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-4'>
+              Читайте также
+            </h2>
+            <div className='grid gap-4 grid-cols-1 sm:grid-cols-3'>
+              {relatedPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className='p-4 rounded-xl border transition-colors border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/10 hover:border-amber-500/40 dark:hover:border-amber-500/30 group'
+                >
+                  <span className='text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500'>
+                    {formatDate(post.data.date)}
+                  </span>
+                  <h3 className='text-sm font-bold mt-1.5 text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors'>
+                    {post.data.title}
+                  </h3>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div
+          className={`mt-12 pt-6 ${relatedPosts.length > 0 ? '' : 'border-t border-slate-200 dark:border-neutral-800'}`}
+        >
           <Link
             href='/blog'
             className='inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500 hover:text-amber-600 transition-colors'
