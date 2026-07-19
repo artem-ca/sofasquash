@@ -129,14 +129,26 @@ export default async function PostPage({ params }) {
         <Breadcrumbs items={breadcrumbItems} />
         <header className='mb-8 pb-6 border-b border-slate-200 dark:border-neutral-800'>
           {/* Верхняя панель: кнопка назад слева, метаданные справа в одну линию */}
-          <div className='flex items-center justify-between gap-4 mb-4'>
+          <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 mb-4'>
             <Link
               href='/blog'
-              className='inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500 hover:text-amber-600 transition-colors shrink-0'
+              className='inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-500 hover:text-amber-600 transition-colors shrink-0'
             >
-              ← Назад в блог
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2.5'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                className='w-3.5 h-3.5'
+              >
+                <path d='m15 18-6-6 6-6' />
+              </svg>
+              Назад в блог
             </Link>
-            <div className='flex items-center justify-end gap-x-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 text-right'>
+            <div className='flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 text-left sm:justify-end sm:text-right'>
               {data.updated && data.updated !== data.date && (
                 <>
                   <span className='text-amber-600 dark:text-amber-500'>
@@ -196,9 +208,21 @@ export default async function PostPage({ params }) {
         >
           <Link
             href='/blog'
-            className='inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500 hover:text-amber-600 transition-colors'
+            className='inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-500 hover:text-amber-600 transition-colors'
           >
-            ← Назад в блог
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2.5'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              className='w-3.5 h-3.5'
+            >
+              <path d='m15 18-6-6 6-6' />
+            </svg>
+            Назад в блог
           </Link>
         </div>
       </main>
