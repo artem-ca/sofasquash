@@ -12,7 +12,7 @@ export default function CourtVisualizer() {
       : {
           title: 'Интерактивный 3D-корт',
           dims: 'Справочник описаний и размеров',
-          desc: 'Наведите курсор мыши на любую линию или зону 3D-корта выше, чтобы изучить правила, размеры и особенности разметки корта.',
+          desc: 'Наведите курсор, коснитесь или перейдите по Tab к любой линии или зоне 3D-корта выше, чтобы изучить правила, размеры и особенности разметки корта.',
         }
 
   return (
@@ -22,8 +22,8 @@ export default function CourtVisualizer() {
           Масштабированная 3D-схема корта
         </span>
         <p className='text-xs mt-1 text-slate-500 dark:text-slate-400'>
-          Наведите на линии или зоны 3D-корта для изучения правил и размеров
-          разметки
+          Наведите, коснитесь или перейдите по Tab к линиям и зонам 3D-корта
+          для изучения правил и размеров разметки
         </p>
       </div>
 
@@ -46,7 +46,10 @@ export default function CourtVisualizer() {
           {/* Левая стена */}
           <polygon
             points='20,20 150,80 150,260 20,380'
-            className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round ${
+            tabIndex={0}
+            role='button'
+            aria-label={courtData.leftWall.title}
+            className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round focus:outline-none focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2 ${
               activeId === 'leftWall'
                 ? 'fill-amber-400/25 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
                 : 'fill-slate-50 dark:fill-[#111113] stroke-slate-200 dark:stroke-[#222227]'
@@ -54,11 +57,16 @@ export default function CourtVisualizer() {
             onMouseEnter={() => setActiveId('leftWall')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('leftWall')}
+            onFocus={() => setActiveId('leftWall')}
+            onBlur={() => setActiveId(null)}
           />
           {/* Правая стена */}
           <polygon
             points='580,20 450,80 450,260 580,380'
-            className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round ${
+            tabIndex={0}
+            role='button'
+            aria-label={courtData.rightWall.title}
+            className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round focus:outline-none focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2 ${
               activeId === 'rightWall'
                 ? 'fill-amber-400/25 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
                 : 'fill-slate-50 dark:fill-[#111113] stroke-slate-200 dark:stroke-[#222227]'
@@ -66,6 +74,8 @@ export default function CourtVisualizer() {
             onMouseEnter={() => setActiveId('rightWall')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('rightWall')}
+            onFocus={() => setActiveId('rightWall')}
+            onBlur={() => setActiveId(null)}
           />
           {/* Передняя стена корта */}
           <rect
@@ -73,7 +83,10 @@ export default function CourtVisualizer() {
             y='80'
             width='300'
             height='180'
-            className={`cursor-default transition-colors duration-200 stroke-2 ${
+            tabIndex={0}
+            role='button'
+            aria-label={courtData.frontWall.title}
+            className={`cursor-default transition-colors duration-200 stroke-2 focus:outline-none focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2 ${
               activeId === 'frontWall'
                 ? 'fill-amber-400/25 dark:fill-[#352418] stroke-slate-300 dark:stroke-[#2d2d35]'
                 : 'fill-slate-100 dark:fill-[#16161a] stroke-slate-300 dark:stroke-[#2d2d35]'
@@ -81,11 +94,16 @@ export default function CourtVisualizer() {
             onMouseEnter={() => setActiveId('frontWall')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('frontWall')}
+            onFocus={() => setActiveId('frontWall')}
+            onBlur={() => setActiveId(null)}
           />
           {/* Пол корта */}
           <polygon
             points='150,260 450,260 580,380 20,380'
-            className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round ${
+            tabIndex={0}
+            role='button'
+            aria-label={courtData.floor.title}
+            className={`cursor-default transition-colors duration-200 stroke-2 stroke-linejoin-round focus:outline-none focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2 ${
               activeId === 'floor'
                 ? 'fill-amber-400/25 dark:fill-[#352418] stroke-slate-200 dark:stroke-[#222227]'
                 : 'fill-slate-100 dark:fill-[#0a0a0c] stroke-slate-200 dark:stroke-[#222227]'
@@ -93,6 +111,8 @@ export default function CourtVisualizer() {
             onMouseEnter={() => setActiveId('floor')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('floor')}
+            onFocus={() => setActiveId('floor')}
+            onBlur={() => setActiveId(null)}
           />
 
           {/* ИГРОВОЕ ПОЛЕ */}
@@ -111,7 +131,10 @@ export default function CourtVisualizer() {
           <polygon
             points='60,330 187,330 180,355 30,355'
             clipPath='url(#floor-clip)'
-            className={`cursor-pointer transition-all ${
+            tabIndex={0}
+            role='button'
+            aria-label={`${courtData.box.title} (левый)`}
+            className={`cursor-pointer transition-all focus:outline-none focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2 ${
               activeId === 'box'
                 ? 'fill-amber-400/25 dark:fill-[#352418]'
                 : 'fill-transparent'
@@ -119,6 +142,8 @@ export default function CourtVisualizer() {
             onMouseEnter={() => setActiveId('box')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('box')}
+            onFocus={() => setActiveId('box')}
+            onBlur={() => setActiveId(null)}
           />
           <polyline
             points='60,330 187,330 180,355 30,355'
@@ -135,7 +160,10 @@ export default function CourtVisualizer() {
           <polygon
             points='540,330 413,330 420,355 570,355'
             clipPath='url(#floor-clip)'
-            className={`cursor-pointer transition-all ${
+            tabIndex={0}
+            role='button'
+            aria-label={`${courtData.box.title} (правый)`}
+            className={`cursor-pointer transition-all focus:outline-none focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2 ${
               activeId === 'box'
                 ? 'fill-amber-400/25 dark:fill-[#352418]'
                 : 'fill-transparent'
@@ -143,6 +171,8 @@ export default function CourtVisualizer() {
             onMouseEnter={() => setActiveId('box')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('box')}
+            onFocus={() => setActiveId('box')}
+            onBlur={() => setActiveId(null)}
           />
           <polyline
             points='540,330 413,330 420,355 570,355'
@@ -216,17 +246,22 @@ export default function CourtVisualizer() {
             className='transition-all duration-200'
           />
 
-          {/* ХИТБОКСЫ ДЛЯ НАВЕДЕНИЯ */}
+          {/* ХИТБОКСЫ ДЛЯ НАВЕДЕНИЯ (наведение, тап, фокус клавиатурой) */}
           <path
             d='M 60,330 L 540,330 M 300,330 L 300,380'
             fill='none'
             stroke='transparent'
             strokeWidth='16'
-            className='cursor-pointer'
+            tabIndex={0}
+            role='button'
+            aria-label={courtData.tZone.title}
+            className='cursor-pointer focus:outline-none focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2'
             clipPath='url(#floor-clip)'
             onMouseEnter={() => setActiveId('tZone')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('tZone')}
+            onFocus={() => setActiveId('tZone')}
+            onBlur={() => setActiveId(null)}
           />
           <rect
             x='150'
@@ -234,10 +269,15 @@ export default function CourtVisualizer() {
             width='300'
             height='17'
             fill='transparent'
-            className='cursor-pointer'
+            tabIndex={0}
+            role='button'
+            aria-label={courtData.tin.title}
+            className='cursor-pointer focus:outline-none focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2'
             onMouseEnter={() => setActiveId('tin')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('tin')}
+            onFocus={() => setActiveId('tin')}
+            onBlur={() => setActiveId(null)}
           />
           <line
             x1='150'
@@ -246,9 +286,14 @@ export default function CourtVisualizer() {
             y2='190'
             stroke='transparent'
             strokeWidth='16'
-            className='cursor-pointer'
+            tabIndex={0}
+            role='button'
+            aria-label={courtData.service.title}
+            className='cursor-pointer focus:outline-none focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2'
             onMouseEnter={() => setActiveId('service')}
             onMouseLeave={() => setActiveId(null)}
+            onFocus={() => setActiveId('service')}
+            onBlur={() => setActiveId(null)}
             onClick={() => setActiveId('service')}
           />
           <polyline
@@ -256,13 +301,18 @@ export default function CourtVisualizer() {
             fill='none'
             stroke='transparent'
             strokeWidth='16'
-            className='cursor-pointer'
+            tabIndex={0}
+            role='button'
+            aria-label={courtData.out.title}
+            className='cursor-pointer focus:outline-none focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2'
             strokeLinejoin='round'
             strokeLinecap='round'
             clipPath='url(#court-clip)'
             onMouseEnter={() => setActiveId('out')}
             onMouseLeave={() => setActiveId(null)}
             onClick={() => setActiveId('out')}
+            onFocus={() => setActiveId('out')}
+            onBlur={() => setActiveId(null)}
           />
         </svg>
       </div>

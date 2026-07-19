@@ -21,13 +21,12 @@ export default function TacticsBoard() {
     }
   }, [tooltip.text, tooltip.show])
 
-  const handleMouseMove = (e) => {
-    const container = e.currentTarget.closest('.tactics-wrapper')
-    if (!container) return
+  // Считает позицию тултипа внутри .tactics-wrapper по координатам курсора/фокуса
+  const positionTooltip = (container, clientX, clientY) => {
     const rect = container.getBoundingClientRect()
 
-    const clientX = e.clientX - rect.left
-    const clientY = e.clientY - rect.top
+    const x = clientX - rect.left
+    const y = clientY - rect.top
 
     const actualWidth = dimensionsRef.current.width
     const actualHeight = dimensionsRef.current.height
@@ -36,22 +35,25 @@ export default function TacticsBoard() {
     const GAP_Y = 8
     const MIN_BORDER = 8
 
-    let xPos = clientX + GAP_X
-    if (clientX + GAP_X + actualWidth > rect.width) {
-      xPos = clientX - actualWidth - GAP_X
+    let xPos = x + GAP_X
+    if (x + GAP_X + actualWidth > rect.width) {
+      xPos = x - actualWidth - GAP_X
     }
     xPos = Math.max(MIN_BORDER, xPos)
 
-    let yPos = clientY - actualHeight - GAP_Y
+    let yPos = y - actualHeight - GAP_Y
     if (yPos < MIN_BORDER) {
-      yPos = clientY + GAP_Y
+      yPos = y + GAP_Y
     }
 
-    setTooltip((prev) => ({
-      ...prev,
-      x: xPos,
-      y: yPos,
-    }))
+    return { x: xPos, y: yPos }
+  }
+
+  const handleMouseMove = (e) => {
+    const container = e.currentTarget.closest('.tactics-wrapper')
+    if (!container) return
+    const { x, y } = positionTooltip(container, e.clientX, e.clientY)
+    setTooltip((prev) => ({ ...prev, x, y }))
   }
 
   const handleMouseEnter = (text) => {
@@ -66,6 +68,42 @@ export default function TacticsBoard() {
     setTooltip((prev) => ({
       ...prev,
       show: false,
+    }))
+  }
+
+  // Клавиатура: позиционируем тултип у центра хитбокса (нет координат курсора)
+  const handleFocus = (text, e) => {
+    const path = e.currentTarget
+    const container = path.closest('.tactics-wrapper')
+    const svg = path.ownerSVGElement
+    if (!container || !svg) return
+
+    const bbox = path.getBBox()
+    const point = svg.createSVGPoint()
+    point.x = bbox.x + bbox.width / 2
+    point.y = bbox.y + bbox.height / 2
+    const screenPoint = point.matrixTransform(svg.getScreenCTM())
+
+    setTooltip((prev) => ({
+      ...prev,
+      show: true,
+      text,
+      ...positionTooltip(container, screenPoint.x, screenPoint.y),
+    }))
+  }
+
+  // Тач-устройства: hover недоступен, поэтому тап тоже показывает тултип у
+  // точки касания. Не тоггл: реальный тап/клик сперва переводит фокус на
+  // хитбокс (срабатывает handleFocus), затем всплывает сам click — если бы
+  // это был тоггл, он гасил бы тултип, который handleFocus только что показал
+  const handleClick = (text, e) => {
+    const container = e.currentTarget.closest('.tactics-wrapper')
+    if (!container) return
+    setTooltip((prev) => ({
+      ...prev,
+      show: true,
+      text,
+      ...positionTooltip(container, e.clientX, e.clientY),
     }))
   }
 
@@ -172,18 +210,24 @@ export default function TacticsBoard() {
                   className='transition-all duration-300'
                 />
 
-                {/* Хитбокс */}
+                {/* Хитбокс: наведение (desktop), тап (touch), фокус (клавиатура) */}
                 <path
                   d={path}
                   fill='none'
                   stroke='transparent'
                   strokeWidth='28'
-                  className='cursor-help'
+                  tabIndex={0}
+                  role='button'
+                  aria-label={activeInfo.tooltips[idx]}
+                  className='cursor-help focus:outline-none focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2'
                   onMouseMove={handleMouseMove}
                   onMouseEnter={() =>
                     handleMouseEnter(activeInfo.tooltips[idx])
                   }
                   onMouseLeave={handleMouseLeave}
+                  onClick={(e) => handleClick(activeInfo.tooltips[idx], e)}
+                  onFocus={(e) => handleFocus(activeInfo.tooltips[idx], e)}
+                  onBlur={handleMouseLeave}
                 />
 
                 {/* Анимированная группа: Двухточечный мяч */}
