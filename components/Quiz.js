@@ -181,7 +181,7 @@ export default function Quiz({ onPerfectScore }) {
           {score === questions.length ? (
             <div className='mt-4 p-4 rounded-xl border border-amber-500/20 bg-amber-500/5 max-w-md mx-auto text-sm text-amber-500 leading-relaxed font-semibold'>
               Идеальный результат! Секретное звание{' '}
-              <span className='underline'>Профессор Сквоша 🎓»</span> успешно
+              <span className='underline'>«Профессор Сквоша 🎓»</span> успешно
               разблокировано для Софы и добавлено в её коллекцию наград!
             </div>
           ) : (

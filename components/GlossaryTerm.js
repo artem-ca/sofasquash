@@ -51,7 +51,7 @@ export default function GlossaryTerm({ term }) {
     >
       <button
         type='button'
-        onClick={() => setIsOpen(true)}
+        onClick={() => setIsOpen((open) => !open)}
         onKeyDown={(e) => e.key === 'Escape' && setIsOpen(false)}
         onBlur={() => setIsOpen(false)}
         aria-expanded={isOpen}

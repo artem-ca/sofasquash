@@ -83,10 +83,36 @@ export default function RulesPage() {
     <div className='flex min-h-[calc(100vh-4rem)] font-sans antialiased selection:bg-amber-500/30'>
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        aria-label={isSidebarOpen ? 'Закрыть содержание' : 'Открыть содержание'}
+        aria-expanded={isSidebarOpen}
         className='lg:hidden fixed bottom-6 right-6 z-40 flex items-center justify-center w-12 h-12 rounded-xl bg-amber-500 text-slate-950 font-bold shadow-lg cursor-pointer'
-        title='Открыть содержание'
       >
-        {isSidebarOpen ? '✕' : '📖'}
+        {isSidebarOpen ? (
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2'
+            strokeLinecap='round'
+            className='w-5 h-5'
+          >
+            <path d='M6 6l12 12M18 6L6 18' />
+          </svg>
+        ) : (
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='1.5'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className='w-5 h-5'
+          >
+            <path d='M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25' />
+          </svg>
+        )}
       </button>
       {isSidebarOpen && (
         <div
@@ -107,10 +133,11 @@ export default function RulesPage() {
               key={item.id}
               href={`#${item.id}`}
               onClick={() => handleMenuItemClick(item.id)}
-              className={`flex items-center px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-150 ${
+              aria-current={activeSection === item.id ? 'location' : undefined}
+              className={`flex items-center px-3 py-2 pl-2 border-l-4 rounded-lg text-xs font-semibold transition-all duration-150 ${
                 activeSection === item.id
-                  ? 'bg-amber-500/10 text-amber-400 border-l-4 border-amber-500 pl-2'
-                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200'
+                  ? 'bg-amber-500/10 text-amber-400 border-amber-500'
+                  : 'border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               {item.label}
@@ -133,8 +160,16 @@ export default function RulesPage() {
           </p>
         </header>
 
-        <div className='flex gap-6 border-b mb-10 border-slate-200 dark:border-neutral-800'>
+        <div
+          role='tablist'
+          aria-label='Разделы страницы правил'
+          className='flex gap-6 border-b mb-10 border-slate-200 dark:border-neutral-800'
+        >
           <button
+            id='tab-rules'
+            role='tab'
+            aria-selected={activeTab === 'rules'}
+            aria-controls='panel-rules'
             onClick={() => setActiveTab('rules')}
             className={`pb-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
               activeTab === 'rules'
@@ -142,9 +177,13 @@ export default function RulesPage() {
                 : 'border-transparent text-slate-500 hover:text-slate-300'
             }`}
           >
-            Текст правил 📖
+            Текст правил
           </button>
           <button
+            id='tab-calculator'
+            role='tab'
+            aria-selected={activeTab === 'calculator'}
+            aria-controls='panel-calculator'
             onClick={() => setActiveTab('calculator')}
             className={`pb-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
               activeTab === 'calculator'
@@ -152,12 +191,12 @@ export default function RulesPage() {
                 : 'border-transparent text-slate-500 hover:text-slate-300'
             }`}
           >
-            Судейский калькулятор Let/Stroke ⚖️
+            Судейский калькулятор Let/Stroke
           </button>
         </div>
 
         {activeTab === 'rules' ? (
-          <>
+          <div id='panel-rules' role='tabpanel' aria-labelledby='tab-rules'>
             {ruleChapters.map((sec) => (
               <section key={sec.id} id={sec.id} className='scroll-mt-24 mb-16'>
                 <div className='flex items-center gap-4 mb-6 pb-3 border-b border-slate-200 dark:border-neutral-800'>
@@ -213,9 +252,15 @@ export default function RulesPage() {
               onPerfectScore={handlePerfectQuizScore}
               isQuizPassed={isQuizPassed}
             />
-          </>
+          </div>
         ) : (
-          <DecisionHelper />
+          <div
+            id='panel-calculator'
+            role='tabpanel'
+            aria-labelledby='tab-calculator'
+          >
+            <DecisionHelper />
+          </div>
         )}
       </main>
     </div>
