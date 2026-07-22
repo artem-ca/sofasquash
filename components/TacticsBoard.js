@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { tacticsData } from '@/data/tactics'
+import { tacticsData, SHOT_LABELS } from '@/data/tactics'
 
 export default function TacticsBoard() {
   const [activeShot, setActiveShot] = useState('drive')
@@ -276,19 +276,7 @@ export default function TacticsBoard() {
                       : 'border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/30 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-neutral-900 shadow-xs'
                   }`}
                 >
-                  {shotKey === 'drive'
-                    ? 'Драйв'
-                    : shotKey === 'boast'
-                      ? 'Боуст'
-                      : shotKey === 'reverse_boast'
-                        ? 'Реверс-боуст'
-                        : shotKey === 'crosscourt'
-                          ? 'Кросс'
-                          : shotKey === 'lob'
-                            ? 'Лоб'
-                            : shotKey === 'drop'
-                              ? 'Дроп'
-                              : 'Киллшот'}
+                  {SHOT_LABELS[shotKey] ?? shotKey}
                 </button>
               ))}
             </div>
