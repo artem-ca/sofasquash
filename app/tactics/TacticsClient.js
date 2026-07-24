@@ -3,6 +3,9 @@
 import dynamic from 'next/dynamic'
 import PageHeader from '@/components/ui/PageHeader'
 
+import CourtVisualizer from '@/components/CourtVisualizer'
+import TacticsBoard from '@/components/TacticsBoard'
+
 // WebGL-канвас не может рендериться на сервере при статическом экспорте
 const Court3D = dynamic(() => import('@/components/Court3D'), {
   ssr: false,
@@ -24,6 +27,9 @@ export default function TacticsClient() {
         {/* Корт: вкладка «Описание» — разметка и зоны, «Удары» — траектории
             в двух проекциях (перспектива + план сверху) */}
         <Court3D />
+
+        {/* <CourtVisualizer /> */}
+        {/* <TacticsBoard /> */}
       </div>
     </div>
   )

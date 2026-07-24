@@ -531,11 +531,34 @@ html {
 /* Уважаем настройку «уменьшить движение» */
 @media (prefers-reduced-motion: reduce) {
   .enc-reveal,
-  .enc-fade {
+  .enc-fade,
+  .letter-drop {
     animation: none;
     opacity: 1;
     transform: none;
   }
+}
+
+/* Буквы заголовка «влетают» сверху с лёгким перелётом — эффект удара по мячу */
+@keyframes letter-drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.4em) scale(0.85);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0.05em) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.letter-drop {
+  display: inline-block;
+  opacity: 0;
+  animation: letter-drop-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Эффект блика Bling для карточек (смягченная золотистая версия) */

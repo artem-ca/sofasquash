@@ -21,6 +21,9 @@ const shortLineZ = -halfLength + C.shortLineDistance
 const INITIAL_CAMERA = [0, 3.6, halfLength + 7.5]
 const INITIAL_TARGET = [0, 1.4, 0]
 
+// Значение селектора ударов, при котором корт просто в режиме осмотра/разметки
+const NO_SHOT = 'none'
+
 // Визуальные (не официальные WSF) константы
 const FRONT_SOLID_ABOVE_OUT = 0.4
 const WALL_THICKNESS = 0.2 // толщина стен наружу
@@ -852,9 +855,8 @@ export default function Court3D() {
   const theme = useTheme()
   const isDarkMode = theme?.isDarkMode ?? true
   const colors = isDarkMode ? DARK : LIGHT
-  const [panel, setPanel] = useState('describe') // 'describe' | 'shots'
   const [activeId, setActiveId] = useState(null)
-  const [activeShot, setActiveShot] = useState('drive')
+  const [activeShot, setActiveShot] = useState(NO_SHOT)
   // При системной настройке «уменьшить движение» анимация мяча стартует на паузе
   // (Court3D грузится через dynamic ssr:false — matchMedia доступен сразу).
   const [animPaused, setAnimPaused] = useState(
@@ -864,7 +866,21 @@ export default function Court3D() {
   )
   const [showLeft, setShowLeft] = useState(true)
   const [showRight, setShowRight] = useState(true)
+  const [isShotMenuOpen, setIsShotMenuOpen] = useState(false)
   const controlsRef = useRef(null)
+  const cardRef = useRef(null)
+  const shotMenuRef = useRef(null)
+  const hideTimerRef = useRef(null)
+  // true, только пока полноэкранный режим держится через нативный Fullscreen API —
+  // отличаем от CSS-фолбэка, где нет document.fullscreenElement и своя логика выхода.
+  const usingNativeFsRef = useRef(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  // Видимость плавающей панели в fullscreen (прячется через паузу бездействия)
+  const [controlsVisible, setControlsVisible] = useState(true)
+  // Канвас на секунду прячется при входе в fullscreen — маскирует «прыжок» кадра,
+  // который даёт нативный анимированный переход браузера/ОС в fullscreen (viewport
+  // меняется постепенно, наш канвас пересчитывает размер вслед за ним каждый кадр).
+  const [canvasReady, setCanvasReady] = useState(true)
   // Бамп → ForceRender/invalidate после сброса камеры (frameloop: demand)
   const [viewTick, setViewTick] = useState(0)
 
@@ -877,118 +893,424 @@ export default function Court3D() {
     setViewTick((n) => n + 1)
   }
 
+  const bumpViewTick = () => {
+    setViewTick((n) => n + 1)
+    // Resize при входе/выходе из fullscreen иногда завершается уже после первого
+    // инвалидейта (демо-режим frameloop) — добиваем вторым бампом с задержкой.
+    setTimeout(() => setViewTick((n) => n + 1), 120)
+  }
+
+  // Восстанавливаем удар и стороны из ?shot=/&left=0&right=0 при загрузке —
+  // так поделённая ссылка сразу открывает нужную траекторию.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const shot = params.get('shot')
+    if (shot && (shot === NO_SHOT || tacticsData[shot])) setActiveShot(shot)
+    if (params.get('left') === '0') setShowLeft(false)
+    if (params.get('right') === '0') setShowRight(false)
+  }, [])
+
+  // Синхронизируем выбор обратно в URL, чтобы текущий вид можно было скопировать и переслать
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (activeShot !== NO_SHOT) {
+      url.searchParams.set('shot', activeShot)
+      if (!showLeft) url.searchParams.set('left', '0')
+      else url.searchParams.delete('left')
+      if (!showRight) url.searchParams.set('right', '0')
+      else url.searchParams.delete('right')
+    } else {
+      url.searchParams.delete('shot')
+      url.searchParams.delete('left')
+      url.searchParams.delete('right')
+    }
+    window.history.replaceState({}, '', url)
+  }, [activeShot, showLeft, showRight])
+
+  // При входе в fullscreen — НЕ трогаем камеру и ракурс: раньше здесь стоял
+  // автосброс вида, и именно он читался как «дёрганье» (мгновенный снап позиции
+  // сразу же после клика). Состояние корта (ракурс, выбранный удар и т.д.)
+  // теперь полностью сохраняется при переходе туда и обратно — меняем только
+  // размер канваса, и то маскируем эту смену коротким фейдом.
+  useEffect(() => {
+    if (!isFullscreen) return
+    setCanvasReady(false)
+    const t = setTimeout(() => setCanvasReady(true), 380)
+    return () => clearTimeout(t)
+  }, [isFullscreen])
+
+  useEffect(() => {
+    const onFsChange = () => {
+      if (!usingNativeFsRef.current) return
+      const active = !!(document.fullscreenElement || document.webkitFullscreenElement)
+      setIsFullscreen(active)
+      if (!active) usingNativeFsRef.current = false
+      bumpViewTick()
+    }
+    document.addEventListener('fullscreenchange', onFsChange)
+    document.addEventListener('webkitfullscreenchange', onFsChange)
+    return () => {
+      document.removeEventListener('fullscreenchange', onFsChange)
+      document.removeEventListener('webkitfullscreenchange', onFsChange)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isFullscreen || usingNativeFsRef.current) return
+    // CSS-фолбэк (нет Fullscreen API, напр. Safari iOS) — сами обрабатываем Escape.
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setIsFullscreen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [isFullscreen])
+
+  // Закрываем список ударов по клику/тапу вне него и по Escape
+  useEffect(() => {
+    if (!isShotMenuOpen) return
+    const handleOutside = (e) => {
+      if (shotMenuRef.current && !shotMenuRef.current.contains(e.target)) {
+        setIsShotMenuOpen(false)
+      }
+    }
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') setIsShotMenuOpen(false)
+    }
+    document.addEventListener('pointerdown', handleOutside)
+    document.addEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('pointerdown', handleOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isShotMenuOpen])
+
+  // Горячие клавиши: Space — пауза/пуск анимации удара, R — сбросить ракурс.
+  // Игнорируем поля ввода, чтобы не мешать вводу текста в других частях страницы.
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      const tag = document.activeElement?.tagName
+      if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return
+      if (e.code === 'Space') {
+        if (activeShot === NO_SHOT) return
+        e.preventDefault()
+        setAnimPaused((p) => !p)
+      } else if (e.code === 'KeyR' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        // code, а не key — физическая позиция клавиши, работает в любой раскладке
+        resetCourtView()
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [activeShot])
+
+  // В fullscreen прячем панель через паузу бездействия — как в видеоплеерах;
+  // движение курсора/тач/клавиша возвращают её. Пока открыт список ударов — не прячем.
+  useEffect(() => {
+    if (!isFullscreen || isShotMenuOpen) {
+      setControlsVisible(true)
+      return
+    }
+    const scheduleHide = () => {
+      clearTimeout(hideTimerRef.current)
+      hideTimerRef.current = setTimeout(() => setControlsVisible(false), 2600)
+    }
+    const onActivity = () => {
+      setControlsVisible(true)
+      scheduleHide()
+    }
+    scheduleHide()
+    // capture: true — OrbitControls гасит всплытие pointer-событий на канвасе
+    // (stopPropagation), иначе движение/клик по самому корту не засчитывались бы.
+    window.addEventListener('pointermove', onActivity, true)
+    window.addEventListener('pointerdown', onActivity, true)
+    window.addEventListener('keydown', onActivity, true)
+    return () => {
+      clearTimeout(hideTimerRef.current)
+      window.removeEventListener('pointermove', onActivity, true)
+      window.removeEventListener('pointerdown', onActivity, true)
+      window.removeEventListener('keydown', onActivity, true)
+    }
+  }, [isFullscreen, isShotMenuOpen])
+
+  const fallbackToOverlay = () => {
+    usingNativeFsRef.current = false
+    setIsFullscreen(true)
+    bumpViewTick()
+  }
+
+  const toggleFullscreen = () => {
+    const el = cardRef.current
+    if (!el) return
+    const fsActive = document.fullscreenElement || document.webkitFullscreenElement
+    if (!isFullscreen && !fsActive) {
+      const request = el.requestFullscreen?.bind(el) || el.webkitRequestFullscreen?.bind(el)
+      if (request) {
+        usingNativeFsRef.current = true
+        let settled = false
+        Promise.resolve(request())
+          .then(() => {
+            settled = true
+          })
+          .catch(() => {
+            settled = true
+            fallbackToOverlay()
+          })
+        // Permissions Policy (напр. встроенный iframe без allow="fullscreen") может
+        // не отклонять промис явно, а просто никогда его не разрешать — подстраховываемся.
+        setTimeout(() => {
+          if (!settled && !document.fullscreenElement) fallbackToOverlay()
+        }, 1200)
+      } else {
+        fallbackToOverlay()
+      }
+    } else if (usingNativeFsRef.current) {
+      const exit = document.exitFullscreen?.bind(document) || document.webkitExitFullscreen?.bind(document)
+      exit?.()
+    } else {
+      setIsFullscreen(false)
+      bumpViewTick()
+    }
+  }
+
   const zoneInfo =
     activeId && courtData[activeId] ? courtData[activeId] : DEFAULT_INFO
-  const shotInfo = tacticsData[activeShot]
-  const shotsMode = panel === 'shots'
+  const shotsMode = activeShot !== NO_SHOT
+  const shotInfo = shotsMode ? tacticsData[activeShot] : null
   const shotSides = (shotInfo?.paths3d ?? []).map((p) => p.side)
   const hasLeftPath = shotSides.includes('left')
   const hasRightPath = shotSides.includes('right')
 
-  const sideBtn = (active) =>
-    active
-      ? 'bg-amber-500 border-amber-500 text-slate-950 font-extrabold'
-      : 'border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/30 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-neutral-900'
+  const shotOptions = [
+    { value: NO_SHOT, label: 'Обзор корта' },
+    ...Object.keys(tacticsData).map((key) => ({
+      value: key,
+      label: SHOT_LABELS[key] ?? key,
+    })),
+  ]
+  const currentShotLabel =
+    shotOptions.find((o) => o.value === activeShot)?.label ?? 'Обзор корта'
 
   return (
-    <div className='p-6 rounded-xl border transition-all duration-300 my-8 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 text-slate-900 dark:text-slate-100'>
-      <div className='mb-4 w-full'>
-        <span className='text-xs font-bold text-amber-600 dark:text-amber-500 uppercase tracking-widest block'>
-          Масштаб 1:1 по размерам WSF
-        </span>
-        <p className='text-xs mt-1 text-slate-500 dark:text-slate-400'>
-          {shotsMode
-            ? 'Выберите удар и сторону — мяч полетит по траектории на корте и на плане сверху.'
-            : 'Вращайте корт мышью или пальцем. Наведите или коснитесь линии либо зоны, чтобы изучить правила и размеры разметки.'}
-        </p>
-      </div>
+    <div
+      ref={cardRef}
+      className={
+        isFullscreen
+          ? 'fixed inset-0 z-[100] w-screen h-screen overflow-hidden border-0 rounded-none bg-white dark:bg-neutral-950 text-slate-900 dark:text-slate-100'
+          : 'p-6 rounded-xl border transition-all duration-300 my-8 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/20 text-slate-900 dark:text-slate-100'
+      }
+    >
+      {!isFullscreen && (
+        <div className='mb-4 w-full'>
+          <span className='text-xs font-bold text-amber-600 dark:text-amber-500 uppercase tracking-widest block'>
+            Масштаб 1:1 по размерам WSF
+          </span>
+          <p className='text-xs mt-1 text-slate-500 dark:text-slate-400'>
+            {shotsMode
+              ? 'Выберите сторону — мяч полетит по траектории на корте и на плане сверху.'
+              : 'Вращайте корт мышью или пальцем. Наведите или коснитесь линии либо зоны, чтобы изучить правила и размеры разметки.'}
+          </p>
+        </div>
+      )}
 
-      {/* Вкладки + контролы: высота обеих строк фиксирована — без скачка при переключении */}
-      <div className='mb-5'>
-        <div className='relative flex items-end justify-start border-b border-slate-200 dark:border-neutral-800'>
-          <div
-            role='tablist'
-            aria-label='Режим 3D-корта'
-            className='flex items-end gap-8'
-          >
+      {/* Единая панель управления: выбор удара/стороны и вид всегда доступны, без вкладок.
+          В fullscreen — плавающий оверлей, зафиксированный относительно экрана (не относительно
+          прокрутки канвы), с небольшим отступом от края и автоскрытием по паузе бездействия. */}
+      <div
+        className={
+          isFullscreen
+            ? `fixed top-4 inset-x-4 sm:inset-x-6 z-20 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 rounded-lg border border-slate-200/70 dark:border-neutral-800/70 bg-white/90 dark:bg-neutral-900/85 backdrop-blur-md shadow-lg px-3 py-2 transition-opacity duration-300 ${
+                controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`
+            : 'mb-5 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 rounded-lg border border-slate-200 dark:border-neutral-800 bg-slate-50/60 dark:bg-neutral-900/30 px-3 py-2'
+        }
+      >
+        <div className='flex flex-wrap items-center gap-2'>
+          <div className='relative' ref={shotMenuRef}>
             <button
               type='button'
-              role='tab'
-              id='court3d-tab-describe'
-              aria-selected={!shotsMode}
-              aria-controls='court3d-panel'
-              onClick={() => {
-                setPanel('describe')
-                setActiveId(null)
-              }}
-              className={`pb-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-                !shotsMode
-                  ? 'border-amber-500 text-amber-600 dark:text-amber-500'
-                  : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+              onClick={() => setIsShotMenuOpen((o) => !o)}
+              aria-haspopup='listbox'
+              aria-expanded={isShotMenuOpen}
+              aria-label='Показать траекторию удара'
+              className='flex items-center justify-between gap-2 w-36 shrink-0 rounded-md border px-3 py-1.5 text-xs font-semibold bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-neutral-700 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 dark:focus-visible:ring-slate-500'
+            >
+              <span className='truncate'>{currentShotLabel}</span>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='3'
+                className={`w-2.5 h-2.5 shrink-0 text-slate-400 transition-transform duration-200 ${
+                  isShotMenuOpen ? 'rotate-180' : ''
+                }`}
+                aria-hidden='true'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='m19.5 8.25-7.5 7.5-7.5-7.5'
+                />
+              </svg>
+            </button>
+
+            <div
+              className={`absolute left-0 top-full pt-2 z-20 transition-all duration-150 ${
+                isShotMenuOpen
+                  ? 'opacity-100 visible translate-y-0'
+                  : 'opacity-0 invisible -translate-y-1'
               }`}
             >
-              Описание
-            </button>
-            <button
-              type='button'
-              role='tab'
-              id='court3d-tab-shots'
-              aria-selected={shotsMode}
-              aria-controls='court3d-panel'
-              onClick={() => {
-                setPanel('shots')
-                setActiveId(null)
-              }}
-              className={`pb-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-                shotsMode
-                  ? 'border-amber-500 text-amber-600 dark:text-amber-500'
-                  : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-              }`}
-            >
-              Удары
-            </button>
+              <div
+                role='listbox'
+                aria-label='Тип удара'
+                className='w-52 max-h-72 overflow-y-auto p-1.5 rounded-xl border shadow-xl bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800'
+              >
+                {shotOptions.map((opt) => {
+                  const isActive = opt.value === activeShot
+                  return (
+                    <button
+                      key={opt.value}
+                      type='button'
+                      role='option'
+                      aria-selected={isActive}
+                      onClick={() => {
+                        setActiveShot(opt.value)
+                        setActiveId(null)
+                        setIsShotMenuOpen(false)
+                      }}
+                      className={`block w-full text-left px-3 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
+                        isActive
+                          ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900'
+                          : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-neutral-800/60'
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
           </div>
 
-          <div className='absolute right-0 bottom-2.5 flex items-center gap-0.5'>
-            {shotsMode ? (
-              <button
-                type='button'
-                onClick={() => setAnimPaused((p) => !p)}
-                aria-label={animPaused ? 'Воспроизвести анимацию' : 'Пауза'}
-                title={animPaused ? 'Воспроизвести' : 'Пауза'}
-                className='p-1 rounded-md text-slate-500 hover:text-amber-600 dark:hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer'
-              >
-                {animPaused ? (
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='currentColor'
-                    className='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path d='M8 5.14v13.72a1 1 0 0 0 1.5.86l11-6.86a1 1 0 0 0 0-1.72l-11-6.86A1 1 0 0 0 8 5.14Z' />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='currentColor'
-                    className='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path d='M6 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5Zm8 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V5Z' />
-                  </svg>
-                )}
-              </button>
-            ) : null}
-
+          <div className='flex items-center gap-1.5' role='group' aria-label='Сторона показа траектории'>
             <button
               type='button'
-              onClick={resetCourtView}
-              aria-label='Вернуть корт в исходное положение'
-              title='Сбросить ракурс'
-              className='p-1 rounded-md text-slate-500 hover:text-amber-600 dark:hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer'
+              aria-pressed={showLeft}
+              disabled={!shotsMode || !hasLeftPath}
+              onClick={() => setShowLeft((v) => !v)}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default ${
+                showLeft && hasLeftPath
+                  ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-sm'
+                  : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-neutral-800'
+              }`}
             >
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2.5'
+                className='w-3 h-3'
+                aria-hidden='true'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M15 18l-6-6 6-6' />
+              </svg>
+              Слева
+            </button>
+            <button
+              type='button'
+              aria-pressed={showRight}
+              disabled={!shotsMode || !hasRightPath}
+              onClick={() => setShowRight((v) => !v)}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default ${
+                showRight && hasRightPath
+                  ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-sm'
+                  : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-neutral-800'
+              }`}
+            >
+              Справа
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2.5'
+                className='w-3 h-3'
+                aria-hidden='true'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M9 6l6 6-6 6' />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div className='flex items-center gap-0.5'>
+          <button
+            type='button'
+            onClick={() => setAnimPaused((p) => !p)}
+            disabled={!shotsMode}
+            aria-label={animPaused ? 'Воспроизвести анимацию' : 'Пауза'}
+            title={animPaused ? 'Воспроизвести (Space)' : 'Пауза (Space)'}
+            className='p-1.5 rounded-md text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-neutral-800 disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-default transition-colors cursor-pointer'
+          >
+            {animPaused ? (
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='currentColor'
+                className='w-5 h-5'
+                aria-hidden='true'
+              >
+                <path d='M8 5.14v13.72a1 1 0 0 0 1.5.86l11-6.86a1 1 0 0 0 0-1.72l-11-6.86A1 1 0 0 0 8 5.14Z' />
+              </svg>
+            ) : (
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='currentColor'
+                className='w-5 h-5'
+                aria-hidden='true'
+              >
+                <path d='M6 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5Zm8 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V5Z' />
+              </svg>
+            )}
+          </button>
+
+          <div className='h-5 w-px bg-slate-200 dark:bg-neutral-800 mx-1' aria-hidden='true' />
+
+          <button
+            type='button'
+            onClick={resetCourtView}
+            aria-label='Вернуть корт в исходное положение'
+            title='Сбросить ракурс (R)'
+            className='p-1.5 rounded-md text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer'
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              className='w-5 h-5'
+              aria-hidden='true'
+            >
+              <circle cx='12' cy='12' r='3' />
+              <path d='M12 2v3M12 19v3M2 12h3M19 12h3' />
+            </svg>
+          </button>
+
+          <button
+            type='button'
+            onClick={toggleFullscreen}
+            aria-pressed={isFullscreen}
+            aria-label={isFullscreen ? 'Свернуть из полноэкранного режима' : 'Развернуть на весь экран'}
+            title={isFullscreen ? 'Свернуть' : 'На весь экран'}
+            className='p-1.5 rounded-md text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer'
+          >
+            {isFullscreen ? (
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 24 24'
@@ -1000,118 +1322,138 @@ export default function Court3D() {
                 className='w-5 h-5'
                 aria-hidden='true'
               >
-                <circle cx='12' cy='12' r='3' />
-                <path d='M12 2v3M12 19v3M2 12h3M19 12h3' />
+                <path d='M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25' />
               </svg>
-            </button>
-          </div>
+            ) : (
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                className='w-5 h-5'
+                aria-hidden='true'
+              >
+                <path d='M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9M20.25 20.25h-4.5m4.5 0v-4.5m0 4.5L15 15' />
+              </svg>
+            )}
+          </button>
         </div>
+      </div>
 
+      <div>
+        {/* В fullscreen панель управления и описание — плавающие оверлеи поверх канваса
+            (см. ниже), прокрутка страницы отключена полностью — канвас занимает ровно весь
+            экран. Размер — чистый CSS, без JS-измерений. На короткое время после входа канвас
+            скрыт (canvasReady) — маскирует «прыжок» кадра от нативного анимированного
+            перехода браузера/ОС в fullscreen. */}
         <div
-          className={`mt-3 flex flex-wrap items-center gap-2 min-h-9 ${
-            shotsMode ? '' : 'invisible pointer-events-none'
+          className={
+            isFullscreen
+              ? `w-full h-screen touch-none bg-transparent transition-opacity duration-300 ${
+                  canvasReady ? 'opacity-100' : 'opacity-0'
+                }`
+              : 'aspect-[4/3] sm:aspect-[16/10] w-full rounded-lg overflow-hidden touch-none bg-transparent'
+          }
+        >
+            <Canvas
+              // На паузе непрерывный рендер не нужен — сцена статична
+              frameloop={shotsMode && !animPaused ? 'always' : 'demand'}
+              dpr={[1, 2]}
+              // Стартовый ракурс: ровно сзади по центру; выше и дальше — чтобы пол не обрезался
+              camera={{ position: INITIAL_CAMERA, fov: 40 }}
+              // flat = NoToneMapping: иначе ACES «съедает» светлые цвета
+              // (#F9FAFC → ~#E1E1E1)
+              flat
+              gl={{ antialias: true, alpha: true }}
+              onPointerMissed={() => {
+                if (!shotsMode) setActiveId(null)
+              }}
+            >
+              <ForceRender
+                dep={`${isDarkMode}-${activeShot}-${animPaused}-${showLeft}-${showRight}-${viewTick}`}
+              />
+              <InvalidateOnHover activeId={activeId} />
+              <CourtMeshes
+                colors={colors}
+                activeId={activeId}
+                setActiveId={setActiveId}
+                zonesEnabled={!shotsMode}
+              />
+              {shotsMode ? (
+                <ShotTrajectories3D
+                  shotKey={activeShot}
+                  paused={animPaused}
+                  showLeft={showLeft}
+                  showRight={showRight}
+                />
+              ) : null}
+              <OrbitControls
+                ref={controlsRef}
+                makeDefault
+                enableDamping
+                dampingFactor={0.08}
+                target={INITIAL_TARGET}
+                minDistance={0.6}
+                maxDistance={22}
+                minPolarAngle={0.15}
+                maxPolarAngle={Math.PI / 2 - 0.02}
+              />
+            </Canvas>
+          </div>
+
+      {isFullscreen ? (
+        // Описание — плавающий оверлей поверх канваса снизу, с тем же автоскрытием
+        // по паузе бездействия, что и панель управления сверху (controlsVisible общий).
+        // Прокрутки в fullscreen больше нет вообще, поэтому план сверху (отдельная
+        // проекция) здесь не дублируем — только текстовый разбор, компактно.
+        <div
+          className={`fixed bottom-4 inset-x-4 sm:inset-x-6 z-20 max-h-[42vh] overflow-y-auto rounded-lg border border-slate-200/70 dark:border-neutral-800/70 bg-white/90 dark:bg-neutral-900/85 backdrop-blur-md shadow-lg p-4 transition-opacity duration-300 ${
+            controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
-          aria-hidden={!shotsMode}
         >
-          <label className='sr-only' htmlFor='court3d-shot-select'>
-            Тип удара
-          </label>
-          <select
-            id='court3d-shot-select'
-            value={activeShot}
-            onChange={(e) => setActiveShot(e.target.value)}
-            tabIndex={shotsMode ? 0 : -1}
-            className='appearance-none cursor-pointer rounded-lg border px-3 py-1.5 pr-8 text-xs font-bold uppercase tracking-wider min-w-0 flex-1 sm:flex-none bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-800 dark:text-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500'
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 0.5rem center',
-              backgroundSize: '1rem',
-            }}
-          >
-            {Object.keys(tacticsData).map((key) => (
-              <option key={key} value={key}>
-                {SHOT_LABELS[key] ?? key}
-              </option>
-            ))}
-          </select>
-
-          <button
-            type='button'
-            aria-pressed={showLeft}
-            disabled={!hasLeftPath}
-            tabIndex={shotsMode ? 0 : -1}
-            onClick={() => setShowLeft((v) => !v)}
-            className={`shrink-0 px-2.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${sideBtn(showLeft && hasLeftPath)}`}
-          >
-            Слева
-          </button>
-          <button
-            type='button'
-            aria-pressed={showRight}
-            disabled={!hasRightPath}
-            tabIndex={shotsMode ? 0 : -1}
-            onClick={() => setShowRight((v) => !v)}
-            className={`shrink-0 px-2.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${sideBtn(showRight && hasRightPath)}`}
-          >
-            Справа
-          </button>
-        </div>
-      </div>
-
-      <div
-        id='court3d-panel'
-        role='tabpanel'
-        aria-labelledby={shotsMode ? 'court3d-tab-shots' : 'court3d-tab-describe'}
-      >
-      <div className='aspect-[4/3] sm:aspect-[16/10] w-full rounded-lg overflow-hidden touch-none bg-transparent'>
-        <Canvas
-          // На паузе непрерывный рендер не нужен — сцена статична
-          frameloop={shotsMode && !animPaused ? 'always' : 'demand'}
-          dpr={[1, 2]}
-          // Стартовый ракурс: ровно сзади по центру; выше и дальше — чтобы пол не обрезался
-          camera={{ position: INITIAL_CAMERA, fov: 40 }}
-          // flat = NoToneMapping: иначе ACES «съедает» светлые цвета
-          // (#F9FAFC → ~#E1E1E1)
-          flat
-          gl={{ antialias: true, alpha: true }}
-          onPointerMissed={() => {
-            if (!shotsMode) setActiveId(null)
-          }}
-        >
-          <ForceRender
-            dep={`${isDarkMode}-${panel}-${activeShot}-${animPaused}-${showLeft}-${showRight}-${viewTick}`}
-          />
-          <InvalidateOnHover activeId={activeId} />
-          <CourtMeshes
-            colors={colors}
-            activeId={activeId}
-            setActiveId={setActiveId}
-            zonesEnabled={!shotsMode}
-          />
           {shotsMode ? (
-            <ShotTrajectories3D
-              shotKey={activeShot}
-              paused={animPaused}
-              showLeft={showLeft}
-              showRight={showRight}
-            />
-          ) : null}
-          <OrbitControls
-            ref={controlsRef}
-            makeDefault
-            enableDamping
-            dampingFactor={0.08}
-            target={INITIAL_TARGET}
-            minDistance={0.6}
-            maxDistance={22}
-            minPolarAngle={0.15}
-            maxPolarAngle={Math.PI / 2 - 0.02}
-          />
-        </Canvas>
-      </div>
-
-      {shotsMode ? (
+            <>
+              <h2 className='font-extrabold text-base text-slate-900 dark:text-slate-100'>
+                {shotInfo.title}
+              </h2>
+              <p className='text-xs mt-2 leading-relaxed text-slate-500 dark:text-slate-400'>
+                {shotInfo.desc}
+              </p>
+              <div className='mt-3 pt-3 border-t border-slate-200 dark:border-neutral-800/40'>
+                <span className='text-[10px] font-bold text-amber-600 dark:text-amber-500 uppercase tracking-wider block mb-1'>
+                  Когда применять:
+                </span>
+                <p className='text-xs leading-relaxed text-slate-700 dark:text-slate-300'>
+                  {shotInfo.when}
+                </p>
+              </div>
+              <div className='mt-3 pt-3 border-t border-slate-200 dark:border-neutral-800/40'>
+                <span className='text-[10px] font-bold text-red-500 uppercase tracking-wider block mb-1'>
+                  Частая ошибка новичков:
+                </span>
+                <p className='text-xs leading-relaxed text-slate-600 dark:text-slate-400'>
+                  {shotInfo.mistake}
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className='font-bold text-sm text-slate-800 dark:text-slate-200'>
+                {zoneInfo.title}
+              </div>
+              <div className='text-[10px] text-amber-600 dark:text-amber-500 font-bold uppercase tracking-wider mt-1'>
+                {zoneInfo.dims}
+              </div>
+              <p className='text-xs mt-2 leading-relaxed text-slate-500 dark:text-slate-400'>
+                {zoneInfo.desc}
+              </p>
+            </>
+          )}
+        </div>
+      ) : shotsMode ? (
         // Две проекции одного удара: перспектива выше, план сверху — рядом с разбором.
         // Отдельная строка грида под подпись, чтобы на десктопе она стояла точно над
         // планом, а карточка разбора начиналась вровень с самим планом (не с подписью).
